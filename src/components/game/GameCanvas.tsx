@@ -12,6 +12,7 @@ import { FlickingEngine } from '@/lib/game/flicking-engine';
 import { TrainingType, TrainingResult, GameState } from '@/types/game';
 import { calculateCm360, cm360ToWebSensitivity } from '@/lib/sensitivity';
 import { useTranslation } from '@/lib/i18n';
+import { soundManager } from '@/lib/sound-manager';
 import ResultScreen from './ResultScreen';
 
 interface GameCanvasProps {
@@ -66,10 +67,20 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
 
     engine.setSensitivity(getSensitivityFactor());
     engine.setCrosshair(settings.crosshairColor, settings.crosshairSize);
+
+    // 初始化声音管理器
+    soundManager.setEnabled(settings.soundEnabled);
+    soundManager.setPreset(settings.soundPreset ?? 'pistol');
+    soundManager.setVolume(settings.soundVolume ?? 0.5);
+
     engine.setCallbacks({
       onGameStateChange: (state: GameState) => {
         setGameState(state);
+        if (state === 'playing') {
+          soundManager.play('start');
+        }
         if (state === 'finished') {
+          soundManager.play('finish');
           const results = engine.getResults();
           const trainingResult: TrainingResult = {
             trainingType,
@@ -84,10 +95,19 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
           exitLock();
         }
       },
+      onTargetHit: () => {
+        soundManager.play('hit');
+      },
+      onTargetMiss: () => {
+        soundManager.play('miss');
+      },
+      onTargetExpire: () => {
+        soundManager.play('miss');
+      },
     });
 
     engineRef.current = engine;
-  }, [trainingType, trainingConfig, getSensitivityFactor, addTrainingResult, onComplete, exitLock]);
+  }, [trainingType, trainingConfig, getSensitivityFactor, settings, addTrainingResult, onComplete, exitLock]);
 
   // 开始游戏（带倒计时）
   const startGame = useCallback(() => {
@@ -95,17 +115,26 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
     setGameState('countdown');
     setCountdown(3);
 
+    // 初始化声音（用于倒计时）
+    soundManager.setEnabled(settings.soundEnabled);
+    soundManager.setPreset(settings.soundPreset ?? 'pistol');
+    soundManager.setVolume(settings.soundVolume ?? 0.5);
+    soundManager.play('countdown');
+
     let count = 3;
     const countdownInterval = setInterval(() => {
       count--;
       setCountdown(count);
+      if (count > 0) {
+        soundManager.play('countdown');
+      }
       if (count <= 0) {
         clearInterval(countdownInterval);
         initEngine();
         engineRef.current?.start();
       }
     }, 1000);
-  }, [initEngine]);
+  }, [initEngine, settings.soundEnabled, settings.soundPreset, settings.soundVolume]);
 
   // 处理点击开始
   const handleStart = useCallback(() => {
@@ -146,7 +175,10 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
       },
       onClick: () => {
         if (gameState === 'playing' && trainingType !== 'tracking') {
-          engineRef.current?.onClick?.();
+          const engine = engineRef.current;
+          if (engine && 'onClick' in engine) {
+            (engine as GameEngine | FlickingEngine).onClick();
+          }
         }
       },
       onMouseDown: () => {

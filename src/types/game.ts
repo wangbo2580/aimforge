@@ -10,6 +10,8 @@ export type TrackingPattern = 'linear' | 'curve' | 'random' | 'strafe';
 
 export type Speed = 'slow' | 'medium' | 'fast';
 
+export type SoundPreset = 'pistol' | 'rifle' | 'smg' | 'shotgun';
+
 // 目标对象
 export interface Target {
   id: string;
@@ -71,6 +73,8 @@ export interface GameSettings {
   crosshairSize: number;
   targetSize: TargetSize;
   soundEnabled: boolean;
+  soundPreset: SoundPreset;
+  soundVolume: number;
 }
 
 // 目标大小映射
@@ -109,4 +113,6 @@ export const DEFAULT_SETTINGS: GameSettings = {
   crosshairSize: 10,
   targetSize: 'medium',
   soundEnabled: true,
+  soundPreset: 'pistol',
+  soundVolume: 0.5,
 };

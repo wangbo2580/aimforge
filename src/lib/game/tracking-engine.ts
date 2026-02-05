@@ -6,6 +6,10 @@ export interface TrackingCallbacks {
   onTrackingUpdate?: (trackingTime: number, totalTime: number) => void;
   onGameStateChange?: (state: GameState) => void;
   onTick?: (deltaTime: number) => void;
+  // 以下为保持与其他引擎回调接口一致的可选回调
+  onTargetHit?: (target: Target, reactionTime: number) => void;
+  onTargetMiss?: () => void;
+  onTargetExpire?: (target: Target) => void;
 }
 
 export class TrackingEngine {

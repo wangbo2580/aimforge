@@ -7,10 +7,17 @@ import SensitivityConfig from '@/components/game/SensitivityConfig';
 import { useGameStore } from '@/store/game-store';
 import { useTranslation } from '@/lib/i18n';
 import { LanguageSelector } from '@/components/layout/LanguageSwitcher';
+import { SoundPreset } from '@/types/game';
+import { soundManager } from '@/lib/sound-manager';
+import { TranslationKey } from '@/lib/i18n/translations';
 
 export default function SettingsPage() {
   const { settings, updateSettings, clearHistory } = useGameStore();
   const { t } = useTranslation();
+
+  // 为旧版本数据提供默认值
+  const soundVolume = settings.soundVolume ?? 0.5;
+  const soundPreset = settings.soundPreset ?? 'pistol';
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -34,7 +41,7 @@ export default function SettingsPage() {
             <div className="bg-gray-800 rounded-xl p-6">
               <h3 className="text-lg font-semibold text-white mb-4">{t('settings_title')}</h3>
 
-              {/* 声音 */}
+              {/* 声音开关 */}
               <div className="flex items-center justify-between py-3 border-b border-gray-700">
                 <div>
                   <div className="text-white font-medium">{t('settings_sound')}</div>
@@ -55,6 +62,67 @@ export default function SettingsPage() {
                   />
                 </button>
               </div>
+
+              {/* 音效风格 */}
+              {settings.soundEnabled && (
+                <>
+                  <div className="py-3 border-b border-gray-700">
+                    <div className="flex items-center justify-between mb-3">
+                      <div>
+                        <div className="text-white font-medium">{t('settings_sound_preset')}</div>
+                        <div className="text-sm text-gray-400">{t('settings_sound_preset_desc')}</div>
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-4 gap-2">
+                      {(['pistol', 'rifle', 'smg', 'shotgun'] as SoundPreset[]).map((preset) => (
+                        <button
+                          key={preset}
+                          onClick={() => {
+                            updateSettings({ soundPreset: preset });
+                            soundManager.setPreset(preset);
+                            soundManager.setVolume(soundVolume);
+                            soundManager.play('hit');
+                          }}
+                          className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                            soundPreset === preset
+                              ? 'bg-blue-600 text-white'
+                              : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                          }`}
+                        >
+                          {t(`sound_${preset}` as TranslationKey)}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* 音量 */}
+                  <div className="py-3 border-b border-gray-700">
+                    <div className="flex items-center justify-between mb-2">
+                      <div>
+                        <div className="text-white font-medium">{t('settings_sound_volume')}</div>
+                        <div className="text-sm text-gray-400">{t('settings_sound_volume_desc')}</div>
+                      </div>
+                      <span className="text-white font-medium">
+                        {Math.round(soundVolume * 100)}%
+                      </span>
+                    </div>
+                    <input
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={Math.round(soundVolume * 100)}
+                      onChange={(e) => {
+                        const volume = parseInt(e.target.value) / 100;
+                        updateSettings({ soundVolume: volume });
+                        soundManager.setVolume(volume);
+                        soundManager.setPreset(soundPreset);
+                        soundManager.play('hit');
+                      }}
+                      className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                    />
+                  </div>
+                </>
+              )}
 
               {/* 准星颜色 */}
               <div className="flex items-center justify-between py-3 border-b border-gray-700">
