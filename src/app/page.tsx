@@ -102,8 +102,37 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Features */}
+        {/* Resources */}
         <section className="py-16 px-4">
+          <div className="container mx-auto">
+            <h2 className="text-3xl font-bold text-center mb-12">{t('resources_title')}</h2>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <Link href="/pro" className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-750 transition-colors">
+                <div className="text-3xl mb-3">⭐</div>
+                <h3 className="font-bold mb-1 group-hover:text-blue-400">{t('resources_pro')}</h3>
+                <p className="text-sm text-gray-400">{t('resources_pro_desc')}</p>
+              </Link>
+              <Link href="/crosshairs" className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-750 transition-colors">
+                <div className="text-3xl mb-3">🎯</div>
+                <h3 className="font-bold mb-1 group-hover:text-blue-400">{t('resources_crosshair')}</h3>
+                <p className="text-sm text-gray-400">{t('resources_crosshair_desc')}</p>
+              </Link>
+              <Link href="/tools/sensitivity-converter" className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-750 transition-colors">
+                <div className="text-3xl mb-3">🔄</div>
+                <h3 className="font-bold mb-1 group-hover:text-blue-400">{t('resources_sens')}</h3>
+                <p className="text-sm text-gray-400">{t('resources_sens_desc')}</p>
+              </Link>
+              <Link href="/guides" className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-750 transition-colors">
+                <div className="text-3xl mb-3">📚</div>
+                <h3 className="font-bold mb-1 group-hover:text-blue-400">{t('resources_guides')}</h3>
+                <p className="text-sm text-gray-400">{t('resources_guides_desc')}</p>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {/* Features */}
+        <section className="py-16 px-4 bg-gray-900/50">
           <div className="container mx-auto">
             <h2 className="text-3xl font-bold text-center mb-12">{t('home_why_choose')}</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -122,8 +151,16 @@ export default function Home() {
       {/* Footer */}
       <footer className="py-8 px-4 border-t border-gray-800">
         <div className="container mx-auto text-center text-gray-500 text-sm">
-          <p>AimForge - Free FPS Aim Trainer</p>
+          <p>CS2 Practice - Free FPS Aim Trainer</p>
           <p className="mt-2">{t('footer_tagline')}</p>
+          <div className="mt-4 flex justify-center gap-6">
+            <Link href="/terms" className="hover:text-gray-300 transition-colors">
+              {t('footer_terms')}
+            </Link>
+            <Link href="/privacy" className="hover:text-gray-300 transition-colors">
+              {t('footer_privacy')}
+            </Link>
+          </div>
         </div>
       </footer>
     </div>

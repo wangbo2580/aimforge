@@ -5,7 +5,7 @@ export type Locale = 'en' | 'zh';
 export const translations = {
   en: {
     // Common
-    app_name: 'AimForge',
+    app_name: 'CS2 Practice',
     app_description: 'Free online aim trainer for CS2, Valorant and other FPS games. Practice gridshot, tracking and flicking with your exact in-game sensitivity.',
 
     // Navigation
@@ -15,11 +15,11 @@ export const translations = {
     nav_settings: 'Settings',
 
     // Home
-    home_title: 'AimForge',
+    home_title: 'CS2 Practice',
     home_subtitle: 'Free online FPS aim trainer. Supports CS2, Valorant sensitivity sync with Gridshot, Tracking, and Flicking training modes.',
     home_start: 'Start Training',
     home_training_modes: 'Training Modes',
-    home_why_choose: 'Why Choose AimForge',
+    home_why_choose: 'Why Choose CS2 Practice',
 
     // Training Modes
     mode_gridshot: 'Gridshot',
@@ -30,8 +30,8 @@ export const translations = {
     mode_flicking_desc: 'Quick flick training to improve flick accuracy and speed',
 
     // Features
-    feature_free: 'Completely Free',
-    feature_free_desc: 'No payment, no subscription, all features forever free',
+    feature_free: 'Free to Use',
+    feature_free_desc: 'Start training with no payment required. Core features are free forever',
     feature_sensitivity: 'Sensitivity Sync',
     feature_sensitivity_desc: 'Supports CS2, Valorant sensitivity settings, training transfers directly',
     feature_no_download: 'No Download',
@@ -139,11 +139,114 @@ export const translations = {
 
     // Footer
     footer_tagline: 'Built for gamers, by gamers',
+
+    // Pro Players Page
+    pro_title: 'CS2 Pro Player Settings',
+    pro_subtitle: 'Copy the exact settings used by professional CS2 players. Sensitivity, crosshair codes, and gaming gear all in one place.',
+    pro_top_players: 'Top Players',
+    pro_all_players: 'All Pro Players',
+    pro_player: 'Player',
+    pro_team: 'Team',
+    pro_sensitivity: 'Sensitivity',
+    pro_mouse_settings: 'Mouse Settings',
+    pro_video_settings: 'Video Settings',
+    pro_crosshair: 'Crosshair',
+    pro_gaming_gear: 'Gaming Gear',
+    pro_similar_players: 'Similar Players',
+    pro_practice_cta: 'Practice Like a Pro',
+    pro_practice_desc: 'Apply pro settings and start training with our aim trainer',
+    pro_apply_settings: 'Apply Settings',
+    pro_resolution: 'Resolution',
+    pro_aspect_ratio: 'Aspect Ratio',
+    pro_scaling_mode: 'Scaling Mode',
+    pro_zoom_sens: 'Zoom Sensitivity',
+    pro_mouse: 'Mouse',
+    pro_mousepad: 'Mousepad',
+    pro_keyboard: 'Keyboard',
+    pro_monitor: 'Monitor',
+    pro_headset: 'Headset',
+    pro_crosshair_tip: 'To use: Open CS2 → Settings → Crosshair → Share or Import → Paste code',
+    pro_practice_with: 'Practice with',
+    pro_settings_suffix: "'s Settings",
+
+    // Crosshair Page
+    crosshair_title: 'CS2 Crosshair Codes',
+    crosshair_subtitle: 'Copy pro player crosshairs and popular community crosshairs. One-click copy, ready to paste in CS2.',
+    crosshair_all: 'All',
+    crosshair_copy: 'Copy Code',
+    crosshair_copied: 'Copied!',
+    crosshair_how_to: 'How to Import Crosshair in CS2',
+    crosshair_step1: 'Copy the crosshair code from above',
+    crosshair_step2: 'Open CS2 and go to',
+    crosshair_step3: 'Navigate to',
+    crosshair_step4: 'Click',
+    crosshair_step5: 'Paste the code and click',
+    crosshair_tip: 'Tip: You can also paste the code directly in console with:',
+    crosshair_practice_cta: 'Want to practice with your new crosshair?',
+
+    // Sensitivity Converter
+    sens_title: 'Sensitivity Converter',
+    sens_subtitle: 'Convert your mouse sensitivity between CS2, Valorant, Apex Legends, Overwatch 2, and more FPS games.',
+    sens_current_settings: 'Your Current Settings',
+    sens_game: 'Game',
+    sens_mouse_dpi: 'Mouse DPI',
+    sens_sensitivity: 'Sensitivity',
+    sens_your_cm360: 'Your cm/360°',
+    sens_cm360_desc: 'Distance to move your mouse for a full 360° turn',
+    sens_converted: 'Converted Sensitivities',
+    sens_current: 'Current',
+    sens_quick_dpi: 'Quick DPI Selection',
+    sens_how_it_works: 'How Sensitivity Conversion Works',
+    sens_explanation: 'Different games use different sensitivity scales. We convert all sensitivities to a universal measurement called cm/360° - the distance you need to move your mouse to complete a full 360° turn in-game.',
+    sens_muscle_memory: 'Using cm/360° ensures your muscle memory transfers between games. If you can flick to a target in CS2, you\'ll be able to make the same physical mouse movement in Valorant or any other game.',
+    sens_recommended: 'Recommended cm/360° Ranges',
+    sens_high: 'High sensitivity - fast movement, less precision',
+    sens_medium: 'Medium sensitivity - balanced for most players',
+    sens_low: 'Low sensitivity - slower but more precise (most pros)',
+
+    // Guides Page
+    guides_title: 'Aim Training Guides',
+    guides_subtitle: 'Learn how to improve your aim with our comprehensive guides. From beginner fundamentals to advanced techniques.',
+    guides_ready: 'Ready to put these tips into practice?',
+    guides_more: 'More Guides',
+    guides_ready_practice: 'Ready to Practice?',
+    guides_apply: 'Apply what you\'ve learned with our free aim trainer',
+
+    // Resources Section
+    resources_title: 'Resources & Tools',
+    resources_pro: 'Pro Settings',
+    resources_pro_desc: 's1mple, ZywOo, NiKo settings',
+    resources_crosshair: 'Crosshair Codes',
+    resources_crosshair_desc: 'Copy pro crosshairs instantly',
+    resources_sens: 'Sens Converter',
+    resources_sens_desc: 'CS2, Valorant, Apex & more',
+    resources_guides: 'Aim Guides',
+    resources_guides_desc: 'Learn to improve your aim',
+
+    // Common
+    start_training: 'Start Training',
+    min_read: 'min read',
+
+    // Feedback
+    feedback_button: 'Feedback',
+    feedback_title: 'Send Feedback',
+    feedback_message: 'Your Message',
+    feedback_placeholder: 'Tell us what you think, report a bug, or suggest a feature...',
+    feedback_email: 'Email (optional)',
+    feedback_email_placeholder: 'your@email.com',
+    feedback_submit: 'Send Feedback',
+    feedback_sending: 'Sending...',
+    feedback_success: 'Thank you for your feedback!',
+    feedback_error: 'Failed to send. Please try again.',
+
+    // Footer Links
+    footer_terms: 'Terms of Service',
+    footer_privacy: 'Privacy Policy',
   },
 
   zh: {
     // Common
-    app_name: 'AimForge',
+    app_name: 'CS2 Practice',
     app_description: '免费的在线瞄准训练器，支持 CS2、Valorant 等 FPS 游戏。使用与游戏内完全一致的灵敏度练习 Gridshot、Tracking 和 Flicking。',
 
     // Navigation
@@ -153,11 +256,11 @@ export const translations = {
     nav_settings: '设置',
 
     // Home
-    home_title: 'AimForge',
+    home_title: 'CS2 Practice',
     home_subtitle: '免费的在线 FPS 瞄准训练器。支持 CS2、Valorant 灵敏度同步，提供 Gridshot、Tracking、Flicking 三种训练模式。',
     home_start: '开始训练',
     home_training_modes: '训练模式',
-    home_why_choose: '为什么选择 AimForge',
+    home_why_choose: '为什么选择 CS2 Practice',
 
     // Training Modes
     mode_gridshot: 'Gridshot',
@@ -168,8 +271,8 @@ export const translations = {
     mode_flicking_desc: '快速甩枪训练，提升甩枪精度和速度',
 
     // Features
-    feature_free: '完全免费',
-    feature_free_desc: '无需付费，无需订阅，所有功能永久免费',
+    feature_free: '免费使用',
+    feature_free_desc: '无需付费即可开始训练，核心功能永久免费',
     feature_sensitivity: '灵敏度同步',
     feature_sensitivity_desc: '支持 CS2、Valorant 灵敏度设置，训练效果直接迁移',
     feature_no_download: '无需下载',
@@ -277,6 +380,109 @@ export const translations = {
 
     // Footer
     footer_tagline: 'Built for gamers, by gamers',
+
+    // Pro Players Page
+    pro_title: 'CS2 职业选手设置',
+    pro_subtitle: '复制职业选手的完整设置。灵敏度、准星代码、游戏装备，一应俱全。',
+    pro_top_players: '顶级选手',
+    pro_all_players: '所有职业选手',
+    pro_player: '选手',
+    pro_team: '战队',
+    pro_sensitivity: '灵敏度',
+    pro_mouse_settings: '鼠标设置',
+    pro_video_settings: '视频设置',
+    pro_crosshair: '准星',
+    pro_gaming_gear: '游戏装备',
+    pro_similar_players: '相似选手',
+    pro_practice_cta: '像职业选手一样训练',
+    pro_practice_desc: '应用职业选手设置，开始瞄准训练',
+    pro_apply_settings: '应用设置',
+    pro_resolution: '分辨率',
+    pro_aspect_ratio: '宽高比',
+    pro_scaling_mode: '缩放模式',
+    pro_zoom_sens: '开镜灵敏度',
+    pro_mouse: '鼠标',
+    pro_mousepad: '鼠标垫',
+    pro_keyboard: '键盘',
+    pro_monitor: '显示器',
+    pro_headset: '耳机',
+    pro_crosshair_tip: '使用方法：打开 CS2 → 设置 → 准星 → 分享或导入 → 粘贴代码',
+    pro_practice_with: '使用',
+    pro_settings_suffix: '的设置训练',
+
+    // Crosshair Page
+    crosshair_title: 'CS2 准星代码',
+    crosshair_subtitle: '复制职业选手和热门社区准星代码。一键复制，直接粘贴到 CS2。',
+    crosshair_all: '全部',
+    crosshair_copy: '复制代码',
+    crosshair_copied: '已复制！',
+    crosshair_how_to: '如何在 CS2 中导入准星',
+    crosshair_step1: '复制上方的准星代码',
+    crosshair_step2: '打开 CS2，进入',
+    crosshair_step3: '导航到',
+    crosshair_step4: '点击',
+    crosshair_step5: '粘贴代码并点击',
+    crosshair_tip: '提示：你也可以直接在控制台中粘贴代码：',
+    crosshair_practice_cta: '想用新准星练练手？',
+
+    // Sensitivity Converter
+    sens_title: '灵敏度转换器',
+    sens_subtitle: '在 CS2、Valorant、Apex Legends、Overwatch 2 等 FPS 游戏之间转换鼠标灵敏度。',
+    sens_current_settings: '当前设置',
+    sens_game: '游戏',
+    sens_mouse_dpi: '鼠标 DPI',
+    sens_sensitivity: '灵敏度',
+    sens_your_cm360: '你的 cm/360°',
+    sens_cm360_desc: '鼠标移动一个完整 360° 转身所需的距离',
+    sens_converted: '转换后的灵敏度',
+    sens_current: '当前',
+    sens_quick_dpi: '快速选择 DPI',
+    sens_how_it_works: '灵敏度转换原理',
+    sens_explanation: '不同游戏使用不同的灵敏度单位。我们将所有灵敏度转换为通用的 cm/360° 单位——即完成一个完整 360° 转身需要移动鼠标的距离。',
+    sens_muscle_memory: '使用 cm/360° 可以确保你的肌肉记忆在不同游戏间通用。如果你能在 CS2 中快速瞄准目标，在 Valorant 或其他游戏中使用相同的物理移动也能做到。',
+    sens_recommended: '推荐的 cm/360° 范围',
+    sens_high: '高灵敏度 - 移动快，精度低',
+    sens_medium: '中灵敏度 - 适合大多数玩家',
+    sens_low: '低灵敏度 - 移动慢，精度高（大多数职业选手）',
+
+    // Guides Page
+    guides_title: '瞄准训练指南',
+    guides_subtitle: '通过我们的综合指南学习如何提升瞄准能力。从入门基础到进阶技巧。',
+    guides_ready: '准备好将这些技巧付诸实践了吗？',
+    guides_more: '更多指南',
+    guides_ready_practice: '准备好练习了吗？',
+    guides_apply: '使用我们的免费瞄准训练器练习所学内容',
+
+    // Resources Section
+    resources_title: '资源与工具',
+    resources_pro: '职业选手设置',
+    resources_pro_desc: 's1mple, ZywOo, NiKo 设置',
+    resources_crosshair: '准星代码',
+    resources_crosshair_desc: '一键复制职业选手准星',
+    resources_sens: '灵敏度转换器',
+    resources_sens_desc: 'CS2, Valorant, Apex 等',
+    resources_guides: '瞄准指南',
+    resources_guides_desc: '学习提升瞄准能力',
+
+    // Common
+    start_training: '开始训练',
+    min_read: '分钟阅读',
+
+    // Feedback
+    feedback_button: '反馈',
+    feedback_title: '发送反馈',
+    feedback_message: '您的留言',
+    feedback_placeholder: '告诉我们您的想法、报告问题或提出建议...',
+    feedback_email: '邮箱（可选）',
+    feedback_email_placeholder: 'your@email.com',
+    feedback_submit: '发送反馈',
+    feedback_sending: '发送中...',
+    feedback_success: '感谢您的反馈！',
+    feedback_error: '发送失败，请重试。',
+
+    // Footer Links
+    footer_terms: '服务条款',
+    footer_privacy: '隐私政策',
   },
 };
 

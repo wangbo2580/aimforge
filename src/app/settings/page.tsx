@@ -193,7 +193,7 @@ export default function SettingsPage() {
               <h3 className="text-lg font-semibold text-white mb-4">{t('settings_about')}</h3>
               <div className="space-y-2 text-gray-400 text-sm">
                 <p>
-                  <span className="text-white">AimForge</span> - Free FPS Aim Trainer
+                  <span className="text-white">CS2 Practice</span> - Free Aim Trainer
                 </p>
                 <p>{t('settings_version')}: 1.0.0</p>
                 <p>{t('settings_local_note')}</p>
