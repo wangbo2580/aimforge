@@ -8,9 +8,13 @@ import FeedbackButton from '@/components/FeedbackButton';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.cs2practice.com'),
   title: 'CS2 Practice - Free Online FPS Aim Trainer',
   description: 'Free online aim trainer for CS2, Valorant and other FPS games. Practice gridshot, tracking and flicking with your exact in-game sensitivity. No download required.',
   keywords: ['aim trainer', 'CS2', 'Valorant', 'FPS', 'gridshot', 'tracking', 'flicking', 'sensitivity', 'free', 'online'],
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     title: 'CS2 Practice - Free Online FPS Aim Trainer',
     description: 'Practice your aim with CS2/Valorant sensitivity sync. Gridshot, Tracking, Flicking modes. Free, no download.',

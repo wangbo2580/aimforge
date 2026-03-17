@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://cs2practice.com/sitemap.xml
+Sitemap: https://www.cs2practice.com/sitemap.xml
