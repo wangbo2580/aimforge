@@ -240,6 +240,8 @@ export const translations = {
     feedback_error: 'Failed to send. Please try again.',
 
     // Footer Links
+    footer_about: 'About',
+    footer_contact: 'Contact',
     footer_terms: 'Terms of Service',
     footer_privacy: 'Privacy Policy',
   },
@@ -481,6 +483,8 @@ export const translations = {
     feedback_error: '发送失败，请重试。',
 
     // Footer Links
+    footer_about: '关于',
+    footer_contact: '联系我们',
     footer_terms: '服务条款',
     footer_privacy: '隐私政策',
   },

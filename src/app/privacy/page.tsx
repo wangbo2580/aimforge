@@ -79,8 +79,15 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-xl font-semibold mb-3">5. Cookies</h2>
               <p className="text-gray-300">
-                We use cookies for analytics purposes (Google Analytics). You can disable cookies in your
-                browser settings, though this may affect some functionality.
+                We use cookies for analytics purposes (Google Analytics) and for displaying advertisements
+                (Google AdSense). Google and its advertising partners may use cookies to serve ads based on
+                your prior visits to this website or other websites.
+              </p>
+              <p className="text-gray-300 mt-2">
+                You can opt out of personalized advertising by visiting{' '}
+                <a href="https://www.google.com/settings/ads" className="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">
+                  Google&apos;s Ads Settings
+                </a>. You can also disable cookies in your browser settings, though this may affect some functionality.
               </p>
             </section>
 
@@ -89,6 +96,7 @@ export default function PrivacyPage() {
               <p className="text-gray-300">We use the following third-party services:</p>
               <ul className="list-disc list-inside text-gray-300 mt-2 space-y-1">
                 <li><strong>Google Analytics</strong> - for usage analytics</li>
+                <li><strong>Google AdSense</strong> - for displaying advertisements</li>
                 <li><strong>Vercel/Cloudflare</strong> - for hosting</li>
               </ul>
               <p className="text-gray-300 mt-2">

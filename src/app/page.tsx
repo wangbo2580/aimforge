@@ -154,6 +154,12 @@ export default function Home() {
           <p>CS2 Practice - Free FPS Aim Trainer</p>
           <p className="mt-2">{t('footer_tagline')}</p>
           <div className="mt-4 flex justify-center gap-6">
+            <Link href="/about" className="hover:text-gray-300 transition-colors">
+              {t('footer_about')}
+            </Link>
+            <Link href="/contact" className="hover:text-gray-300 transition-colors">
+              {t('footer_contact')}
+            </Link>
             <Link href="/terms" className="hover:text-gray-300 transition-colors">
               {t('footer_terms')}
             </Link>
