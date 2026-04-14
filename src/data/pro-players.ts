@@ -38,6 +38,14 @@ export interface ProPlayer {
 
   // 成就（简短）
   achievements: string[];
+
+  // 详细分析（Markdown，可选）— 用于热门选手的深度内容
+  analysis?: {
+    playstyle: string;       // 打法风格分析
+    settingsContext: string; // 为什么用这个配置
+    suitableFor: string;     // 适合什么类型的玩家
+    careerHighlights?: string; // 生涯关键节点
+  };
 }
 
 // 职业选手数据库
@@ -67,6 +75,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 's1mpleO',
     twitch: 's1mple',
     achievements: ['2x Major Champion', '4x HLTV #1', 'CS:GO Greatest of All Time'],
+    analysis: {
+      playstyle: "s1mple built his reputation on what people often call 'lurker-AWPer' — he takes the AWP on T-side, something most teams reserve for CT, and uses it to create chaos deep in enemy territory. His rifle is equally scary. What sets him apart isn't any single mechanic, it's that he can switch between passive holds and aggressive peeks within the same round and still land the shot. Watch his demos and you'll see he spends an unusual amount of time pre-aiming off-angles that most players don't even know exist.",
+      settingsContext: "3.09 sensitivity at 400 DPI gives him an eDPI of 1236, which is on the higher end for a pro but makes sense for his playstyle. He's jiggle-peeking constantly, shoulder-peeking to bait info, and flicking to targets at unexpected angles. A lower sensitivity would slow down all of that. The 1280x960 stretched resolution is a Counter-Strike standard — it makes models appear wider on screen, easier to hit, at the cost of a stretched field of view. He's used variations of this setup for nearly a decade and rarely changes it.",
+      suitableFor: "This setup works if you play aggressively and value quick 180s and fast target switching. If you're a static, methodical player who takes fights from set positions, his sensitivity will feel wild. Try it for a week before deciding — the first two days will feel bad, that's normal with any sensitivity change. If after a week your tracking still feels uncontrollable, it's genuinely too high for you."
+    }
   },
   {
     slug: 'zywoo',
@@ -93,6 +106,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'zabornak',
     twitch: 'zywoo',
     achievements: ['Major Champion 2024', '2x HLTV #1', 'IEM Cologne Champion'],
+    analysis: {
+      playstyle: "ZywOo is the AWPer that rifles fear. His hybrid role means he swaps weapons based on the round — sniping when the team needs picks, but confident enough with the rifle that Vitality can just buy him an AK on eco rounds and trust it. What defines his play is patience. He'll hold an angle for 40 seconds waiting for the right moment, then execute with almost no missed shots. His tracking with the AWP while being rushed is what separates him from other star AWPers.",
+      settingsContext: "2.0 sensitivity at 400 DPI — eDPI 800 — is the textbook AWPer setup. Low enough that his scoped shots are precise, high enough that he can still turn around for rifle fights. The 1.0 zoom sensitivity keeps his scoped-in movement consistent with his hip-fire. He moved from Logitech G Pro X Superlight 1 to Superlight 2 when it released, which is a common pro upgrade — same shape, slightly lighter, better switches. The Wooting 60 HE keyboard with analog keys is newer in pro scene and ZywOo is one of the early adopters.",
+      suitableFor: "If you AWP or want to improve your AWP, this is a safe starting point. 800 eDPI is the most common pro AWPer range. If you're primarily a rifler, you might want to push slightly higher (900-1000 eDPI) for more responsive close-range duels."
+    }
   },
   {
     slug: 'niko',
@@ -119,6 +137,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'G2NiKo',
     twitch: 'nikikooo',
     achievements: ['ESL Pro League Champion', 'IEM Katowice Champion', 'HLTV Top 5'],
+    analysis: {
+      playstyle: "NiKo is the purest mechanical rifler CS has. If you watch him play, his crosshair is almost always at head height, his counter-strafes are perfect, and his spray control is textbook. He's not flashy the way s1mple is — no crazy 1v5 clips going viral every week — but he wins fights that most players would lose, repeatedly, over and over, for years. That consistency is why he's been a top-10 player for almost a decade.",
+      settingsContext: "1.38 sensitivity at 400 DPI is on the lower end for a rifler — eDPI 552 means he needs almost 77cm to turn 360 degrees. This is the classic 'slow sens' setup for precision-focused players. It forces you to use your arm rather than your wrist, which is how most pros prefer to aim for rifle battles. The 1024x768 resolution is even more stretched than the common 1280x960, making models appear even wider. Some pros feel this gives better 'hit registration' perception, though in CS2 the hitboxes are identical.",
+      suitableFor: "Try this if you want to improve your spray control and precision. The low sensitivity will feel restrictive at first, especially for flicks, but your tracking and spray accuracy will improve within a couple weeks. Not recommended if you play aggressive entry — you'll be too slow to react to flanks and multi-target situations."
+    }
   },
   {
     slug: 'donk',
@@ -145,6 +168,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'donabornak',
     twitch: 'donk',
     achievements: ['HLTV #1 2024', 'PGL Major Copenhagen Champion', 'IEM Cologne Champion'],
+    analysis: {
+      playstyle: "donk is the rawest aim talent to enter CS in a decade. He was 17 when he became HLTV's #1 player of 2024, which wasn't just the youngest ever — it wasn't particularly close. What makes him special is he does things mechanically that most pros simply can't replicate. One-taps through smokes with the AK, pre-fires through walls based on audio alone, 1v3s on retakes that he shouldn't win. He plays entry for Team Spirit and opens up sites where most entry fraggers can't even get an opening duel.",
+      settingsContext: "1.3 sensitivity at 800 DPI gives him an eDPI of 1040. The 800 DPI choice is interesting — most pros use 400 DPI to reduce jitter, but donk runs 800 and counters it with a lower in-game sensitivity. Mathematically it's the same eDPI zone, but the raw input feels subtly different. His cyan dot crosshair with small size is a signature — visible but doesn't obscure targets. The Wooting 60 HE keyboard lets him customize his actuation points, which some pros use for stutter-step strafing.",
+      suitableFor: "At eDPI ~1000 this is moderate-high for a rifler. Good for players who play aggressive roles and need fast 180s. If you're a support player or IGL, you'll want to be slower. Fair warning: this is donk's sensitivity, not his aim — copying the numbers won't give you his raw mechanics."
+    }
   },
   {
     slug: 'm0nesy',
@@ -171,6 +199,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'm0NESY',
     twitch: 'm0nesy',
     achievements: ['HLTV Top 3', 'BLAST Premier Champion', 'G2 Star Player'],
+    analysis: {
+      playstyle: "m0NESY was the AWPer that made people compare teenagers to s1mple again. He signed with G2 at 17, already a star in NAVI Junior, and immediately performed at the top level of tier-1 CS. His AWP style leans aggressive — lots of pushing with the AWP in positions most players would play passive. He'll take duels before his team is set up, banking on out-aiming the opponent. It's high-variance and it usually works.",
+      settingsContext: "1.35 sensitivity at 400 DPI = eDPI 540. This is the low-sens AWPer standard — slightly slower than ZywOo, a touch more precise per-pixel but less responsive for emergency flicks. The 0.9 zoom sensitivity is interesting; most pros use 1.0 to keep scoped and hip-fire identical. Dropping to 0.9 gives him slightly slower but more precise scoped aim, useful for long-range head-tap setups on maps like Mirage connector or Nuke outside. The bright pink crosshair helps it stand out on busy backgrounds.",
+      suitableFor: "Great starting point for AWPers who want precision over speed. If you find yourself missing easy shots because of jitter or over-flicking, try dropping to eDPI 500-600 like m0NESY. For riflers, this is too slow — most pros at this eDPI are dedicated AWPers."
+    }
   },
   {
     slug: 'device',

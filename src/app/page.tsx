@@ -21,6 +21,48 @@ export const metadata: Metadata = {
   },
 };
 
+const websiteSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'CS2 Practice',
+  url: 'https://www.cs2practice.com',
+  description: 'Free online FPS aim trainer with CS2/Valorant sensitivity sync, pro player settings database, and crosshair code library.',
+  publisher: {
+    '@type': 'Organization',
+    name: 'CS2 Practice',
+    logo: {
+      '@type': 'ImageObject',
+      url: 'https://www.cs2practice.com/logo-512.png',
+    },
+  },
+};
+
+const softwareSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: 'CS2 Practice',
+  applicationCategory: 'GameApplication',
+  operatingSystem: 'Web Browser',
+  offers: {
+    '@type': 'Offer',
+    price: '0',
+    priceCurrency: 'USD',
+  },
+  description: 'Free browser-based aim trainer for CS2 and Valorant. Practice Gridshot, Tracking, and Flicking with your exact in-game sensitivity.',
+};
+
 export default function Home() {
-  return <HomeClient />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
+      />
+      <HomeClient />
+    </>
+  );
 }

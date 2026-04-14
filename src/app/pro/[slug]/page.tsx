@@ -50,8 +50,48 @@ export default async function ProPlayerPage({ params }: Props) {
     .filter(p => p.team === player.team || Math.abs(p.edpi - player.edpi) < 200)
     .slice(0, 3);
 
+  // Person JSON-LD for the player
+  const personSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: player.name,
+    alternateName: player.realName,
+    jobTitle: `Professional Counter-Strike 2 Player (${player.role})`,
+    affiliation: {
+      '@type': 'SportsTeam',
+      name: player.team,
+    },
+    nationality: player.country,
+    url: `https://www.cs2practice.com/pro/${player.slug}`,
+    ...(player.twitter && {
+      sameAs: [
+        `https://twitter.com/${player.twitter}`,
+        ...(player.twitch ? [`https://twitch.tv/${player.twitch}`] : []),
+      ],
+    }),
+  };
+
+  // Breadcrumb JSON-LD
+  const breadcrumbSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.cs2practice.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Pro Players', item: 'https://www.cs2practice.com/pro' },
+      { '@type': 'ListItem', position: 3, name: player.name, item: `https://www.cs2practice.com/pro/${player.slug}` },
+    ],
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
       <Header />
       <main className="flex-1 py-12 px-4">
         <ProPlayerDetailContent player={player} similarPlayers={similarPlayers} />

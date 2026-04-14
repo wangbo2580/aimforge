@@ -4,10 +4,30 @@ import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n';
 import { ProPlayer, countryToFlag } from '@/data/pro-players';
 import CopyButton from '@/components/ui/CopyButton';
+import { amazonSearchLink } from '@/lib/amazon-affiliate';
 
 interface ProPlayerDetailContentProps {
   player: ProPlayer;
   similarPlayers: ProPlayer[];
+}
+
+function GearRow({ label, value }: { label: string; value: string }) {
+  return (
+    <a
+      href={amazonSearchLink(value)}
+      target="_blank"
+      rel="sponsored noopener noreferrer"
+      className="flex justify-between items-center py-3 px-4 bg-gray-900/50 hover:bg-gray-900 rounded-lg transition-colors group"
+    >
+      <span className="text-gray-400">{label}</span>
+      <span className="text-white font-medium group-hover:text-blue-400 flex items-center gap-1">
+        {value}
+        <svg className="w-3 h-3 opacity-40 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+        </svg>
+      </span>
+    </a>
+  );
 }
 
 export default function ProPlayerDetailContent({ player, similarPlayers }: ProPlayerDetailContentProps) {
@@ -162,28 +182,47 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
           <span>🎮</span> {t('pro_gaming_gear')}
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
-          <div className="flex justify-between items-center py-3 px-4 bg-gray-900/50 rounded-lg">
-            <span className="text-gray-400">{t('pro_mouse')}</span>
-            <span className="text-white font-medium">{player.mouse}</span>
-          </div>
-          <div className="flex justify-between items-center py-3 px-4 bg-gray-900/50 rounded-lg">
-            <span className="text-gray-400">{t('pro_mousepad')}</span>
-            <span className="text-white font-medium">{player.mousepad}</span>
-          </div>
-          <div className="flex justify-between items-center py-3 px-4 bg-gray-900/50 rounded-lg">
-            <span className="text-gray-400">{t('pro_keyboard')}</span>
-            <span className="text-white font-medium">{player.keyboard}</span>
-          </div>
-          <div className="flex justify-between items-center py-3 px-4 bg-gray-900/50 rounded-lg">
-            <span className="text-gray-400">{t('pro_monitor')}</span>
-            <span className="text-white font-medium">{player.monitor}</span>
-          </div>
-          <div className="flex justify-between items-center py-3 px-4 bg-gray-900/50 rounded-lg md:col-span-2">
-            <span className="text-gray-400">{t('pro_headset')}</span>
-            <span className="text-white font-medium">{player.headset}</span>
+          <GearRow label={t('pro_mouse')} value={player.mouse} />
+          <GearRow label={t('pro_mousepad')} value={player.mousepad} />
+          <GearRow label={t('pro_keyboard')} value={player.keyboard} />
+          <GearRow label={t('pro_monitor')} value={player.monitor} />
+          <div className="md:col-span-2">
+            <GearRow label={t('pro_headset')} value={player.headset} />
           </div>
         </div>
+        <p className="text-xs text-gray-500 mt-4">
+          Product links go to Amazon. As an Amazon Associate we may earn from qualifying purchases at no extra cost to you.
+        </p>
       </div>
+
+      {/* Player Analysis */}
+      {player.analysis && (
+        <div className="bg-gray-800 rounded-xl p-6 md:p-8 mb-8">
+          <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+            <span>📖</span> About {player.name}&apos;s Setup
+          </h2>
+          <div className="space-y-6">
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-2">Playstyle</h3>
+              <p className="text-gray-300 leading-relaxed">{player.analysis.playstyle}</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-2">Why These Settings</h3>
+              <p className="text-gray-300 leading-relaxed">{player.analysis.settingsContext}</p>
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-2">Who Should Try This</h3>
+              <p className="text-gray-300 leading-relaxed">{player.analysis.suitableFor}</p>
+            </div>
+            {player.analysis.careerHighlights && (
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-2">Career Highlights</h3>
+                <p className="text-gray-300 leading-relaxed">{player.analysis.careerHighlights}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Practice CTA */}
       <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl p-6 mb-8 border border-blue-500/30">

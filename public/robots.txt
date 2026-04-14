@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
 
+# 这些是个人数据/工具页面，无 SEO 价值
+Disallow: /settings
+Disallow: /stats
+
 Sitemap: https://www.cs2practice.com/sitemap.xml
