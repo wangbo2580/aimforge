@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header';
 export const metadata: Metadata = {
   title: 'About | CS2 Practice',
   description: 'About CS2 Practice - a free browser-based aim trainer built for CS2 and FPS players who just want to practice without the bloat.',
+  alternates: { canonical: '/about' },
 };
 
 export default function AboutPage() {

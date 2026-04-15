@@ -5,7 +5,7 @@ import { guides } from '@/data/guides';
 
 export const metadata: Metadata = {
   title: 'CS2 Aim Training Guides & Tips | CS2 Practice',
-  description: 'Learn how to improve your aim in CS2 with our comprehensive guides. From beginner fundamentals to advanced techniques.',
+  description: 'Practical CS2 guides covering aim improvement, spray control, sensitivity setup, crosshair selection, gear recommendations and more. Written from years of CS experience.',
   keywords: [
     'cs2 aim guide',
     'how to aim cs2',
@@ -14,6 +14,7 @@ export const metadata: Metadata = {
     'cs2 sensitivity guide',
     'aim training tips',
   ],
+  alternates: { canonical: '/guides' },
 };
 
 export default function GuidesPage() {

@@ -20,8 +20,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     return { title: 'Guide Not Found' };
   }
 
+  // Trim title if too long (target <60 chars including suffix)
+  const baseTitle = guide.title.length > 50 ? guide.title : `${guide.title} | CS2 Practice`;
+
   return {
-    title: `${guide.title} | CS2 Practice`,
+    title: baseTitle,
     description: guide.description,
     keywords: [
       'cs2 aim guide',
@@ -29,11 +32,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       guide.category,
       ...guide.title.toLowerCase().split(' ').filter(w => w.length > 3),
     ],
+    alternates: {
+      canonical: `/guides/${guide.slug}`,
+    },
     openGraph: {
       title: guide.title,
       description: guide.description,
       type: 'article',
       publishedTime: guide.publishedAt,
+      url: `https://www.cs2practice.com/guides/${guide.slug}`,
     },
   };
 }

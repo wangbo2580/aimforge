@@ -4,7 +4,8 @@ import Header from '@/components/layout/Header';
 
 export const metadata: Metadata = {
   title: 'Terms of Service | CS2 Practice',
-  description: 'Terms of Service for CS2 Practice - Free Online FPS Aim Trainer',
+  description: 'Terms of Service for CS2 Practice. Read the rules and conditions for using our free online aim trainer and related tools.',
+  alternates: { canonical: '/terms' },
 };
 
 export default function TermsPage() {

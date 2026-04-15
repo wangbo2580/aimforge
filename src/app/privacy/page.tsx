@@ -4,7 +4,8 @@ import Header from '@/components/layout/Header';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | CS2 Practice',
-  description: 'Privacy Policy for CS2 Practice - Free Online FPS Aim Trainer',
+  description: 'Privacy Policy for CS2 Practice. Learn how we handle your data, what we collect, and how we use cookies and Google AdSense.',
+  alternates: { canonical: '/privacy' },
 };
 
 export default function PrivacyPage() {

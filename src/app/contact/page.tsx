@@ -5,6 +5,7 @@ import Header from '@/components/layout/Header';
 export const metadata: Metadata = {
   title: 'Contact | CS2 Practice',
   description: 'Get in touch with CS2 Practice. Report bugs, suggest features, or ask questions about our free online aim trainer.',
+  alternates: { canonical: '/contact' },
 };
 
 export default function ContactPage() {

@@ -3,8 +3,9 @@ import Link from 'next/link';
 import Header from '@/components/layout/Header';
 
 export const metadata: Metadata = {
-  title: 'FPS Gaming Tools - Sensitivity Converter, Crosshair Codes | CS2 Practice',
-  description: 'Free tools for FPS gamers. Sensitivity converter, crosshair code generator, and more utilities for CS2, Valorant, and other FPS games.',
+  title: 'Free FPS Gaming Tools | CS2 Practice',
+  description: 'Free tools for FPS gamers. Sensitivity converter for CS2, Valorant, Apex, OW2 and more. Crosshair code library, pro player settings database. All tools work in your browser.',
+  alternates: { canonical: '/tools' },
 };
 
 const tools = [
