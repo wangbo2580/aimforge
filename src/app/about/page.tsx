@@ -8,6 +8,46 @@ export const metadata: Metadata = {
   alternates: { canonical: '/about' },
 };
 
+const faqs = [
+  {
+    q: 'Is CS2 Practice really free?',
+    a: 'Yes. Every training mode, the pro player database, the crosshair library, and the sensitivity converter are free with no account required. The site is funded by display ads and affiliate links on gear pages — there is no paywall and no premium tier.',
+  },
+  {
+    q: 'How is this different from Aim Lab or Kovaak’s?',
+    a: 'Aim Lab and Kovaak’s are full desktop applications with much deeper feature sets — Kovaak’s has hundreds of community scenarios and Aim Lab has detailed analytics. CS2 Practice is a lightweight, browser-based alternative for people who want to warm up in 5 minutes without installing anything. It will not replace those tools for serious competitive players, but it covers 80% of the use case at zero friction.',
+  },
+  {
+    q: 'Do I need to create an account?',
+    a: 'No. All training stats and settings are saved to your browser’s local storage. Nothing leaves your device. The downside is that clearing your browser data also clears your stats, and stats do not sync between devices.',
+  },
+  {
+    q: 'Will my CS2 sensitivity transfer correctly to this trainer?',
+    a: 'Yes. Enter your in-game CS2 (or Valorant) sensitivity and DPI in the settings panel. We calculate cm/360° — the actual distance your hand moves for a full turn — and calibrate the trainer to match. Muscle memory transfers directly back to the game.',
+  },
+  {
+    q: 'Where do the pro player settings come from?',
+    a: 'Settings are sourced from official team pages, player streams, and community databases like prosettings.net and Liquipedia. We update them when players publicly change their configs, but pros tweak settings often — if something looks outdated, ping us via the contact page.',
+  },
+  {
+    q: 'Why is there no mobile app?',
+    a: 'Aim training requires a mouse and a precise input device. Touchscreens are fundamentally incompatible with the muscle memory you build for FPS games, so a mobile version would do more harm than good.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: f.a,
+    },
+  })),
+};
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen flex flex-col">
@@ -115,6 +155,18 @@ export default function AboutPage() {
               </p>
             </section>
 
+            <section>
+              <h2 className="text-xl font-semibold mb-3">Frequently asked questions</h2>
+              <div className="space-y-5">
+                {faqs.map((faq) => (
+                  <div key={faq.q}>
+                    <h3 className="text-base font-semibold text-white mb-2">{faq.q}</h3>
+                    <p className="text-gray-300">{faq.a}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
           </div>
 
           <div className="mt-12 pt-8 border-t border-gray-800">
@@ -124,6 +176,11 @@ export default function AboutPage() {
           </div>
         </div>
       </main>
+
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
     </div>
   );
 }

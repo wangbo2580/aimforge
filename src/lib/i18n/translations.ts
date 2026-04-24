@@ -93,6 +93,19 @@ export const translations = {
     settings_about: 'About',
     settings_version: 'Version',
     settings_local_note: 'All data is stored locally in your browser and will not be uploaded to any server.',
+    settings_language: 'Language',
+
+    // cm/360 hints
+    cm360_fast: 'fast',
+    cm360_slow: 'slow',
+    cm360_high: 'High sensitivity (close-range, tracking)',
+    cm360_medium: 'Medium sensitivity (balanced)',
+    cm360_low: 'Low sensitivity (long-range, precision)',
+
+    // Play header
+    play_back: 'Back',
+    play_show_settings: 'Show Settings',
+    play_hide_settings: 'Hide Settings',
 
     // Training Config
     config_title: 'Training Config',
@@ -336,6 +349,19 @@ export const translations = {
     settings_about: '关于',
     settings_version: '版本',
     settings_local_note: '所有数据仅保存在本地浏览器中，不会上传到服务器。',
+    settings_language: '语言',
+
+    // cm/360 hints
+    cm360_fast: '快',
+    cm360_slow: '慢',
+    cm360_high: '高敏感度 (适合近距离、追踪)',
+    cm360_medium: '中等敏感度 (均衡)',
+    cm360_low: '低敏感度 (适合远距离、精确瞄准)',
+
+    // Play header
+    play_back: '返回',
+    play_show_settings: '显示设置',
+    play_hide_settings: '隐藏设置',
 
     // Training Config
     config_title: '训练配置',

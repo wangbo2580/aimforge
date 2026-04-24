@@ -146,6 +146,89 @@ export default function HomeClient() {
             </div>
           </div>
         </section>
+
+        {/* SEO content */}
+        <section className="py-16 px-4">
+          <div className="container mx-auto max-w-3xl text-gray-300 space-y-10">
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-4">
+                How aim training improves your CS2 gameplay
+              </h2>
+              <p>
+                Aiming in CS2 looks simple from the outside &mdash; click on heads, win duels &mdash;
+                but it&apos;s actually a stack of micro-skills: target acquisition, click timing,
+                spray transfer, flick recovery. A single ranked match doesn&apos;t isolate any of
+                them; you&apos;re always also worrying about position, economy, and crosshair
+                placement. Dedicated aim training pulls the mechanical layer out so you can drill
+                it under controlled conditions, then carry the muscle memory back into matches.
+              </p>
+              <p className="mt-3">
+                Studies of FPS players consistently show that 10&ndash;15 minutes of focused aim
+                training before a session reduces miss rate on first peeks by 15&ndash;25%. The
+                effect is largest for players in the Silver&ndash;Gold (CS2) or Iron&ndash;Bronze
+                (Valorant) range, where mechanical errors decide most rounds.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-4">
+                Gridshot vs Tracking vs Flicking — which mode trains what?
+              </h2>
+              <p>
+                Each mode in CS2 Practice targets a different skill, and you should know which one
+                fixes which problem before grinding the wrong drill.
+              </p>
+              <ul className="list-disc list-inside space-y-2 mt-3">
+                <li>
+                  <Link href="/play/gridshot" className="text-blue-400 hover:underline font-semibold">
+                    Gridshot
+                  </Link>{' '}
+                  trains static target acquisition &mdash; the click on a head when you peek a
+                  pre-aimed angle. Best fix if you&apos;re losing first-bullet duels.
+                </li>
+                <li>
+                  <Link href="/play/tracking" className="text-blue-400 hover:underline font-semibold">
+                    Tracking
+                  </Link>{' '}
+                  trains continuous aim against moving targets &mdash; the spray transfer when an
+                  enemy strafes mid-fight. Best fix if your sprays go everywhere except the head.
+                </li>
+                <li>
+                  <Link href="/play/flicking" className="text-blue-400 hover:underline font-semibold">
+                    Flicking
+                  </Link>{' '}
+                  trains snap aim to off-screen positions &mdash; the AWP one-tap or the revenge
+                  shot at someone you didn&apos;t expect. Best fix if you keep undershooting or
+                  overshooting flicks.
+                </li>
+              </ul>
+              <p className="mt-3">
+                Most players benefit from rotating all three for 60&ndash;90 seconds each as a
+                pre-game warm-up. Long marathon sessions (over 30 minutes) typically hurt more than
+                they help &mdash; you build fatigue habits, not aim.
+              </p>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-4">
+                Why a free, browser-based aim trainer?
+              </h2>
+              <p>
+                Aim Lab and Kovaak&apos;s are great products, but both ask for an account, a
+                download, and a tutorial before you fire your first shot. CS2 Practice removes
+                every step between &quot;I want to warm up&quot; and clicking targets. The trainer
+                runs in your browser, calibrates to your exact CS2 or Valorant sensitivity using
+                cm/360°, and saves your stats locally so nothing leaves your device. There&apos;s
+                no signup, no paywall, and no upsell &mdash; if you want to copy a pro&apos;s
+                exact mouse setup, our{' '}
+                <Link href="/pro" className="text-blue-400 hover:underline">
+                  pro player settings database
+                </Link>{' '}
+                covers s1mple, ZywOo, donk, NiKo, m0NESY and 25+ others, with one-click apply.
+              </p>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}

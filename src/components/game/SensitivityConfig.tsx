@@ -6,10 +6,12 @@ import { useState } from 'react';
 import { useGameStore } from '@/store/game-store';
 import { calculateCm360, formatCm360, PRESET_CONFIGS } from '@/lib/sensitivity';
 import { SensitivityConfig as SensitivityConfigType } from '@/types/game';
+import { useTranslation } from '@/lib/i18n';
 
 export default function SensitivityConfig() {
   const { settings, updateSettings } = useGameStore();
   const [activePreset, setActivePreset] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   const sensitivity = settings.sensitivity;
   const cm360 = calculateCm360(sensitivity);
@@ -66,11 +68,11 @@ export default function SensitivityConfig() {
 
   return (
     <div className="bg-gray-800 rounded-xl p-6">
-      <h3 className="text-lg font-semibold text-white mb-4">敏感度设置</h3>
+      <h3 className="text-lg font-semibold text-white mb-4">{t('settings_sensitivity')}</h3>
 
       {/* 游戏选择 */}
       <div className="mb-6">
-        <label className="block text-sm text-gray-400 mb-2">游戏</label>
+        <label className="block text-sm text-gray-400 mb-2">{t('settings_game')}</label>
         <div className="flex gap-2">
           {(['cs2', 'valorant', 'custom'] as const).map((game) => (
             <button
@@ -82,7 +84,7 @@ export default function SensitivityConfig() {
                   : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
               }`}
             >
-              {game === 'cs2' ? 'CS2' : game === 'valorant' ? 'Valorant' : '自定义'}
+              {game === 'cs2' ? 'CS2' : game === 'valorant' ? 'Valorant' : t('settings_custom')}
             </button>
           ))}
         </div>
@@ -94,7 +96,7 @@ export default function SensitivityConfig() {
           {/* 灵敏度 */}
           <div className="mb-4">
             <div className="flex justify-between mb-2">
-              <label className="text-sm text-gray-400">游戏内灵敏度</label>
+              <label className="text-sm text-gray-400">{t('settings_game_sens')}</label>
               <span className="text-sm text-white font-medium">{sensitivity.sensitivity}</span>
             </div>
             <input
@@ -111,7 +113,7 @@ export default function SensitivityConfig() {
           {/* DPI */}
           <div className="mb-4">
             <div className="flex justify-between mb-2">
-              <label className="text-sm text-gray-400">鼠标 DPI</label>
+              <label className="text-sm text-gray-400">{t('settings_dpi')}</label>
               <span className="text-sm text-white font-medium">{sensitivity.dpi}</span>
             </div>
             <input
@@ -133,7 +135,7 @@ export default function SensitivityConfig() {
 
           {/* 职业选手预设 */}
           <div className="mb-6">
-            <label className="block text-sm text-gray-400 mb-2">职业选手预设</label>
+            <label className="block text-sm text-gray-400 mb-2">{t('settings_presets')}</label>
             <div className="grid grid-cols-3 gap-2">
               {Object.entries(PRESET_CONFIGS)
                 .filter(([_, config]) => config.game === sensitivity.game)
@@ -159,7 +161,7 @@ export default function SensitivityConfig() {
       {sensitivity.game === 'custom' && (
         <div className="mb-4">
           <div className="flex justify-between mb-2">
-            <label className="text-sm text-gray-400">cm/360</label>
+            <label className="text-sm text-gray-400">{t('settings_cm360')}</label>
             <span className="text-sm text-white font-medium">{sensitivity.cm360 || 30}</span>
           </div>
           <input
@@ -172,9 +174,9 @@ export default function SensitivityConfig() {
             className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
           />
           <div className="flex justify-between mt-1 text-xs text-gray-500">
-            <span>10cm (快)</span>
+            <span>10cm ({t('cm360_fast')})</span>
             <span>30cm</span>
-            <span>80cm (慢)</span>
+            <span>80cm ({t('cm360_slow')})</span>
           </div>
         </div>
       )}
@@ -184,10 +186,10 @@ export default function SensitivityConfig() {
         <div className="text-2xl font-bold text-blue-400">{formatCm360(cm360)}</div>
         <div className="text-sm text-gray-400 mt-1">
           {cm360 < 20
-            ? '高敏感度 (适合近距离、追踪)'
+            ? t('cm360_high')
             : cm360 < 40
-            ? '中等敏感度 (均衡)'
-            : '低敏感度 (适合远距离、精确瞄准)'}
+            ? t('cm360_medium')
+            : t('cm360_low')}
         </div>
       </div>
     </div>

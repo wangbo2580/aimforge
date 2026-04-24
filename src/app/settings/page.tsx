@@ -30,7 +30,7 @@ export default function SettingsPage() {
           <div className="space-y-6">
             {/* 语言设置 */}
             <div className="bg-gray-800 rounded-xl p-6">
-              <h3 className="text-lg font-semibold text-white mb-4">Language / 语言</h3>
+              <h3 className="text-lg font-semibold text-white mb-4">{t('settings_language')}</h3>
               <LanguageSelector />
             </div>
 
