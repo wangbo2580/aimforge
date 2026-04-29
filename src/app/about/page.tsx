@@ -10,28 +10,28 @@ export const metadata: Metadata = {
 
 const faqs = [
   {
-    q: 'Is CS2 Practice really free?',
-    a: 'Yes. Every training mode, the pro player database, the crosshair library, and the sensitivity converter are free with no account required. The site is funded by display ads and affiliate links on gear pages — there is no paywall and no premium tier.',
+    q: 'Is it really free?',
+    a: 'Yes. No account, no premium tier, no "free trial that becomes paid". The site runs on display ads and Amazon affiliate links on the gear pages. That\'s the whole business model.',
   },
   {
-    q: 'How is this different from Aim Lab or Kovaak’s?',
-    a: 'Aim Lab and Kovaak’s are full desktop applications with much deeper feature sets — Kovaak’s has hundreds of community scenarios and Aim Lab has detailed analytics. CS2 Practice is a lightweight, browser-based alternative for people who want to warm up in 5 minutes without installing anything. It will not replace those tools for serious competitive players, but it covers 80% of the use case at zero friction.',
+    q: 'How is this different from Aim Lab or Kovaak\'s?',
+    a: 'They\'re proper desktop apps with way more features. Kovaak\'s has hundreds of community scenarios. Aim Lab has detailed analytics and a whole leveling system. This site has neither. It\'s just three drills you can run from your browser without installing anything. If you\'re grinding two hours a day, those tools are better. If you want a 5-minute warm-up, this is faster.',
   },
   {
-    q: 'Do I need to create an account?',
-    a: 'No. All training stats and settings are saved to your browser’s local storage. Nothing leaves your device. The downside is that clearing your browser data also clears your stats, and stats do not sync between devices.',
+    q: 'Do I need an account?',
+    a: 'No, and that\'s deliberate. Stats and settings save to your browser\'s local storage. Nothing gets uploaded. Downside: clear your browser data and your stats are gone. Use a different device and you start from zero. Tradeoff for not having to manage accounts.',
   },
   {
-    q: 'Will my CS2 sensitivity transfer correctly to this trainer?',
-    a: 'Yes. Enter your in-game CS2 (or Valorant) sensitivity and DPI in the settings panel. We calculate cm/360° — the actual distance your hand moves for a full turn — and calibrate the trainer to match. Muscle memory transfers directly back to the game.',
+    q: 'Does my CS2 sensitivity transfer correctly?',
+    a: 'Yes. Put your in-game sens and DPI in the settings panel. The trainer calculates cm/360° (the actual physical distance for a full turn) and matches it. Whatever you train here, your hand can do in CS2.',
   },
   {
-    q: 'Where do the pro player settings come from?',
-    a: 'Settings are sourced from official team pages, player streams, and community databases like prosettings.net and Liquipedia. We update them when players publicly change their configs, but pros tweak settings often — if something looks outdated, ping us via the contact page.',
+    q: 'Where do the pro settings come from?',
+    a: 'Official team pages, player streams, prosettings.net, Liquipedia. I update when players publicly change configs, but pros tweak constantly. If something looks wrong, ping me via the contact page and I\'ll fix it.',
   },
   {
-    q: 'Why is there no mobile app?',
-    a: 'Aim training requires a mouse and a precise input device. Touchscreens are fundamentally incompatible with the muscle memory you build for FPS games, so a mobile version would do more harm than good.',
+    q: 'Why no mobile app?',
+    a: 'Aim training needs a mouse. Touchscreen muscle memory has zero overlap with FPS muscle memory, so a mobile version would actively make people worse. Pass.',
   },
 ];
 

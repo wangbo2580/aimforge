@@ -152,79 +152,78 @@ export default function HomeClient() {
           <div className="container mx-auto max-w-3xl text-gray-300 space-y-10">
             <div>
               <h2 className="text-2xl font-bold text-white mb-4">
-                How aim training improves your CS2 gameplay
+                Why aim training works (when it does)
               </h2>
               <p>
-                Aiming in CS2 looks simple from the outside &mdash; click on heads, win duels &mdash;
-                but it&apos;s actually a stack of micro-skills: target acquisition, click timing,
-                spray transfer, flick recovery. A single ranked match doesn&apos;t isolate any of
-                them; you&apos;re always also worrying about position, economy, and crosshair
-                placement. Dedicated aim training pulls the mechanical layer out so you can drill
-                it under controlled conditions, then carry the muscle memory back into matches.
+                Aiming in CS2 is a stack of small skills: see the target, snap to it, click.
+                Sounds simple, but in a real match you&apos;re also worrying about position,
+                economy, what your team&apos;s doing, whether the angle is even safe. The
+                mechanical part gets buried under everything else, and you can&apos;t separate
+                it out to fix it.
               </p>
               <p className="mt-3">
-                Studies of FPS players consistently show that 10&ndash;15 minutes of focused aim
-                training before a session reduces miss rate on first peeks by 15&ndash;25%. The
-                effect is largest for players in the Silver&ndash;Gold (CS2) or Iron&ndash;Bronze
-                (Valorant) range, where mechanical errors decide most rounds.
+                That&apos;s what a trainer does. It strips out the position, the strategy, the
+                team chat, leaves just the click. Hand learns the click, then you put the click
+                back into a real game and the rest is easier.
+              </p>
+              <p className="mt-3">
+                It mostly helps when you&apos;re below MG / Gold Nova, where mechanical errors
+                decide most rounds. Above Eagle, your aim is probably fine and your problem is
+                somewhere else (positioning, utility, comms). 10-15 minutes a day is the sweet
+                spot for most people. More than that and you&apos;re either a pro or wasting
+                your time.
               </p>
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold text-white mb-4">
-                Gridshot vs Tracking vs Flicking — which mode trains what?
-              </h2>
-              <p>
-                Each mode in CS2 Practice targets a different skill, and you should know which one
-                fixes which problem before grinding the wrong drill.
-              </p>
+              <h2 className="text-2xl font-bold text-white mb-4">Which mode does what</h2>
+              <p>Three modes here, each fixes a different problem:</p>
               <ul className="list-disc list-inside space-y-2 mt-3">
                 <li>
                   <Link href="/play/gridshot" className="text-blue-400 hover:underline font-semibold">
                     Gridshot
                   </Link>{' '}
-                  trains static target acquisition &mdash; the click on a head when you peek a
-                  pre-aimed angle. Best fix if you&apos;re losing first-bullet duels.
+                  &ndash; clicking on stationary heads. Fix this if you keep losing first-bullet
+                  duels on peeks.
                 </li>
                 <li>
                   <Link href="/play/tracking" className="text-blue-400 hover:underline font-semibold">
                     Tracking
                   </Link>{' '}
-                  trains continuous aim against moving targets &mdash; the spray transfer when an
-                  enemy strafes mid-fight. Best fix if your sprays go everywhere except the head.
+                  &ndash; keeping aim on moving targets. Fix this if your sprays go everywhere
+                  except the head.
                 </li>
                 <li>
                   <Link href="/play/flicking" className="text-blue-400 hover:underline font-semibold">
                     Flicking
                   </Link>{' '}
-                  trains snap aim to off-screen positions &mdash; the AWP one-tap or the revenge
-                  shot at someone you didn&apos;t expect. Best fix if you keep undershooting or
-                  overshooting flicks.
+                  &ndash; snapping to off-angle targets. Fix this if you keep undershooting
+                  flicks or your AWP timing is off.
                 </li>
               </ul>
               <p className="mt-3">
-                Most players benefit from rotating all three for 60&ndash;90 seconds each as a
-                pre-game warm-up. Long marathon sessions (over 30 minutes) typically hurt more than
-                they help &mdash; you build fatigue habits, not aim.
+                Most people benefit from all three rotated for a minute each before queueing.
+                Long sessions don&apos;t help. Past 30 minutes you&apos;re training fatigue
+                habits, not aim.
               </p>
             </div>
 
             <div>
-              <h2 className="text-2xl font-bold text-white mb-4">
-                Why a free, browser-based aim trainer?
-              </h2>
+              <h2 className="text-2xl font-bold text-white mb-4">Why this exists</h2>
               <p>
-                Aim Lab and Kovaak&apos;s are great products, but both ask for an account, a
-                download, and a tutorial before you fire your first shot. CS2 Practice removes
-                every step between &quot;I want to warm up&quot; and clicking targets. The trainer
-                runs in your browser, calibrates to your exact CS2 or Valorant sensitivity using
-                cm/360°, and saves your stats locally so nothing leaves your device. There&apos;s
-                no signup, no paywall, and no upsell &mdash; if you want to copy a pro&apos;s
-                exact mouse setup, our{' '}
+                Aim Lab and Kovaak&apos;s are good, just heavy. Aim Lab makes you create an
+                account, pick a &quot;journey&quot;, and sit through tutorials before you click
+                anything. Kovaak&apos;s is paid and lives on Steam. Both are overkill if you just
+                want a 5-minute warm-up before ranked.
+              </p>
+              <p className="mt-3">
+                This site is the opposite. Open it, set your sens, click targets, close the tab.
+                Stats save in your browser. No account, no upload, nothing leaves your device.
+                If you want to copy a pro&apos;s exact setup, the{' '}
                 <Link href="/pro" className="text-blue-400 hover:underline">
-                  pro player settings database
+                  pro database
                 </Link>{' '}
-                covers s1mple, ZywOo, donk, NiKo, m0NESY and 25+ others, with one-click apply.
+                has 30+ players with full configs and one-click apply.
               </p>
             </div>
           </div>

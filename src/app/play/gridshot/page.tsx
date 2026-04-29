@@ -34,91 +34,82 @@ export default function GridshotPage() {
       <article className="bg-gray-950 px-4 py-16 border-t border-gray-800">
         <div className="container mx-auto max-w-3xl text-gray-300 space-y-8">
           <header>
-            <h2 className="text-3xl font-bold text-white mb-3">
-              About Gridshot Aim Training
-            </h2>
+            <h2 className="text-3xl font-bold text-white mb-3">About Gridshot</h2>
             <p className="text-gray-400">
-              Everything you need to know about the most fundamental aim training drill — and how
-              to use this trainer effectively.
+              The simplest aim drill, and probably the most useful one if you&apos;re stuck.
             </p>
           </header>
 
           <section>
-            <h3 className="text-xl font-semibold text-white mb-3">What is Gridshot?</h3>
             <p>
-              Gridshot is the most fundamental aim training drill. Static targets appear in random
-              positions on a grid; your job is to click them as fast as possible while staying
-              accurate. It builds the muscle memory you use for one-tap kills, peeking pre-aimed
-              angles, and quick decision-making in CS2, Valorant, and other tactical FPS games.
+              Gridshot is the simplest aim drill there is. Static targets pop up at random spots
+              on a grid, you click them. That&apos;s it. No moving targets, no recoil, no spray
+              patterns. Just the clean version of what your hand has to do when someone&apos;s
+              head appears in your crosshair on a peek.
+            </p>
+            <p className="mt-3">
+              It&apos;s worth doing because most CS2 kills are exactly that: a head appears at a
+              known angle, you click once or twice, fight&apos;s over. Spray transfers, flicks,
+              tracking matter too, but they&apos;re refinements on top of the basic &quot;see
+              head, click head&quot; reflex. If your gridshot is bad, the rest of your aim is
+              built on sand.
             </p>
           </section>
 
           <section>
-            <h3 className="text-xl font-semibold text-white mb-3">
-              How Gridshot improves your CS2 aim
-            </h3>
+            <h3 className="text-xl font-semibold text-white mb-3">Using this trainer</h3>
             <p>
-              Most kills in CS2 come from one or two quick clicks at someone&apos;s head from a
-              known angle. Gridshot directly trains that movement: identify the target, snap to it,
-              click. After a few weeks of regular practice, players typically notice their initial
-              peek reaction time drops by 20&ndash;40 ms, and spray transfers feel more decisive.
-              The drill isolates raw target acquisition from movement and recoil, so improvements
-              transfer cleanly into ranked matches.
+              Open the settings panel and put in your in-game CS2 (or Valorant) sensitivity and
+              DPI. The trainer matches your real cm/360°, so anything you build here transfers
+              directly. Click the canvas to start. Misses cost you accuracy, hits give you score.
+              30-second sessions by default but you can change duration, target size, and target
+              count in the side panel.
             </p>
-          </section>
-
-          <section>
-            <h3 className="text-xl font-semibold text-white mb-3">How to use this trainer</h3>
-            <p>
-              Open the settings panel and enter your in-game CS2 (or Valorant) sensitivity and
-              mouse DPI. The training canvas is calibrated to match your real in-game cm/360°, so
-              the muscle memory you build here transfers directly. Click the canvas to start.
-              Targets disappear when hit; misses cost accuracy. Default sessions run 30 seconds, but
-              you can adjust target size, count, and duration in the side panel.
-            </p>
-          </section>
-
-          <section>
-            <h3 className="text-xl font-semibold text-white mb-3">
-              Tips for getting the most out of Gridshot
-            </h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-300">
-              <li>Warm up for 2&ndash;3 minutes before ranked matches; don&apos;t grind hour-long sessions.</li>
-              <li>
-                Focus on accuracy first, speed second &mdash; clicking 80% accurate at 200 ms is
-                more useful than 50% at 100 ms.
-              </li>
-              <li>Keep your wrist relaxed. Tense aim is unstable aim.</li>
-              <li>
-                If you change sensitivity, expect 1&ndash;2 weeks of dropped performance before
-                muscle memory adapts. Don&apos;t flip-flop.
-              </li>
-              <li>
-                Pair Gridshot with our{' '}
-                <Link href="/play/tracking" className="text-blue-400 hover:underline">
-                  Tracking
-                </Link>{' '}
-                and{' '}
-                <Link href="/play/flicking" className="text-blue-400 hover:underline">
-                  Flicking
-                </Link>{' '}
-                drills for a complete warm-up routine.
-              </li>
-            </ul>
-          </section>
-
-          <section>
-            <h3 className="text-xl font-semibold text-white mb-3">
-              Want to train like the pros?
-            </h3>
-            <p>
-              Browse our{' '}
-              <Link href="/pro" className="text-blue-400 hover:underline">
-                pro player settings database
+            <p className="mt-3">
+              If your sensitivity in-game is something weird, the converter in{' '}
+              <Link href="/tools/sensitivity-converter" className="text-blue-400 hover:underline">
+                tools
               </Link>{' '}
-              for the exact sensitivity, DPI, and crosshair codes used by s1mple, ZywOo, NiKo,
-              donk, and 30+ other CS2 pros &mdash; then apply their settings here and train with
-              the same muscle memory they use in tournaments.
+              will sort it out.
+            </p>
+          </section>
+
+          <section>
+            <h3 className="text-xl font-semibold text-white mb-3">What actually works</h3>
+            <p>
+              Warm up before ranked, don&apos;t grind. 5 minutes is plenty, an hour is
+              counterproductive. Your accuracy drops as you get tired and you&apos;re just
+              training bad habits. Accuracy first, speed second, always. A 200ms reaction with
+              80% hit rate beats 100ms with 50% hit rate, every time.
+            </p>
+            <p className="mt-3">
+              Keep your wrist loose. Tense aim wobbles. If you&apos;ve been gripping the mouse
+              for an hour, take a break.
+            </p>
+            <p className="mt-3">
+              If you change sensitivity, give it two weeks before you decide. The first week
+              feels bad with any new sens. The second week is when you can tell if it actually
+              fits.
+            </p>
+          </section>
+
+          <section>
+            <h3 className="text-xl font-semibold text-white mb-3">After this</h3>
+            <p>
+              Pair gridshot with{' '}
+              <Link href="/play/tracking" className="text-blue-400 hover:underline">
+                tracking
+              </Link>{' '}
+              (for spray transfers) and{' '}
+              <Link href="/play/flicking" className="text-blue-400 hover:underline">
+                flicking
+              </Link>{' '}
+              (for snap aim) and you&apos;ve got a complete warm-up. If you want a starting
+              sensitivity, copy a{' '}
+              <Link href="/pro" className="text-blue-400 hover:underline">
+                pro player&apos;s setup
+              </Link>
+              . There&apos;s no point inventing one from scratch.
             </p>
           </section>
         </div>

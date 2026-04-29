@@ -33,90 +33,84 @@ export default function TrackingPage() {
       <article className="bg-gray-950 px-4 py-16 border-t border-gray-800">
         <div className="container mx-auto max-w-3xl text-gray-300 space-y-8">
           <header>
-            <h2 className="text-3xl font-bold text-white mb-3">
-              About Tracking Aim Training
-            </h2>
+            <h2 className="text-3xl font-bold text-white mb-3">About Tracking</h2>
             <p className="text-gray-400">
-              Tracking is the difference between winning a duel and getting one-tapped on the
-              re-peek. Here&apos;s how to train it.
+              The boring twin of flicking. Nobody puts tracking clips in highlight reels. Wins
+              you actual rounds though.
             </p>
           </header>
 
           <section>
-            <h3 className="text-xl font-semibold text-white mb-3">What is tracking?</h3>
             <p>
-              Tracking is the skill of keeping your crosshair on a moving target with consistent
-              micro-corrections. In Valorant it shows up against Jett dashes and Raze satchels; in
-              CS2 it&apos;s mostly used for spray transfers and maintaining aim on jiggle-peekers.
-              Unlike clicking drills, tracking is a continuous loop: predict, adjust, predict,
-              adjust.
+              Tracking is the boring twin of flicking. Nobody puts tracking clips in highlight
+              reels. But it&apos;s what wins you actual rounds: holding aim on someone who&apos;s
+              strafing while you spray, transferring to the second guy after the first one drops,
+              keeping the crosshair on a Jett who just dashed.
+            </p>
+            <p className="mt-3">
+              The mechanic is different from gridshot. Gridshot is one decisive click. Tracking
+              is a continuous loop: predict where the target&apos;s heading, adjust, predict
+              again, adjust again. You&apos;re never &quot;done&quot;, you&apos;re always
+              correcting.
             </p>
           </section>
 
           <section>
-            <h3 className="text-xl font-semibold text-white mb-3">
-              How tracking practice transfers in-game
-            </h3>
+            <h3 className="text-xl font-semibold text-white mb-3">Using this trainer</h3>
             <p>
-              Targets in this trainer move with strafe, linear, curve, and random patterns. The
-              strafe pattern mimics player A/D peeking &mdash; the most common scenario you&apos;ll
-              face in CS2 and Valorant. Spending 5 minutes a day on tracking improves your spray
-              accuracy at mid-range significantly more than spending 20 minutes spraying a wall in
-              CS2&apos;s offline mode, because you&apos;re training the actual movement pattern your
-              hand needs to make against a real opponent.
+              Set your in-game sensitivity in the side panel. Click the canvas to start. The
+              target moves and you score by keeping your crosshair on it. Four movement patterns:
             </p>
-          </section>
-
-          <section>
-            <h3 className="text-xl font-semibold text-white mb-3">How to use this trainer</h3>
-            <p>
-              Set your in-game sensitivity in the side panel &mdash; the trainer will match your
-              cm/360° so your muscle memory transfers directly. Click the canvas to start tracking;
-              the target moves continuously and you score by keeping your crosshair on it. Try the
-              strafe pattern first, then move to curve and random patterns once you&apos;re
-              comfortable. Each session runs 30 seconds by default, which is enough to push
-              fatigue without burning your accuracy.
-            </p>
-          </section>
-
-          <section>
-            <h3 className="text-xl font-semibold text-white mb-3">Tips for tracking</h3>
-            <ul className="list-disc list-inside space-y-2 text-gray-300">
+            <ul className="list-disc list-inside space-y-2 mt-3">
               <li>
-                A lower sensitivity (cm/360 of 30+) usually helps tracking; if you can&apos;t keep
-                up, try lowering DPI rather than in-game sens.
+                <strong>Strafe</strong> &ndash; left/right peeking, the most common scenario in
+                CS2 and Valorant
               </li>
               <li>
-                Don&apos;t fight your own movement. Anticipate the target&apos;s next position
-                instead of reacting to where it is now.
+                <strong>Linear</strong> &ndash; predictable, useful for warm-up
               </li>
-              <li>Headphones help. Sound feedback reinforces hits during the flow.</li>
               <li>
-                If you&apos;re overshooting, your sensitivity is probably too high for your tracking
-                style. Drop it 10% and re-test.
+                <strong>Curve</strong> &ndash; smooth direction changes, harder
+              </li>
+              <li>
+                <strong>Random</strong> &ndash; unpredictable, closest to actual jiggle-peekers
               </li>
             </ul>
+            <p className="mt-3">
+              Start with strafe, get used to the feel, then move to curve and random when you
+              stop missing.
+            </p>
           </section>
 
           <section>
             <h3 className="text-xl font-semibold text-white mb-3">
-              Build a complete aim warm-up
+              Sensitivity matters more here than for clicks
             </h3>
             <p>
-              Tracking pairs naturally with{' '}
+              If your sensitivity is too high, you can&apos;t track. You&apos;ll constantly
+              overshoot. Most people with bad tracking think they need more practice. They
+              don&apos;t. They need a lower sens. Try dropping DPI by a third before you blame
+              your hand.
+            </p>
+            <p className="mt-3">
+              Anticipation beats reaction. If you wait until the target moves to react,
+              you&apos;re already behind. Watch the target&apos;s pattern, predict where
+              it&apos;s going, move there a beat early.
+            </p>
+          </section>
+
+          <section>
+            <h3 className="text-xl font-semibold text-white mb-3">Pairs well with</h3>
+            <p>
               <Link href="/play/gridshot" className="text-blue-400 hover:underline">
                 Gridshot
               </Link>{' '}
-              (clicks) and{' '}
+              for the click side,{' '}
               <Link href="/play/flicking" className="text-blue-400 hover:underline">
-                Flicking
+                flicking
               </Link>{' '}
-              (snap aim). Most pros run 60 seconds of each before queueing. For more depth on
-              warm-up routines and aim fundamentals, see our{' '}
-              <Link href="/guides" className="text-blue-400 hover:underline">
-                aim training guides
-              </Link>
-              .
+              for snap aim. None of these alone is enough. Most pros do all three for 60-90
+              seconds before queueing.
             </p>
           </section>
         </div>
