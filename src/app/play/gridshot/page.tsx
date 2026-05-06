@@ -3,12 +3,14 @@ import Link from 'next/link';
 import GridshotClient from '@/components/play/GridshotClient';
 
 export const metadata: Metadata = {
-  title: 'Gridshot Aim Trainer - Free Online | CS2 Practice',
+  title: 'Gridshot Online — Free CS2 Aim Trainer (No Download)',
   description:
-    'Free Gridshot aim trainer for CS2 and Valorant. Click static targets at random positions to build reaction time and click accuracy. Calibrated to your in-game sensitivity.',
+    'Free online Gridshot trainer for CS2 and Valorant. Runs in your browser, no download. Click static targets to build reaction time and click accuracy at your real in-game sensitivity.',
   keywords: [
-    'gridshot',
+    'gridshot online',
+    'online gridshot',
     'gridshot trainer',
+    'cs2 trainer online',
     'aim trainer cs2',
     'aim trainer valorant',
     'reaction time training',
@@ -17,9 +19,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: '/play/gridshot' },
   openGraph: {
-    title: 'Gridshot Aim Trainer - Free Online | CS2 Practice',
+    title: 'Gridshot Online — Free CS2 Aim Trainer',
     description:
-      'Click static targets to build reaction time and click accuracy. Calibrated to your CS2/Valorant sensitivity.',
+      'Click static targets to build reaction time and click accuracy. Browser-based, no download, calibrated to your real CS2/Valorant sensitivity.',
     url: '/play/gridshot',
     type: 'website',
   },

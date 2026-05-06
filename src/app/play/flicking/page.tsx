@@ -3,22 +3,24 @@ import Link from 'next/link';
 import FlickingClient from '@/components/play/FlickingClient';
 
 export const metadata: Metadata = {
-  title: 'Flicking Aim Trainer - Free Online | CS2 Practice',
+  title: 'Flicking Trainer Online — Free CS2 Flick / AWP Practice',
   description:
-    'Free Flicking aim trainer for CS2 and Valorant. Snap to targets at random angles to build AWP-style flick accuracy and speed. Calibrated to your in-game sensitivity.',
+    'Free online flick trainer for CS2 — practice AWP-style snap aim in your browser, no download. Random-angle targets, calibrated to your real in-game sensitivity.',
   keywords: [
     'flick trainer',
+    'flicking trainer online',
     'flicking aim',
     'cs2 awp practice',
+    'cs2 flick practice',
     'valorant operator practice',
     'snap aim trainer',
     'free aim trainer',
   ],
   alternates: { canonical: '/play/flicking' },
   openGraph: {
-    title: 'Flicking Aim Trainer - Free Online | CS2 Practice',
+    title: 'Flicking Trainer Online — Free CS2 Flick Practice',
     description:
-      'Snap to targets to build flick accuracy and speed. Calibrated to your CS2/Valorant sensitivity.',
+      'Snap to random-angle targets to build AWP-style flick accuracy. Browser-based, no download, calibrated to your real CS2/Valorant sensitivity.',
     url: '/play/flicking',
     type: 'website',
   },
