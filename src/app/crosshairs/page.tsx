@@ -1,16 +1,28 @@
 import { Metadata } from 'next';
 import CrosshairsClient from './CrosshairsClient';
+import { crosshairs } from '@/data/crosshairs';
 
 export const metadata: Metadata = {
-  title: 'CS2 Crosshair Codes - Pro Player Crosshairs | CS2 Practice',
-  description: 'Copy CS2 crosshair codes from 30+ pro players including s1mple, ZywOo, donk, NiKo, m0NESY. One-click copy and paste into CS2. Free crosshair library with dot, classic, minimal styles.',
-  keywords: ['cs2 crosshair codes', 'csgo crosshair codes', 'cs2 crosshair', 'crosshair codes copy paste', 'pro crosshair cs2', 'cs2 dot crosshair', 'best cs2 crosshair'],
+  title: 'CS2 Crosshair Codes — Copy / Paste Pro Player Crosshairs',
+  description: 's1mple, donk, ZywOo, NiKo, m0NESY and 25+ more. Copy a CS2 crosshair code with one click and paste it straight into your game. Includes dot crosshairs, CSGO-compatible codes, and an import guide.',
+  keywords: [
+    's1mple crosshair',
+    'cs2 crosshair codes',
+    'csgo crosshair codes',
+    'csgo dot crosshair copy paste',
+    'cs2 dot crosshair code',
+    'crosshair codes copy paste',
+    'pro crosshair cs2',
+    'cs2 crosshair',
+    'cs2 funny crosshair codes',
+    'cs2 crosshair import',
+  ],
   alternates: {
     canonical: '/crosshairs',
   },
   openGraph: {
-    title: 'CS2 Crosshair Codes - 100+ Pro & Community Crosshairs',
-    description: 'Copy pro player crosshair codes for CS2. s1mple, ZywOo, donk, NiKo and more. One-click copy, paste directly in CS2.',
+    title: 'CS2 Crosshair Codes — Pro Player Crosshairs (Copy / Paste)',
+    description: 'Copy s1mple, donk, ZywOo, NiKo crosshair codes in one click. CSGO codes work too. Includes dot crosshairs and a full import guide.',
     type: 'website',
   },
 };
@@ -63,6 +75,53 @@ const breadcrumbSchema = {
   ],
 };
 
+const howToSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: 'How to import a CS2 crosshair code',
+  description: 'Copy a share code from this page and paste it into CS2 to get the same crosshair as a pro player.',
+  totalTime: 'PT1M',
+  step: [
+    {
+      '@type': 'HowToStep',
+      position: 1,
+      name: 'Copy the code',
+      text: 'Click the green Copy button next to any crosshair on this page. The share code is now on your clipboard.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 2,
+      name: 'Open CS2 settings',
+      text: 'Launch CS2 and open Settings → Game → Crosshair from the main menu.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 3,
+      name: 'Open the import dialog',
+      text: 'Click the Share or Import button at the top of the crosshair settings panel.',
+    },
+    {
+      '@type': 'HowToStep',
+      position: 4,
+      name: 'Paste and import',
+      text: 'Paste the code with Ctrl+V and click Import. The crosshair preview updates immediately.',
+    },
+  ],
+};
+
+// ItemList of all crosshair codes — helps Google understand this is a structured list page
+const itemListSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  numberOfItems: crosshairs.length,
+  itemListElement: crosshairs.slice(0, 30).map((c, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: c.player ? `${c.player} crosshair code (${c.team ?? 'CS2'})` : `${c.name} crosshair code`,
+    description: c.description ?? `${c.name} CS2 crosshair share code, copy / paste ready.`,
+  })),
+};
+
 export default function CrosshairsPage() {
   return (
     <>
@@ -73,6 +132,14 @@ export default function CrosshairsPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
       <CrosshairsClient />
     </>
