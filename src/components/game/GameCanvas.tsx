@@ -82,7 +82,9 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
           trackEvent('start_training', {
             mode: trainingType,
             duration: trainingConfig.duration,
-            sensitivity: settings.sensitivity,
+            game: settings.sensitivity.game,
+            sensitivity: settings.sensitivity.sensitivity,
+            dpi: settings.sensitivity.dpi,
           });
         }
         if (state === 'finished') {
