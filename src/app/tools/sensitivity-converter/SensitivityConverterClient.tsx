@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import Header from '@/components/layout/Header';
 import { games, calculateCm360, convertSensitivity, getGameList } from '@/lib/sensitivity-converter';
 import { useTranslation } from '@/lib/i18n';
+import { trackEvent } from '@/lib/analytics';
 
 export default function SensitivityConverterClient() {
   const { t } = useTranslation();
@@ -12,6 +13,21 @@ export default function SensitivityConverterClient() {
   const [fromGame, setFromGame] = useState('cs2');
   const [dpi, setDpi] = useState(800);
   const [sensitivity, setSensitivity] = useState(games.cs2.defaultSens);
+
+  // 防抖追踪用户最终输入（输入停止 1.5s 后触发一次）
+  const trackedRef = useRef(false);
+  useEffect(() => {
+    if (trackedRef.current) return;
+    const timer = setTimeout(() => {
+      trackEvent('use_sens_converter', {
+        from_game: fromGame,
+        dpi,
+        sensitivity,
+      });
+      trackedRef.current = true;
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [fromGame, dpi, sensitivity]);
 
   // 计算 cm/360 和所有游戏的转换结果
   const results = useMemo(() => {

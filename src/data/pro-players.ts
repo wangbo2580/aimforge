@@ -230,6 +230,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'dev1ce',
     twitch: 'device',
     achievements: ['4x Major Champion', '3x HLTV #1', 'Astralis Era Architect'],
+    analysis: {
+      playstyle: "device is the AWPer that defined the Astralis dynasty. While most star AWPers build their game around aggressive picks, device built his around denial — sitting on an angle for 90 seconds in a default round, refusing to peek, forcing the entire enemy team to commit before he took his single shot. Three HLTV #1 finishes off a playstyle most coaches would tell their players to abandon. The lesson is that consistency at a low number of duels can outperform high-variance aggression if your read on rounds is right.",
+      settingsContext: "1.8 sensitivity at 400 DPI puts him at eDPI 720 — almost exactly between standard AWPer slow (around 640) and rifler medium (around 800). The choice makes sense for his hybrid role: he plays AWP primary but rotates to rifle on eco or save rounds. The 1280x960 stretched resolution is the CS pro standard he's used since 1.6 days. His gear barely changes: ZOWIE monitor, Logitech mouse, switched headsets to EPOS but kept everything else through three different team rosters.",
+      suitableFor: "If you AWP and prefer a patient, position-based style over aggressive peeks, 720 eDPI is a forgiving zone. Slightly faster than the textbook 800 eDPI AWPer setup, so emergency rifle fights at close range stay manageable. Not the right pick if you flick-peek constantly — you'll feel slow. Better for the kind of player who waits for the right round to take the duel."
+    }
   },
   {
     slug: 'electronic',
@@ -256,6 +261,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'electroNic',
     twitch: 'electronic',
     achievements: ['2x Major Champion', 'HLTV Top 5', 'NAVI Core Member'],
+    analysis: {
+      playstyle: "electronic is the second star NAVI has always been built around. While s1mple gets the highlight clips, electronic is the one putting up consistent 70+ damage rounds, taking the second site, clutching the 1v2s that nobody talks about. He plays support rifler in the way prime Twistzz did — never the IGL's first option, never the AWPer, but always reliably the second-highest fragger on the scoreboard. The kind of player every top-5 team needs and almost none of them have.",
+      settingsContext: "1.6 sensitivity at 400 DPI gives him eDPI 640 — exactly half of s1mple's. 66cm to turn 360 forces him to aim with his arm, not his wrist, which is the slower-but-steadier school of CS aiming. The 1280x960 stretched resolution is the NAVI house standard — same as s1mple, b1t, jL. Whole team gets to share muscle memory for crosshair sizes and movement feel. His gear is straight Logitech and ZOWIE classics with nothing fancy, very much a 'I found what works in 2018 and stopped touching it' setup.",
+      suitableFor: "Good fit if you play methodical rifle positions and don't need to swing wildly. 640 eDPI lets you tap-fire precisely at long range and control sprays well. If you entry-frag or play aggressive lurker positions, you'll feel slow on rotation flicks. Riflers transitioning from a faster sensitivity should expect the first week to feel sluggish before muscle memory adjusts."
+    }
   },
   {
     slug: 'ropz',
@@ -282,6 +292,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'ropabornak',
     twitch: 'ropz',
     achievements: ['Major Champion', 'HLTV Top 10', 'IEM Cologne Champion'],
+    analysis: {
+      playstyle: "ropz is the cleanest pure lurker in CS. While most riflers are aiming at where they think enemies will be, ropz is somewhere completely different — alone, deep in enemy territory, waiting for the rotation. His value isn't headline fragging; it's that the round simply can't be played a certain way because he's threatening a flank that nobody else on the server can pull off. FaZe built two trophy runs around his ability to win the 1v2 retake nobody saw coming.",
+      settingsContext: "1.77 sensitivity at 400 DPI = eDPI 708. Slightly above the standard slow-rifler zone, slightly below medium. It works for him because lurking requires both careful long-range tap firing (slow sens helps) and the occasional surprise 1v1 when a rotation runs into you (medium sens helps you not get pre-aimed and die in 0.2 seconds). The 1920x1080 native resolution is unusual for pros — most still play 4:3 stretched. ropz is part of a small wave switching to native because Source 2 handles it better than CS:GO did.",
+      suitableFor: "Good for riflers who want a balanced sensitivity that doesn't lock you into either pure flick play or pure tap-fire. If you flex roles across maps, this is in the right zone. Not the right pick if you AWP regularly or play hyper-aggressive entry — both prefer more specialized settings."
+    }
   },
   {
     slug: 'twistzz',
@@ -308,6 +323,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'Twistzz',
     twitch: 'twistzz',
     achievements: ['Major Champion', 'HLTV Top 5', 'Intel Grand Slam'],
+    analysis: {
+      playstyle: "Twistzz is the second-star rifler every top team builds around. His CS:GO peak was Liquid's Intel Grand Slam run, where he was the consistent 1.20+ rating player on a team built around s1mple-tier names. He moved to FaZe and immediately did the same thing — be the most reliable rifler on a roster of stars. His mechanics aren't flashy. They're just consistent in a way most riflers stop being after their third year as a pro.",
+      settingsContext: "1.7 sensitivity at 400 DPI = eDPI 680. Right in the heart of the pro rifler comfort zone — slow enough for precise tap firing at long range, fast enough for rotation flicks on retake situations. The Finalmouse Ultralight 2 is one of the few non-Logitech mice you'll see at the top level; lighter than the G Pro X Superlight series, with a slightly different shape. Twistzz is one of the more visible players still using it.",
+      suitableFor: "Excellent starting point if you play standard rifle roles and don't have a specific style problem to fix. 680 eDPI is in the safe middle band — close to what NiKo, hunter, and many other top riflers run. If your current sens isn't working, this is a reasonable baseline to try for a week."
+    }
   },
   {
     slug: 'broky',
@@ -334,6 +354,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'babornak',
     twitch: 'broky',
     achievements: ['Major Champion', 'Intel Grand Slam', 'IEM Katowice Champion'],
+    analysis: {
+      playstyle: "broky is the AWPer FaZe quietly built a Major and an Intel Grand Slam around while everyone was watching karrigan's IGL play and ropz's lurks. He plays a measured, position-first style — usually the second player to take a duel, taking advantage of the read his teammates set up. Not the highlight reel AWPer like ZywOo or m0NESY, but one of the most consistent in the world at converting the picks his team needs to win the round.",
+      settingsContext: "1.5 sensitivity at 400 DPI = eDPI 600, on the slow end of pro AWPer setups. The choice favors precise long-range scoped shots over fast reactive flicks. His monitor and mouse are standard FaZe gear — same ZOWIE 240Hz the team uses, same Logitech G Pro X Superlight. Nothing fancy. The signature decision is the 4:3 stretched 1280x960 resolution he kept after most pros tried 16:9 native and went back.",
+      suitableFor: "A safe starting point for AWPers who want long-range precision over speed. eDPI 600 is on the lower end of the pro AWPer range; if you find yourself missing easy long shots because of jitter, try dropping from your current sens down to 600 for a week. Too slow for primary riflers — you'll struggle in close-range rotations."
+    }
   },
   {
     slug: 'b1t',
@@ -360,6 +385,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'b1tcs',
     twitch: 'b1t',
     achievements: ['2x Major Champion', 'Intel Grand Slam', 'PGL Major Stockholm MVP'],
+    analysis: {
+      playstyle: "b1t is the entry fragger that took over the second-star NAVI role from electronic. His PGL Major Stockholm MVP run as a rookie is one of the cleaner debut performances in modern CS — coming into a roster with s1mple, taking the entry slot nobody wanted, and just refusing to die in the openings. His best trait is straight pre-aim. He'll know where the enemy probably is and his crosshair is there already, which makes him win duels that should be 50/50.",
+      settingsContext: "1.45 sensitivity at 800 DPI gives him eDPI 1160 — high for a pro but normal for an entry fragger. The aggressive role needs fast 180s when the entry rush gets met head-on by rotators. The 800 DPI choice (instead of the more common 400) is a personal preference; some players feel the raw input is smoother at higher polling. 36cm to turn 360 is quick — almost twice as fast as the NAVI rifler standard.",
+      suitableFor: "A good fit for entry fraggers and aggressive support roles that need to swing wide angles fast. eDPI 1160 is on the higher end; if you're a tap-fire precision rifler, this will feel uncontrollable. If you flank-clear sites on default rounds or play the first body through smoke, this kind of speed is what the role wants."
+    }
   },
   {
     slug: 'jl',
@@ -386,6 +416,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'jabornak',
     twitch: 'jlcs',
     achievements: ['Rising Star', 'NAVI Entry Fragger', 'ESL Pro League Finalist'],
+    analysis: {
+      playstyle: "jL is the Lithuanian entry fragger who joined NAVI to fill the gap between b1t's aggression and the team's slower default rounds. His game is built on map control — taking aggressive positions on the T side early, dying for information, and trusting his teammates to convert. It's not a glamour role and the stats don't always reflect his contribution. But teams that have an entry like jL win rounds that teams without one don't.",
+      settingsContext: "1.0 sensitivity at 800 DPI gives him eDPI 800 — the textbook 'entry fragger middle' zone. Fast enough for rotation flicks, slow enough that his tap fire at mid-range stays controlled. The 1920x1080 native 16:9 resolution is unusual at the pro level — most still play 4:3 stretched. jL is part of the small group that adopted native because Source 2's FOV handles it better. Gear-wise all Logitech, no surprises.",
+      suitableFor: "Solid setup for entry fraggers who want a balanced sens without going extreme. 800 eDPI is also a common starting point for new players unsure what eDPI they want. If you're trying CS2 binds for the first time and need a default, this is as safe as it gets."
+    }
   },
   {
     slug: 'im',
@@ -412,6 +447,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'imcs',
     twitch: 'imcs',
     achievements: ['PGL Major Copenhagen Champion', 'AWPer of NAVI', 'ENCE Star'],
+    analysis: {
+      playstyle: "iM took over the NAVI AWPer slot after s1mple, which is one of the harder shoes to fill in CS history. His style is opposite of s1mple's — measured, defensive, the kind of AWPer who sets up at the start of a round and rotates only when the read changes. ENCE built a Major contender around him before NAVI signed him, and the transition has been the rare AWPer move that worked because his strengths fit a team that already had a more aggressive star.",
+      settingsContext: "0.85 sensitivity at 800 DPI gives him eDPI 680 — slow even for an AWPer. The choice favors precise scoped shots at the cost of fast emergency flicks. His Pulsar X2 V2 mouse pick is increasingly common among Eastern European pros, slightly smaller than the Logitech standard. The Wooting 60 HE keyboard appears again — iM is another adopter of analog actuation for stutter-step strafing.",
+      suitableFor: "Right zone if you want to AWP defensively rather than peek-aggressively. 680 eDPI rewards patience and punishes wild flicks. If you've been running 800 eDPI as your AWP and your scoped shots feel jittery, dropping to 680 is a reasonable experiment. Too slow for primary riflers — your spray transfer will lag."
+    }
   },
   {
     slug: 'hunter',
@@ -438,6 +478,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'G2hunter',
     twitch: 'hunter',
     achievements: ['IEM Katowice Champion', 'G2 Core Member', 'HLTV Top 20'],
+    analysis: {
+      playstyle: "huNter- plays in the shadow of his cousin NiKo on G2, which means his actual contribution gets undersold a lot. He's a precision rifler in the NiKo mold — slow sensitivity, head-level crosshair placement, the kind of player who wins long-range tap battles because he doesn't miss. The combo with NiKo is what made G2's rifle line a trophy threat across multiple roster iterations. Take either of them off the team and the spray-transfer game collapses.",
+      settingsContext: "1.3 sensitivity at 400 DPI = eDPI 520. Even slower than NiKo's 552. 81cm to turn 360 means everything is arm-aim, not wrist-aim. This is the lowest-sens style — you can't twitch flick at this number, but you also won't accidentally over-swing on long-range duels. The 1024x768 stretched resolution is the most aggressive 4:3 stretch CS pros use; even narrower FOV than the 1280x960 standard. Gives him 'wider' enemy models at short range.",
+      suitableFor: "Try this if you want to push your spray accuracy further than what 600-700 eDPI gives you. Will feel painfully slow for the first 2-3 weeks. If you can adapt, your long-range game improves noticeably. Not recommended if you AWP secondary or play any aggressive lurker role — you'll lose rotation 1v1s."
+    }
   },
   {
     slug: 'ax1le',
@@ -464,6 +509,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'Ax1Lecs',
     twitch: 'ax1le',
     achievements: ['Vitality Core', 'Cloud9 Star', 'HLTV Top 10'],
+    analysis: {
+      playstyle: "Ax1Le made his name on Cloud9's pre-Spirit roster and stayed at the top through every roster shuffle since. He's a long-range rifler — almost always taking the duel from 30+ meters with a tap or two-burst, rarely the entry guy charging into smoke. The fit with Vitality next to ZywOo is a logical one: ZywOo handles the picks, Ax1Le anchors the support angles that close out post-plant.",
+      settingsContext: "1.2 sensitivity at 400 DPI = eDPI 480, even slower than huNter-. 88cm to turn 360 — full arm motion only, no wrist play. This is the precision-rifler extreme: at this sens, you can tap-fire at a head from across Inferno banana and not miss. The trade-off is anything within 5 meters becomes a panic moment because you literally can't turn fast enough. Almost everything else is standard NA/EU pro setup: Logitech mouse, ZOWIE monitor, HyperX peripherals.",
+      suitableFor: "For players who want to maximize tap-fire and long-range spray accuracy. If you currently miss easy long shots, this is the kind of sens that fixes it. The cost is real — you need teammates or smart positioning to avoid the close-range situations this can't handle. Not a fit for entry fraggers or solo lurkers."
+    }
   },
   {
     slug: 'sh1ro',
@@ -490,6 +540,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'sh1rocsgo',
     twitch: 'sh1ro',
     achievements: ['PGL Major Copenhagen Champion', 'Team Spirit Star AWPer', 'HLTV Top 10'],
+    analysis: {
+      playstyle: "sh1ro is the quiet AWPer most casual viewers underrate. While everyone watched donk's highlight reel for Team Spirit's Major run, sh1ro was the one holding angles for 60 seconds and converting two picks per round that opened sites. His style is methodical — pre-aim the obvious peek, get one shot off, reposition before the rotation. The kind of AWPer who doesn't go viral but wins championships because his teams know exactly where he'll be and what he can deliver.",
+      settingsContext: "1.04 sensitivity at 800 DPI = eDPI 832, just above the standard AWPer slow band. The choice gives him slightly more wrist range than the textbook 800 eDPI without losing scoped precision. His Pulsar X2 V2 is the same mouse as iM uses — Spirit and NAVI both rotate through similar gear preferences. The ASUS ROG Falchion Ace HFX keyboard with hall-effect switches is a newer experiment most pros are still evaluating.",
+      suitableFor: "Reasonable middle ground for AWPers between the precision-extreme (m0NESY 540) and the comfortable medium (ZywOo 800). Try this if you want a touch more reactive flicking than 800 eDPI without giving up scoped precision. Should not be the choice for primary riflers — too slow for rotation flicks."
+    }
   },
   {
     slug: 'rain',
@@ -516,6 +571,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'FaZe_rain',
     twitch: 'rain',
     achievements: ['Major Champion', 'PGL Antwerp MVP', 'Intel Grand Slam'],
+    analysis: {
+      playstyle: "rain has been on FaZe through every roster from olofmeister to the current lineup. He's the entry fragger who keeps showing up — never the highest-rated player on the team, never the lowest, just there every map with 18-22 kills and a 1.05 rating. The PGL Antwerp MVP run was him doing exactly that across a full Major bracket. The lesson is that consistency at the entry slot for ten years is itself rare — most entry fraggers burn out at 3-4 years.",
+      settingsContext: "0.9 sensitivity at 800 DPI = eDPI 720. The 800 DPI choice is a personal preference from his earliest pro days — most of his peers run 400 DPI, rain stuck with 800. His 1280x800 16:10 resolution is unusual at the pro level; he's one of the few players still on the older 16:10 aspect ratio that pre-dates wide displays. The Razer gear (Viper V3 Pro mouse, Apex Pro keyboard) is part of his sponsorship setup, but Razer's flagship mouse has caught up to Logitech for top-level play.",
+      suitableFor: "720 eDPI is a comfortable middle for entry roles that need both fast 180s and decent long-range precision. If you currently entry-frag on a sensitivity that feels too fast or too slow, this is in the median zone. The 16:10 resolution is worth experimenting with — most pros never try it, and some who do prefer it."
+    }
   },
   {
     slug: 'frozen',
@@ -542,6 +602,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'frozencsgo',
     twitch: 'frozen',
     achievements: ['Major Champion', 'FaZe Core Member', 'Intel Grand Slam'],
+    analysis: {
+      playstyle: "frozen is the rifler FaZe built their highlight rounds around for two trophy years. His thing is the off-angle one-tap — he'll set up at a position the enemy doesn't expect to be cleared, hold a head-level pre-aim, and take the duel before the rotator finishes their first peek motion. Combined with ropz's lurk and rain's entry, FaZe ran a rifle line that punished default rounds harder than most teams could survive.",
+      settingsContext: "2.0 sensitivity at 400 DPI = eDPI 800 — the textbook 'middle' for pro riflers. Same eDPI as ZywOo for the AWP, but completely different role. The 0.8 zoom sensitivity is the unusual choice; most riflers use 1.0 because they rarely scope, but frozen runs 0.8 so his rare AWP eco rounds stay precise. The Razer gear is sponsorship-mandated but functional; he uses all of it day to day.",
+      suitableFor: "800 eDPI is the safest starting point for any new CS2 rifler. If you don't know what sens to run, this is what to try first for two weeks. Most pros either land here, slightly above, or slightly below. Riflers who play extremely aggressive entry might want to push to 900-1000; precision riflers might drop to 600-700."
+    }
   },
   {
     slug: 'stavn',
@@ -568,6 +633,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'stavnCS',
     twitch: 'stavn',
     achievements: ['HLTV Top 10', 'Astralis Star Rifler', 'Heroic Era Core'],
+    analysis: {
+      playstyle: "stavn carried Heroic for several years as the team's main rifle damage source before moving to Astralis. He's an aggressive rifler — pushes the early-round picks most teams reserve for entry fraggers, takes off-angles, and trusts his mechanical aim to outpace the rotator. The move to Astralis fits him because the team needs someone willing to make the high-variance early plays that get rounds opened.",
+      settingsContext: "2.6 sensitivity at 400 DPI = eDPI 1040, on the higher end for a primary rifler. The choice matches his aggressive style — fast 180s for the off-angle plays he likes to take. 40cm to turn 360 is significantly faster than the rifler median (around 50-60cm). His ZOWIE EC2-CW mouse is the wireless version of an older ZOWIE shape that's been pro-favorite for almost a decade.",
+      suitableFor: "Try this if you play aggressive entry positions and your current sens feels too slow when you swing wide angles. eDPI 1040 takes some adjustment if you're coming from a 600-800 standard. Precision tap-firing at distance gets harder; rotation flicks get easier. Not a fit for tap-fire-focused riflers."
+    }
   },
   {
     slug: 'magisk',
@@ -594,6 +664,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'MagiskCS',
     twitch: 'magisk',
     achievements: ['4x Major Champion', 'Astralis Dynasty Core', 'HLTV Top 10'],
+    analysis: {
+      playstyle: "Magisk was the missing piece on Astralis when they signed him from North in 2018. He's a textbook secondary rifler — never the spotlight player, always the one converting the rotation that the AWPer's pick set up. Four Major trophies isn't an accident; it's the kind of run that happens when a team has both a star and a player like Magisk who reliably finishes the rounds the star opens.",
+      settingsContext: "1.0 sensitivity at 800 DPI = eDPI 800, the textbook pro rifler middle. The 1.18 zoom sensitivity is the unusual choice; most riflers use 1.0 or below. The slightly faster scoped sens helps with the rare AWP eco-round shots. He's stayed on 1024x768 stretched throughout his career, which is the most aggressively narrow FOV pros use — feels wide and 'closer' to the action than even 1280x960.",
+      suitableFor: "Standard 800 eDPI is the safest starting point for new riflers, and Magisk has run it through four Major wins. If you don't have a strong reason to be on a different number, this is the default. The 1024x768 stretched resolution is worth trying for a week if you've never experimented with stretched res before."
+    }
   },
   {
     slug: 'elige',
@@ -620,6 +695,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'EliGE',
     twitch: 'elige',
     achievements: ['Greatest NA CS Player', 'Intel Grand Slam', 'HLTV Top 5'],
+    analysis: {
+      playstyle: "EliGE is the longest-tenured NA pro and the one most commonly named as best-ever from North America. His CS:GO peak was Liquid's Intel Grand Slam run in 2019, where he sat near top-5 HLTV for almost a full year. His style is high-volume rifling — takes the most duels on the team, takes them in any position the round calls for. The Swiss Army knife who can entry, lurk, anchor, or B-site depending on the call.",
+      settingsContext: "0.74 sensitivity at 1600 DPI is unusual — most pros run 400 or 800 DPI. The math still works out to eDPI 1184, similar to b1t's. The 1600 DPI choice is from his pre-CS Quake background; some Quake players run higher raw DPI for the smoother input on rapid flicks. 36cm to turn 360 is fast, fits his entry-flex role. Otherwise standard Logitech and HyperX gear, same setup he's had for years.",
+      suitableFor: "Higher eDPI for players who flex multiple roles in a match. If you're a one-trick rifler, this is too fast. If you take entry duels one round and lurk the next, eDPI ~1100-1200 gives you both speed and enough control to tap-fire. The 1600 DPI experiment is also worth trying if you came from Quake or Apex."
+    }
   },
   {
     slug: 'w0nderful',
@@ -646,6 +726,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'w0nderfulcs',
     twitch: 'w0nderful',
     achievements: ['NAVI AWPer', 'Rising Star', 'Ukrainian CS Talent'],
+    analysis: {
+      playstyle: "w0nderful is the Ukrainian AWPer NAVI brought up to replace s1mple at the role, which is one of the harder benchmarks in CS. He plays more conservatively than s1mple did — fewer pre-aimed off-angle peeks, more measured holds. The team has structured rounds around setup picks rather than the lurking AWPer style s1mple defined. It's the right call given the talent gap, and w0nderful is growing into a more aggressive style as he gets comfortable.",
+      settingsContext: "2.0 sensitivity at 400 DPI = eDPI 800, the textbook AWPer middle. Same as ZywOo. The choice gives him a comfortable balance between precision and reactive flicking. NAVI's house standard is 1280x960 stretched, which he uses. Gear is straight Logitech and HyperX, all from team sponsorships, none of the experimental keyboards or mice the other Eastern European AWPers (iM, sh1ro) have moved to.",
+      suitableFor: "If you AWP and want the most common pro setup, 800 eDPI with a standard 4:3 stretched res is the textbook default. Almost every AWPer at the top level is within 100 eDPI of this number. Start here for at least two weeks before deciding to go faster or slower."
+    }
   },
   {
     slug: 'dupreeh',
@@ -672,6 +757,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'duabornak',
     twitch: 'dupreeh',
     achievements: ['5x Major Champion (Record)', 'Astralis Dynasty Core', 'CS Legend'],
+    analysis: {
+      playstyle: "dupreeh holds the all-time Major championship record at 5 trophies, all with the Astralis lineup that defined the late CS:GO meta. He was the entry fragger — the player taking the first peek into the smoke, dying first more often than not, but landing the opening pick that let the rest of the team execute the site. The role isn't glamorous and the stats don't always look elite, but no team has matched Astralis's run since, and dupreeh's entry consistency was a core reason.",
+      settingsContext: "1.77 sensitivity at 400 DPI = eDPI 708. Slightly above the standard slow band, in the same zone as ropz. The choice matches an entry-heavy role that needs both control for the first tap and enough speed to handle the rotation that arrives 2 seconds later. The Razer gear (Viper V3 Pro, Apex Pro) is post-retirement sponsorship gear, but the eDPI is the same number he ran through the dynasty years.",
+      suitableFor: "Reasonable starting point for entry fraggers who want a touch more control than the 800-1000 eDPI standard. 708 lets you hold an angle precisely while still swinging fast enough on rotation arrivals. If you've tried higher eDPI and felt your tap-fire dropped, this is a step back toward control without going to full precision mode."
+    }
   },
   {
     slug: 'perfecto',
@@ -698,6 +788,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'Perfecto_CS',
     twitch: 'perfecto',
     achievements: ['2x Major Champion', 'NAVI Core Member', 'Support Specialist'],
+    analysis: {
+      playstyle: "Perfecto played the support role on the NAVI lineup that won the PGL Stockholm Major. The role gets overlooked because support players rarely top fragging tables — they throw the utility, hold the bomb, take the angles nobody wants. But NAVI's Major run was built on round structures only a real support player can execute. He's now on Cloud9 doing the same job: not the star, just the player teammates trust to be in position every round.",
+      settingsContext: "1.3 sensitivity at 800 DPI = eDPI 1040. Faster than most precision riflers, which fits the support role — you need to swing fast on rotation calls and handle the close-range corners while teammates take the longer angles. The 800 DPI choice is a personal preference; the math comes out the same as 1.625 at 400 DPI, but the raw input feel is slightly different. Standard NAVI house gear.",
+      suitableFor: "Good fit for support and anchor roles that need fast rotation flicks more than long-range tap precision. If your role is to hold post-plant angles or trade the lurker's entry, eDPI 1000-1100 is the right zone. If you primary AWP or play tap-fire rifler, this will feel uncontrollable."
+    }
   },
   {
     slug: 'karrigan',
@@ -724,6 +819,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'karriganCS',
     twitch: 'karrigan',
     achievements: ['2x Major Champion', 'Legendary IGL', 'FaZe Era Architect'],
+    analysis: {
+      playstyle: "karrigan is the most respected active IGL in CS. He took a FaZe roster that had been called overrated for years and turned it into a Major-winning unit by being the in-game leader nobody else on the team would have to be. His individual fragging is unremarkable on purpose — the role is about reading the round, making the right call before the rest of the team needs to react. Most top-5 IGLs in CS history have a karrigan-style approach: call the right things, frag enough to not be a liability, and trust the stars to execute.",
+      settingsContext: "1.6 sensitivity at 400 DPI = eDPI 640. Standard slow-rifler zone — fits the IGL role because karrigan often plays support angles that need precise tap fire, not entry duels. 66cm to turn 360. The 1024x768 stretched resolution is the aggressive 4:3 stretch — narrow FOV but wider character models. Stayed on it through multiple roster changes. Standard Logitech gear.",
+      suitableFor: "Reasonable starting point for IGLs and support roles that need to hold long-range angles and call the round simultaneously. The slow sens encourages careful crosshair placement — useful because IGLs can't afford to lose a duel they should have won while talking through a comp. Too slow for entry fraggers."
+    }
   },
   {
     slug: 'aleksib',
@@ -750,6 +850,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'aleksibCS',
     twitch: 'aleksib',
     achievements: ['PGL Major Copenhagen Champion', 'IGL of the Year 2024', 'NAVI IGL'],
+    analysis: {
+      playstyle: "aleksib is the Finnish IGL who won HLTV IGL of the Year 2024 for his work calling rounds in a tier-1 team. Same role family as karrigan but a different approach — aleksib leans on heavy mid-round adjustments, the kind of caller who watches the enemy default and adapts in real time rather than running pre-built executes. NAVI signed him to bring that structured-but-flexible style after the post-s1mple roster needed an identity reset.",
+      settingsContext: "1.05 sensitivity at 800 DPI = eDPI 840. The 0.95 zoom sensitivity is a small detail most IGLs don't bother with; aleksib uses it because IGLs often anchor sites where the occasional scope is required and he wants the input consistent. The 1920x1080 native 16:9 resolution is another minority choice. The Wooting 60 HE keyboard with analog actuation is increasingly common at the top level for finer movement control.",
+      suitableFor: "Solid setup for IGLs and support roles that need balanced speed. 840 eDPI is just above the rifler middle, giving you fast enough rotation flicks while keeping tap-fire usable. The native 16:9 is worth trying if you've only ever played 4:3 stretched — Source 2 handles it better than CS:GO did."
+    }
   },
   {
     slug: 'fallen',
@@ -776,6 +881,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'FalleNCS',
     twitch: 'gabornak',
     achievements: ['2x Major Champion', 'Brazilian CS Legend', 'Godfather of BR CS'],
+    analysis: {
+      playstyle: "FalleN is the player who built Brazilian CS into a tier-1 scene from nothing. Two Major trophies in 2016-2017, captained the roster that did it, and stayed competitive through three different team reformations across a decade. His AWP style is patient and positional — he reads rounds the way an IGL does because he was the IGL for most of his career. The FURIA stint is the latest chapter; the level isn't his 2017 peak, but the role still fits.",
+      settingsContext: "2.2 sensitivity at 400 DPI = eDPI 880, slightly above the standard AWPer band. The choice reflects an older school of AWP play where the player rotates to rifle more often and needs faster pivot speed. The 1024x768 stretched resolution is the most aggressive 4:3 stretch — FalleN was running it before most current pros were playing. Razer gear from team sponsorship; he's used pretty much every brand at some point in his career.",
+      suitableFor: "If you AWP and also rotate to rifle frequently (common in lower ranks where teams don't have a dedicated secondary AWPer), 880 eDPI gives you enough speed for the rifle fights. Most modern dedicated AWPers run slower (600-800). This is the right zone for a flex AWPer/rifler hybrid role."
+    }
   },
   {
     slug: 'brollan',
@@ -802,6 +912,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'BrollanCS',
     twitch: 'brollan',
     achievements: ['Fnatic Star', 'HLTV Top 10', 'Swedish CS Prodigy'],
+    analysis: {
+      playstyle: "Brollan was the young Swedish star who carried Fnatic through their post-golden-era rebuild years. Joined the team at 17, immediately fragged at top-20 HLTV level, stayed there even when the surrounding roster turned over multiple times. His role is the entry-flex rifler — he takes the first peek some rounds, the secondary lurk other rounds, depending on what the IGL needs. The move to Falcons is the latest of several roster transitions where he's been the talent the team built around.",
+      settingsContext: "1.35 sensitivity at 800 DPI = eDPI 1080. Higher end for a rifler, which fits the entry-flex role. 39cm to turn 360 — quick. The Wooting 60 HE keyboard with analog keys is the modern Eastern Euro and Scandinavian pro standard; some players use the analog actuation for finer counter-strafe control. The Artisan Hien mousepad is high-tier Japanese gear that's gotten more common at the pro level.",
+      suitableFor: "Good zone for entry-flex riflers — fast enough for aggressive opens, controllable enough for the slower defensive rounds. eDPI 1080 is what you'd run if you play multiple roles across maps and don't want to switch sens every game. Too fast for pure precision riflers; too slow for hyper-aggressive entry-only players."
+    }
   },
   {
     slug: 'cadian',
@@ -828,6 +943,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'caabornak',
     twitch: 'cadian',
     achievements: ['IEM Rio Champion', 'Heroic Era Captain', 'Popular Streamer'],
+    analysis: {
+      playstyle: "cadiaN captained Heroic through their tier-1 run including IEM Rio. He's the IGL-AWPer hybrid — same dual role karrigan filled at one point, but cadiaN does it currently. The combination is rare because both jobs are full-time mental loads; most teams split them. cadiaN makes it work by leaning on structured executes that don't require last-second calls, then taking AWP picks within those structures.",
+      settingsContext: "1.1 sensitivity at 800 DPI = eDPI 880, slightly above standard AWPer slow band. The choice gives him enough speed for the rifle rotations the IGL role sometimes forces, while keeping scoped precision usable. Same eDPI as FalleN, similar reasoning — flex AWPer role needs more pivot speed than a pure AWPer. SteelSeries gear from his streaming sponsorship; mouse pad and headset are SteelSeries flagships.",
+      suitableFor: "Good zone for IGLs or captains who also AWP, where you need to handle rotation rifle fights without losing scoped precision. 880 eDPI is the flex zone. If you're a pure AWPer with no rifle responsibility, 600-700 is more precise. If you're a pure rifler, this is too slow for entry duels."
+    }
   },
   {
     slug: 'headtr1ck',
@@ -854,6 +974,11 @@ export const proPlayers: ProPlayer[] = [
     twitter: 'headtr1ckcs',
     twitch: 'headtr1ck',
     achievements: ['PGL Major Copenhagen Champion', 'Spirit Rising Star', 'Entry Fragger'],
+    analysis: {
+      playstyle: "headtr1ck is the Team Spirit entry fragger who shared the Major-winning Copenhagen run with donk and sh1ro. The role next to donk is one of the harder slots in CS — donk takes the highlight openers, so headtr1ck handles the boring grind work: dying for info, taking the second body through smoke, baiting rotations. The kind of role where stats don't reflect the contribution, and the team rebuilds the moment you remove that player.",
+      settingsContext: "1.5 sensitivity at 800 DPI = eDPI 1200. On the high end even for an entry fragger. 35cm to turn 360 is one of the faster pro setups. The choice matches the role — entry needs to swing fast, take aggressive angles, and survive when the rotator pre-fires. Tap-fire precision at long range suffers at this eDPI, but headtr1ck's role rarely needs that.",
+      suitableFor: "Use only if you play hyper-aggressive entry roles. eDPI 1200 is too fast for almost any other style — you'll over-flick on basic mid-range tap battles, your spray transfer will lag, and your scoped AWP shots will be uncontrollable. If you specifically entry-frag every round and want to swing as fast as physically possible, this is the right zone."
+    }
   },
 ];
 

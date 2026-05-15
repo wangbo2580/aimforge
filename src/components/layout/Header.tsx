@@ -14,6 +14,7 @@ export default function Header() {
   const navItems = [
     { href: '/', labelKey: 'nav_home' as const },
     { href: '/play', labelKey: 'nav_play' as const },
+    { href: '/commands', labelKey: 'nav_commands' as const },
     { href: '/stats', labelKey: 'nav_stats' as const },
     { href: '/settings', labelKey: 'nav_settings' as const },
   ];

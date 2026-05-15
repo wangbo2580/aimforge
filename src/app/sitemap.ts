@@ -1,6 +1,7 @@
 import type { MetadataRoute } from 'next';
 import { getAllPlayerSlugs } from '@/data/pro-players';
 import { getAllGuideSlugs } from '@/data/guides';
+import { getAllCommandSlugs } from '@/data/commands';
 
 const BASE_URL = 'https://www.cs2practice.com';
 
@@ -16,6 +17,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE_URL}/play/flicking`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/pro`, lastModified, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${BASE_URL}/crosshairs`, lastModified, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}/commands`, lastModified, changeFrequency: 'weekly', priority: 0.85 },
     { url: `${BASE_URL}/tools`, lastModified, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${BASE_URL}/tools/sensitivity-converter`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/guides`, lastModified, changeFrequency: 'weekly', priority: 0.8 },
@@ -41,5 +43,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...proPlayerRoutes, ...guideRoutes];
+  // Commands 动态路由
+  const commandRoutes: MetadataRoute.Sitemap = getAllCommandSlugs().map(slug => ({
+    url: `${BASE_URL}/commands/${slug}`,
+    lastModified,
+    changeFrequency: 'monthly' as const,
+    priority: 0.8,
+  }));
+
+  return [...staticRoutes, ...proPlayerRoutes, ...guideRoutes, ...commandRoutes];
 }

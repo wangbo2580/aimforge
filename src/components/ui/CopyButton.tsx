@@ -1,19 +1,35 @@
 'use client';
 
 import { useState } from 'react';
+import { trackEvent } from '@/lib/analytics';
 
 interface CopyButtonProps {
   text: string;
   className?: string;
+  /** GA4 event name when copied, e.g. 'copy_crosshair' / 'copy_command' */
+  trackingEvent?: string;
+  /** Extra params to send with the GA event, e.g. { player: 's1mple' } */
+  trackingParams?: Record<string, string | number | undefined>;
 }
 
-export default function CopyButton({ text, className = '' }: CopyButtonProps) {
+export default function CopyButton({
+  text,
+  className = '',
+  trackingEvent,
+  trackingParams,
+}: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
+      if (trackingEvent) {
+        trackEvent(trackingEvent, {
+          ...trackingParams,
+          content_length: text.length,
+        });
+      }
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy:', err);

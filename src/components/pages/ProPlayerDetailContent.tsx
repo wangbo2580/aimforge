@@ -5,18 +5,38 @@ import { useTranslation } from '@/lib/i18n';
 import { ProPlayer, countryToFlag } from '@/data/pro-players';
 import CopyButton from '@/components/ui/CopyButton';
 import { amazonSearchLink } from '@/lib/amazon-affiliate';
+import { trackEvent } from '@/lib/analytics';
 
 interface ProPlayerDetailContentProps {
   player: ProPlayer;
   similarPlayers: ProPlayer[];
 }
 
-function GearRow({ label, value }: { label: string; value: string }) {
+function GearRow({
+  label,
+  value,
+  gearType,
+  playerSlug,
+}: {
+  label: string;
+  value: string;
+  gearType: string;
+  playerSlug: string;
+}) {
+  const handleClick = () => {
+    trackEvent('click_pro_gear', {
+      player: playerSlug,
+      gear_type: gearType,
+      product: value,
+    });
+  };
+
   return (
     <a
       href={amazonSearchLink(value)}
       target="_blank"
       rel="sponsored noopener noreferrer"
+      onClick={handleClick}
       className="flex justify-between items-center py-3 px-4 bg-gray-900/50 hover:bg-gray-900 rounded-lg transition-colors group"
     >
       <span className="text-gray-400">{label}</span>
@@ -165,7 +185,14 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
         <div className="bg-gray-900 rounded-lg p-4 mb-4">
           <div className="flex items-center justify-between">
             <code className="text-green-400 text-sm break-all">{player.crosshairCode}</code>
-            <CopyButton text={player.crosshairCode} />
+            <CopyButton
+              text={player.crosshairCode}
+              trackingEvent="copy_crosshair"
+              trackingParams={{
+                source: 'pro_player_page',
+                player: player.slug,
+              }}
+            />
           </div>
         </div>
         {player.crosshairDescription && (
@@ -182,12 +209,12 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
           <span>🎮</span> {t('pro_gaming_gear')}
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
-          <GearRow label={t('pro_mouse')} value={player.mouse} />
-          <GearRow label={t('pro_mousepad')} value={player.mousepad} />
-          <GearRow label={t('pro_keyboard')} value={player.keyboard} />
-          <GearRow label={t('pro_monitor')} value={player.monitor} />
+          <GearRow label={t('pro_mouse')} value={player.mouse} gearType="mouse" playerSlug={player.slug} />
+          <GearRow label={t('pro_mousepad')} value={player.mousepad} gearType="mousepad" playerSlug={player.slug} />
+          <GearRow label={t('pro_keyboard')} value={player.keyboard} gearType="keyboard" playerSlug={player.slug} />
+          <GearRow label={t('pro_monitor')} value={player.monitor} gearType="monitor" playerSlug={player.slug} />
           <div className="md:col-span-2">
-            <GearRow label={t('pro_headset')} value={player.headset} />
+            <GearRow label={t('pro_headset')} value={player.headset} gearType="headset" playerSlug={player.slug} />
           </div>
         </div>
         <p className="text-xs text-gray-500 mt-4">

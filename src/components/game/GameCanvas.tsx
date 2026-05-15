@@ -13,6 +13,7 @@ import { TrainingType, TrainingResult, GameState } from '@/types/game';
 import { calculateCm360, cm360ToWebSensitivity } from '@/lib/sensitivity';
 import { useTranslation } from '@/lib/i18n';
 import { soundManager } from '@/lib/sound-manager';
+import { trackEvent } from '@/lib/analytics';
 import ResultScreen from './ResultScreen';
 
 interface GameCanvasProps {
@@ -78,6 +79,11 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
         setGameState(state);
         if (state === 'playing') {
           soundManager.play('start');
+          trackEvent('start_training', {
+            mode: trainingType,
+            duration: trainingConfig.duration,
+            sensitivity: settings.sensitivity,
+          });
         }
         if (state === 'finished') {
           soundManager.play('finish');
@@ -93,6 +99,11 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
           addTrainingResult(trainingResult);
           onComplete?.(trainingResult);
           exitLock();
+          trackEvent('complete_training', {
+            mode: trainingType,
+            score: results.score,
+            accuracy: results.accuracy,
+          });
         }
       },
       onTargetHit: () => {

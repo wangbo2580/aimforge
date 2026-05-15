@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import { crosshairs, categories, Crosshair } from '@/data/crosshairs';
 import { useTranslation } from '@/lib/i18n';
+import { trackEvent } from '@/lib/analytics';
 
 export default function CrosshairsClient() {
   const { t } = useTranslation();
@@ -19,6 +20,11 @@ export default function CrosshairsClient() {
     try {
       await navigator.clipboard.writeText(crosshair.code);
       setCopiedId(crosshair.id);
+      trackEvent('copy_crosshair', {
+        crosshair_id: crosshair.id,
+        crosshair_name: crosshair.name,
+        category: crosshair.category,
+      });
       setTimeout(() => setCopiedId(null), 2000);
     } catch (err) {
       console.error('Failed to copy:', err);
