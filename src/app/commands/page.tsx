@@ -6,7 +6,7 @@ import { commands } from '@/data/commands';
 export const metadata: Metadata = {
   title: 'CS2 Commands & Binds — Copy-Paste Setups for Console and Autoexec',
   description:
-    'Practical CS2 bind and console command guides. Jumpthrow, plant bomb, scroll wheel jump, chat callouts — copy-paste setups with autoexec instructions and pro usage notes.',
+    'Practical CS2 bind and console command guides. Jumpthrow, plant bomb, scroll wheel jump, fps_max, bhop, noclip, ESP and the full sv_cheats list — copy-paste setups with autoexec instructions and pro usage notes.',
   keywords: [
     'cs2 commands',
     'cs2 binds',
@@ -15,12 +15,14 @@ export const metadata: Metadata = {
     'cs2 autoexec',
     'cs2 keybinds',
     'cs2 practice commands',
+    'cs2 sv_cheats',
+    'cs2 bhop commands',
   ],
   alternates: { canonical: '/commands' },
   openGraph: {
     title: 'CS2 Commands & Binds Hub',
     description:
-      'Copy-paste CS2 binds for jumpthrow, plant bomb, scroll wheel jump and chat callouts. Autoexec setup included.',
+      'Copy-paste CS2 binds and console commands — jumpthrow, plant bomb, scroll wheel jump, bhop, noclip, ESP, fps_max, sv_cheats list. Autoexec setup included.',
     url: '/commands',
     type: 'website',
   },
@@ -70,9 +72,10 @@ export default function CommandsHubPage() {
           <header className="mb-10">
             <h1 className="text-4xl font-bold text-white mb-3">CS2 Commands &amp; Binds</h1>
             <p className="text-gray-400 text-lg max-w-2xl">
-              Copy-paste configs for the binds every CS2 player ends up making. Jumpthrow, plant
-              bomb, scroll wheel jump, chat callouts — each page is a single command done well, with
-              autoexec instructions so it survives a restart.
+              Copy-paste configs for the binds and console commands every CS2 player ends up
+              setting. Jumpthrow, plant bomb, scroll wheel jump, fps_max, bhop, noclip, ESP, and the
+              full sv_cheats reference — each page is a single command done well, with autoexec
+              instructions so it survives a restart.
             </p>
           </header>
 
@@ -107,76 +110,153 @@ export default function CommandsHubPage() {
           {/* SEO Content */}
           <article className="border-t border-gray-800 pt-12 text-gray-300 space-y-8 max-w-3xl">
             <section>
-              <h2 className="text-2xl font-bold text-white mb-3">Why binds matter (and which ones actually do)</h2>
+              <h2 className="text-2xl font-bold text-white mb-3">Two kinds of commands: matchmaking-legal and practice-only</h2>
               <p>
-                CS2 has hundreds of console commands and bindable keys. Most of them are noise.
-                The four pages here cover the binds that real CS2 players make within their first 50
-                hours — the ones every pro config includes and that fix specific real problems in
-                ranked play.
+                CS2 has hundreds of console commands. They split cleanly into two groups, and which
+                group a command lives in changes everything about how you use it.
               </p>
               <p className="mt-3">
-                The pattern: each bind solves a timing or muscle-memory problem that you can&apos;t
-                solve by being more careful. A jumpthrow makes a smoke land in the exact same pixel
-                every time, because your hand can&apos;t. A plant bomb bind plants without firing
-                your gun, because you can&apos;t hold E and not panic-shoot when someone peeks. A
-                scroll wheel jump catches the jump frame your spacebar timing misses.
+                <strong className="text-white">Matchmaking-legal binds</strong> are the ones every
+                pro config includes. Jumpthrow, plant bomb, scroll wheel jump, chat callouts,
+                fps_max — they use vanilla CS2 commands, work on Premier, Competitive, FaceIt, ESEA
+                and pro tournaments, and you can put them in your autoexec to survive a restart.
+                They fix timing and muscle-memory problems your hands can&apos;t solve.
+              </p>
+              <p className="mt-3">
+                <strong className="text-white">Practice-only commands</strong> require{' '}
+                <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">sv_cheats 1</code>{' '}
+                and only run on private servers. Noclip, bhop, ESP, infinite ammo, grenade
+                trajectory. Useless in real games, but the fastest way to learn lineups, off-angles,
+                and movement tech is on a practice server with these enabled.
               </p>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold text-white mb-3">The four binds most players make first</h2>
+              <h2 className="text-2xl font-bold text-white mb-3">The binds most players set up first</h2>
               <p>
-                In rough order of how much they change your rounds:
+                Rough order of how much they change your rounds:
               </p>
               <ol className="list-decimal pl-6 space-y-3 mt-3">
                 <li>
                   <Link href="/commands/jumpthrow-bind" className="text-blue-400 hover:underline font-medium">
                     Jumpthrow bind
                   </Link>{' '}
-                  — the moment your smoke lineups become reliable, your default-plant rounds improve
-                  massively. Probably the highest-impact single bind in CS2.
+                  — pixel-consistent smoke lineups. Probably the highest-impact single bind in CS2.
                 </li>
                 <li>
                   <Link href="/commands/plant-bomb-bind" className="text-blue-400 hover:underline font-medium">
                     Plant bomb bind
                   </Link>{' '}
-                  — pairs with the numpad buy bind set. Saves you maybe 1-2 lost clutches per ranked
-                  session.
+                  — never miss the plant in a 1v1 retake. Pairs with full buy binds.
                 </li>
                 <li>
                   <Link href="/commands/scroll-wheel-jump-bind" className="text-blue-400 hover:underline font-medium">
                     Scroll wheel jump
                   </Link>{' '}
-                  — for bunny hopping, surf-style escapes, and getting up to off-angle elevation
-                  spots without missing the jump frame.
+                  — catches the jump frame spacebar timing misses. Required for bhop too.
+                </li>
+                <li>
+                  <Link href="/commands/fps-max-bind" className="text-blue-400 hover:underline font-medium">
+                    fps_max setup
+                  </Link>{' '}
+                  — cap your frame rate to your monitor refresh, uncap it for benchmarks. Quietly
+                  fixes screen tearing and input judder.
                 </li>
                 <li>
                   <Link href="/commands/bind-say-message" className="text-blue-400 hover:underline font-medium">
                     Chat message binds
                   </Link>{' '}
-                  — lowest mechanical impact but fastest setup. One-keystroke callouts for &ldquo;rotate
-                  B&rdquo;, &ldquo;need util&rdquo;, &ldquo;low HP&rdquo; and the obligatory gg.
+                  — one-keystroke callouts for &ldquo;rotate B&rdquo;, &ldquo;need util&rdquo;, end-of-match
+                  gg.
                 </li>
               </ol>
             </section>
 
             <section>
-              <h2 className="text-2xl font-bold text-white mb-3">All binds work on official matchmaking</h2>
+              <h2 className="text-2xl font-bold text-white mb-3">Practice-server commands (sv_cheats 1)</h2>
               <p>
-                Every bind on these pages uses vanilla CS2 commands. None of them touch{' '}
+                For learning the map and lineups on a private server with bots:
+              </p>
+              <ul className="list-disc pl-6 space-y-3 mt-3">
+                <li>
+                  <Link href="/commands/cheats-commands-list" className="text-blue-400 hover:underline font-medium">
+                    Full sv_cheats commands list
+                  </Link>{' '}
+                  — the master reference. Buddha (replaces god), noclip, infinite ammo, impact
+                  markers, grenade trajectory, the lot.
+                </li>
+                <li>
+                  <Link href="/commands/noclip-bind" className="text-blue-400 hover:underline font-medium">
+                    Noclip bind
+                  </Link>{' '}
+                  — fly through walls to learn smoke lineups 5x faster. Pair with grenade trajectory
+                  and rethrow for a tight feedback loop.
+                </li>
+                <li>
+                  <Link href="/commands/bhop-console" className="text-blue-400 hover:underline font-medium">
+                    Bhop console commands
+                  </Link>{' '}
+                  — sv_enablebunnyhopping, sv_staminajumpcost, sv_airaccelerate. Default-speed and
+                  unrestricted presets.
+                </li>
+                <li>
+                  <Link href="/commands/esp-command-practice" className="text-blue-400 hover:underline font-medium">
+                    ESP / see-through-walls
+                  </Link>{' '}
+                  — <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">ent_skeleton</code>{' '}
+                  is the CS2 replacement for the old r_drawothermodels 2. Use it to drill off-angle
+                  pre-aim.
+                </li>
+              </ul>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-3">CS2 removed some classic commands. Here&apos;s the new equivalents.</h2>
+              <p>
+                If you searched for a wallhack or god-mode command and the console said &ldquo;Unknown
+                command&rdquo;, that&apos;s because Source 2 deleted a handful of CS:GO-era commands.
+                Replacements:
+              </p>
+              <ul className="list-disc pl-6 space-y-2 mt-3">
+                <li>
+                  <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">god</code> →{' '}
+                  <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">buddha 1</code>{' '}
+                  (you take damage but don&apos;t die)
+                </li>
+                <li>
+                  <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">r_drawothermodels 2</code> →{' '}
+                  <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">ent_skeleton</code>{' '}
+                  or <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">toggle r_aoproxy_show 0 1</code>
+                </li>
+                <li>
+                  <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">enable_skeleton_draw</code>{' '}
+                  → also <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">ent_skeleton</code>
+                </li>
+              </ul>
+              <p className="mt-3">
+                The{' '}
+                <Link href="/commands/cheats-commands-list" className="text-blue-400 hover:underline">
+                  sv_cheats list
+                </Link>{' '}
+                page goes through each removed-and-replaced pair with the current syntax.
+              </p>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold text-white mb-3">All matchmaking-legal binds work on official servers</h2>
+              <p>
+                Every bind under the &ldquo;set up first&rdquo; section uses vanilla CS2 commands. None of
+                them touch{' '}
                 <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">sv_cheats 1</code>{' '}
-                or any of the practice-only commands that get gated to private servers. They&apos;re
-                legal on Valve official matchmaking, Premier, FaceIt, ESEA, and every pro tournament.
-                Pros use them. You won&apos;t get VAC-banned.
+                or any of the practice-only commands. They&apos;re legal on Valve official
+                matchmaking, Premier, FaceIt, ESEA, and every pro tournament. Pros use them. You
+                won&apos;t get VAC-banned.
               </p>
               <p className="mt-3">
-                The only matchmaking-restricted commands are the practice helpers like{' '}
-                <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">sv_grenade_trajectory</code>{' '}
-                (shows the path of a thrown grenade) and{' '}
-                <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">sv_infinite_ammo</code>.
-                Those only work on offline practice with{' '}
-                <code className="bg-gray-800 px-1.5 py-0.5 rounded text-green-400">sv_cheats 1</code>.
-                Standard binds aren&apos;t in that category.
+                The practice-server commands (noclip, bhop, ESP, full sv_cheats list) are blocked
+                server-side on matchmaking — the flags are locked to 0, so trying to use them
+                silently does nothing rather than triggering a ban. They&apos;re tools Valve
+                explicitly provides for learning the map.
               </p>
             </section>
 
