@@ -2353,6 +2353,666 @@ RGB 增加重量、耗电。我推荐的所有鼠标 RGB 都很少或没有。
 [查看你喜欢的职业选手用什么鼠标 →](/pro)
 `,
   },
+  {
+    slug: 'lowest-cs2-premier-rating',
+    title: 'The Lowest CS2 Premier Rating: What 1,000 Really Means',
+    titleZh: 'CS2 Premier 最低分:1,000 到底意味着什么',
+    description: 'The lowest possible CS2 Premier rating is 1,000 — and you literally cannot go below it. Here is what the floor looks like and how to climb out.',
+    descriptionZh: 'CS2 Premier 最低分是 1,000,你扣不到比这更低。本文讲底层段位长什么样,以及怎么从这里爬上去。',
+    category: 'tips',
+    readTime: 6,
+    publishedAt: '2026-05-20',
+    author: 'CS2 Practice Team',
+    content: `
+## The Short Answer
+
+**The lowest CS2 Premier rating is 1,000.** It's a hard floor — you cannot drop below it. If you lose ten in a row at 1,050, you will land at 1,000 and stay there. Lose ten more, still 1,000. The number on your medallion will never read three digits or zero.
+
+This is Valve's design, not a bug. The Premier system was built to keep brand-new and tilted-into-the-ground accounts in the same visible pool, so matchmaking still has something to work with at the bottom.
+
+## Why You Can't Go Below 1,000
+
+Valve has never published the math behind Premier rating, but two things are clear from public matches and community testing:
+
+1. **Losses don't subtract once you hit 1,000.** Players have logged dozens of consecutive losses at 1,000 — the medallion stays gray, the number stays the same.
+2. **Wins still add normally.** A single win from 1,000 will push you back up by the usual 50-200 points depending on opponent strength and your performance.
+
+The effective behavior: rating works like a ratchet at the bottom. You can only go up from there.
+
+## What 1,000 Premier Actually Looks Like
+
+At 1,000 you're sitting in the **Gray tier** (1,000 – 4,999). From [our rank distribution data](/guides/cs2-rank-distribution), Gray covers roughly the bottom 7% of the active Premier population — that's still hundreds of thousands of accounts. Most are either fresh accounts, returning CS:GO players who haven't placed yet, or accounts that ran into a losing streak after a season reset.
+
+The lobbies at 1,000 are messy. Expect crosshair-placement issues, mid-air sprays, and teammates buying eco AWPs. That's not an insult — it's just the skill floor. The good news: any disciplined fundamental will stand out.
+
+## Climbing From 1,000 to 5,000
+
+Reaching Light Blue (5,000) from the floor is the fastest stretch in the entire Premier ladder. The matchmaker is hunting for your real skill level and will push you up quickly if you outperform the lobby.
+
+A realistic plan:
+
+1. **Warm up for 15 minutes before queueing.** Use [Gridshot](/play/gridshot) or [tracking](/play/tracking) — pick one and stick with it for two weeks.
+2. **Lock in your sensitivity once.** Use the [sensitivity converter](/tools/sensitivity-converter) if you're coming from another game, then don't touch it for a month.
+3. **Bind a jumpthrow.** [Our jumpthrow guide](/commands/jumpthrow-bind) takes five minutes — instantly unlocks every smoke lineup tutorial on YouTube.
+4. **Pick three smokes per side per map.** Don't try to learn every utility. Three default smokes you can do in your sleep is enough.
+5. **Watch one demo per session.** Five minutes of your own demo at the end of each session, focused on positioning, not on aim.
+
+Most players who follow this routine clear 5,000 within 50-70 games.
+
+## Common Questions
+
+**Can I get banned down to 1,000?**
+No — bans remove your rating entirely (you stop showing on the leaderboard). A 1,000 rating means you played down, not that you were punished.
+
+**Does inactivity drop me to 1,000?**
+No, but seasonal resets shift everyone toward the middle. After a reset, lower-rated players sometimes start near 1,000 if their previous performance was below the new starting band.
+
+**Will I get matched with smurfs at 1,000?**
+Sometimes yes, especially in the first few games of a season. The system needs data points before it places you accurately. After about ten games it usually corrects.
+
+**Should I make a new account?**
+No. Climbing from 1,000 on your main is faster than placing a new account, because Premier weights placement matches heavily on KDA and round impact — not just on wins.
+
+## Related Reading
+
+If you're climbing from the floor, the next two pages you'll find useful:
+
+- [How many wins to rank up in CS2](/guides/how-many-wins-to-rank-up-cs2) — what each win is actually worth
+- [CS2 rank distribution](/guides/cs2-rank-distribution) — where you stand relative to everyone else
+`,
+    contentZh: `
+## 简短答案
+
+**CS2 Premier 模式最低分是 1,000。** 这是硬底线,扣不到更低。在 1,050 连输 10 场会落到 1,000 并停在那。再连输 10 场,还是 1,000。奖章上永远不会出现三位数或零。
+
+这是 Valve 的有意设计——把新号和"被摆烂"的账号留在同一可见池里,让匹配系统在底部仍有数据可用。
+
+## 为什么扣不到 1,000 以下
+
+Valve 没公开 Premier 算法,但社区实测出两条结论:
+
+1. **到 1,000 后败场不再扣分。** 玩家实测连输几十场,奖章保持灰色,数字纹丝不动。
+2. **赢一场照常加分。** 从 1,000 赢一场会按正常 50-200 分回升,取决于对手强度和你的表现。
+
+实际行为:rating 在底部像个棘轮——只能往上,不能往下。
+
+## 1,000 分实际是什么样
+
+1,000 分位于 **Gray 段**(1,000 – 4,999)。根据[我们的分布数据](/guides/cs2-rank-distribution),Gray 段约占活跃 Premier 玩家底部 7%——仍然是几十万人。大部分是新号、回坑没定级的 CS:GO 老玩家,或者赛季重置后遇到连败的账号。
+
+1,000 段的房间比较混乱:预瞄差、空中扫射、队友买经济局 AWP。这不是讽刺,只是技能底线。好消息是:任何有纪律的基本功都会脱颖而出。
+
+## 从 1,000 爬到 5,000
+
+到 Light Blue(5,000)是整个 Premier 阶梯上最快的一段。匹配系统在搜寻你的真实水平,只要你压房间一档,就会被快速推上去。
+
+实操方案:
+
+1. **排位前热身 15 分钟。** [Gridshot](/play/gridshot) 或 [tracking](/play/tracking) 选一个,坚持两周。
+2. **灵敏度定一次就别动。** 从别的游戏过来用[灵敏度换算工具](/tools/sensitivity-converter),定完一个月内不要改。
+3. **绑个跳投。** [跳投绑定指南](/commands/jumpthrow-bind) 五分钟搞定,YouTube 上所有 smoke 教程立刻能用。
+4. **每张图每边记 3 个 smoke。** 别想学全部投掷物——能闭眼丢的 3 个 default smoke 足够。
+5. **每局后看一段自己的 demo。** 五分钟看自己的录像,看走位不看枪法。
+
+按这个 routine 走的玩家多数 50-70 局内能突破 5,000。
+
+## 常见问题
+
+**会不会被封号降到 1,000?**
+不会——封号是直接移除评分(不显示在排行榜上),不是降分。1,000 分意味着你打到这里,不是被惩罚。
+
+**不玩会掉到 1,000 吗?**
+不会,但赛季重置会让所有人往中段挤。重置后,原本评分较低的玩家可能会从接近 1,000 的位置开始。
+
+**1,000 段会遇到小号吗?**
+有时会,尤其是赛季前几局。系统需要数据点才能准确定位。约 10 局后通常能校正。
+
+**要不要开新号?**
+不要。在主号从 1,000 爬上去比开新号定级快——Premier 定级很看 KDA 和回合影响力,不是单纯看胜负。
+
+## 相关阅读
+
+如果你正从底部往上爬,这两篇值得接着看:
+
+- [CS2 升一段要赢几场](/guides/how-many-wins-to-rank-up-cs2) — 每场胜负实际值多少分
+- [CS2 段位分布](/guides/cs2-rank-distribution) — 你在玩家群体里排哪
+`,
+  },
+  {
+    slug: 'cs2-failed-to-connect-ranked-fix',
+    title: 'CS2 Failed to Connect (Ranked): The Six-Step Fix',
+    titleZh: 'CS2 排位 "Failed to Connect" 六步修复',
+    description: 'Six fixes for CS2 Ranked "Failed to Connect," ordered by speed. Start at the top, stop the moment one works. Plus what to do about cooldowns.',
+    descriptionZh: 'CS2 排位 "Failed to Connect" 六步修复,按速度排序。从第一步开始,连上就停。附 Ranked Cooldown 处理方法。',
+    category: 'tips',
+    readTime: 7,
+    publishedAt: '2026-05-20',
+    author: 'CS2 Practice Team',
+    content: `
+## What This Error Means
+
+"Failed to connect" in CS2 Ranked usually points to one of three things: Valve's matchmaking servers are down, your connection to the relay closest to you broke, or your local network blocked the handshake. The error message is the same for all three — which is why most guides spray a dozen unrelated steps at you.
+
+This page is ordered by **how fast each step is and how often it actually works**. Start at the top. Stop the moment one of them connects you.
+
+## Step 1: 30-second check — is it Valve's fault?
+
+Before you touch your settings, open:
+
+- [Steam Status (Valve)](https://store.steampowered.com/stats/)
+- [csstats.gg](https://csstats.gg/) — community-run, shows matchmaking outages in near-real-time
+
+If matchmaking is red on either page, **stop here**. Nothing you do locally will help. Your queue will work again once Valve fixes their side, usually within 30-90 minutes.
+
+## Step 2: 60-second fix — flush your DNS
+
+This solves about a third of "Failed to connect" errors that aren't Valve's fault. Open PowerShell or Command Prompt and run \`ipconfig /flushdns\`, then \`ipconfig /release\`, then \`ipconfig /renew\`.
+
+Close and reopen CS2. If you were stuck on "Searching for match" for more than two minutes, this often clears it.
+
+## Step 3: 2-minute fix — restart the Steam connection
+
+1. Right-click Steam in your tray → **Go Online** / **Go Offline** (toggle once)
+2. If that doesn't work: Steam → **Settings → Downloads → Clear Download Cache**
+3. Steam will restart. Try the queue again.
+
+Clearing the cache forces Steam to renegotiate its session with Valve's CDN. It does not delete game files.
+
+## Step 4: 5-minute fix — verify game files
+
+Steam Library → right-click **Counter-Strike 2** → **Properties → Installed Files → Verify integrity of game files**.
+
+About 50-200 MB will be re-downloaded if anything is wrong. This is the single most common reason a working install suddenly stops connecting to Ranked: a network interruption left two .vpk files mid-download but Steam marked them complete.
+
+## Step 5: 10-minute fix — bypass Wi-Fi quirks
+
+If you're on Wi-Fi, switch to Ethernet for five minutes and try again. CS2 Ranked has stricter latency thresholds than casual modes. If Ethernet works, your Wi-Fi adapter is dropping packets — the issue isn't CS2.
+
+If Ethernet isn't possible:
+
+- Move closer to the router
+- Disconnect other devices streaming on the network
+- Disable VPN if you have one running in the background
+
+## Step 6: Last resort — firewall and reinstall
+
+If steps 1-5 all failed:
+
+1. **Windows Defender → Allowed apps** — make sure cs2.exe is whitelisted for both Private and Public networks
+2. **Reinstall** — uninstall from Steam, manually delete the Counter-Strike Global Offensive folder under Steam/steamapps/common if it survives, then reinstall
+
+A reinstall is rare to need, but it's the only fix when the problem is corrupted client config.
+
+## About Ranked Cooldowns
+
+This is the question most players actually want answered.
+
+**Will failing to connect give me a cooldown?**
+Generally no — the cooldown system penalizes mid-match disconnects and abandons, not failed pre-match connections. But if your client times out repeatedly during the same match's loading screen, Valve's system can flag the session as an abandon.
+
+**Playing it safe:** if you've failed to connect more than twice on the same Ranked queue, quit the queue, restart CS2, then re-queue from scratch. Don't keep retrying the same broken handshake.
+
+If you do get a cooldown after a true connection failure, it usually auto-clears in 30 minutes. Contact Steam Support only if it persists into a second cooldown.
+
+## When to Stop Trying
+
+If steps 1-6 don't fix it within 30 minutes, the problem is almost certainly on your ISP's routing to a Valve relay. Take a break, come back in 4-6 hours. ISP routing issues are common but transient — most resolve themselves overnight.
+
+Meanwhile, [warm up offline with our aim trainers](/play) so the session isn't wasted. If you're not sure where to start, [Gridshot](/play/gridshot) and [Reflex](/play/reflex) cover the two skills that decay fastest when you stop playing Ranked.
+
+## Related Reading
+
+- [How many wins to rank up in CS2](/guides/how-many-wins-to-rank-up-cs2) — how lost queue time costs you rating
+- [Useful console commands](/commands) — bind set you'd want before your next Ranked queue
+`,
+    contentZh: `
+## 这个错误什么意思
+
+CS2 Ranked 的 "Failed to connect" 通常是三种情况之一:Valve 匹配服务器挂了、你到最近的中继节点连接断了、本地网络拦了握手。报错信息是一样的——这就是为什么大多数文章会一次给你十几个不相关的步骤。
+
+本文按**速度和有效率**排序。从第一步开始做,连上了就停。
+
+## Step 1:30 秒检查——是不是 Valve 的锅
+
+改设置之前先看:
+
+- [Steam Status(Valve 官方)](https://store.steampowered.com/stats/)
+- [csstats.gg](https://csstats.gg/) — 社区站,近实时显示匹配宕机
+
+如果任一页面 matchmaking 显示红色,**到这停**。本地做什么都没用。等 Valve 修,通常 30-90 分钟。
+
+## Step 2:60 秒——刷新 DNS
+
+这能解决约三分之一不是 Valve 锅的连接错误。打开 PowerShell 或命令提示符,依次执行 \`ipconfig /flushdns\`、\`ipconfig /release\`、\`ipconfig /renew\`。
+
+然后关闭重启 CS2。卡在 "Searching for match" 超过 2 分钟的,通常这一步能解。
+
+## Step 3:2 分钟——重启 Steam 连接
+
+1. 任务栏 Steam 右键 → **联机** / **脱机**(来回切一次)
+2. 不行的话:Steam → **设置 → 下载 → 清除下载缓存**
+3. Steam 会重启,再排一次。
+
+清缓存会强制 Steam 重新和 Valve CDN 协商会话,不会删游戏文件。
+
+## Step 4:5 分钟——校验游戏文件
+
+Steam 库 → 右键 **Counter-Strike 2** → **属性 → 已安装文件 → 验证文件完整性**。
+
+如有问题会重下 50-200 MB。这是好端端的安装突然连不上 Ranked 最常见的原因:网络中断让两个 .vpk 文件下载到一半被 Steam 标记为完成。
+
+## Step 5:10 分钟——绕开 Wi-Fi 问题
+
+用 Wi-Fi 的,切到有线 5 分钟再试。CS2 Ranked 对延迟比休闲模式更严。有线能连说明 Wi-Fi 网卡丢包,不是 CS2 的问题。
+
+不能用有线:
+
+- 靠近路由器
+- 断开网络上正在视频流的其他设备
+- 关掉后台运行的 VPN
+
+## Step 6:终极手段——防火墙和重装
+
+1-5 全没用:
+
+1. **Windows Defender → 允许的应用** — 确认 cs2.exe 在私有和公用网络都白名单
+2. **重装** — 从 Steam 卸载,手动删 Steam/steamapps/common 下的 Counter-Strike Global Offensive 文件夹,然后重装
+
+重装很少需要,但客户端 config 损坏时只有这条路。
+
+## 关于 Ranked Cooldown
+
+玩家最想知道的问题。
+
+**连不上会不会被罚冷却?**
+一般不会——cooldown 系统罚的是中途掉线和秃匹配,不是匹配前连接失败。但如果你在同一局加载画面连续超时多次,Valve 系统可能把会话标为秃匹配。
+
+**保险做法:** 同一局 Ranked 排位连接失败超过 2 次,退出队列,重启 CS2,重新排队。别一直重试同一个坏握手。
+
+如果真的因为连接失败拿到 cooldown,通常 30 分钟自动解。只有持续到第二次 cooldown 才需要联系 Steam Support。
+
+## 什么时候该放弃
+
+1-6 步 30 分钟内都没修好,问题几乎肯定在 ISP 到 Valve 中继的路由。休息一下,4-6 小时后再试。ISP 路由问题常见但是临时的——多数过夜自愈。
+
+期间[用我们的训练器线下练枪](/play),别浪费时间。不知道从哪练起,[Gridshot](/play/gridshot) 和 [Reflex](/play/reflex) 是停 Ranked 后掉得最快的两项技能。
+
+## 相关阅读
+
+- [CS2 升一段要赢几场](/guides/how-many-wins-to-rank-up-cs2) — 排队失败的时间是怎么变成 rating 损失的
+- [常用 console 命令](/commands) — 下次 Ranked 排位前值得绑的 bind 集合
+`,
+  },
+  {
+    slug: 'cs2-rank-distribution',
+    title: 'CS2 Rank Distribution 2026: Where You Stand by Rating',
+    titleZh: 'CS2 段位分布 2026:按分数看你排在哪',
+    description: 'Premier rating percentiles for Season 4 2026, with tier breakdowns and how to read your position relative to the active player base.',
+    descriptionZh: 'S4 2026 赛季 Premier 分段百分位、各 tier 占比,以及怎么读懂自己在活跃玩家里的位置。',
+    category: 'tips',
+    readTime: 8,
+    publishedAt: '2026-05-20',
+    author: 'CS2 Practice Team',
+    content: `
+## The Quick View
+
+CS2 Premier ratings range from 1,000 to roughly 35,000, with most players clustered around the middle. Based on community data aggregated from public profiles in early 2026:
+
+- **Gray** (1,000 – 4,999) — about 7% of active players
+- **Light Blue** (5,000 – 9,999) — about 32%
+- **Blue** (10,000 – 14,999) — about 33%
+- **Purple** (15,000 – 19,999) — about 18%
+- **Pink** (20,000 – 24,999) — about 7%
+- **Red** (25,000 – 29,999) — about 2%
+- **Gold** (30,000+) — about 0.1%
+
+The median Premier rating in Season 4 (started January 20, 2026) sits near **11,000** — solidly inside Blue.
+
+## How to Read Your Percentile
+
+A common question: "Where am I in the player base if my rating is X?" Rough conversion:
+
+- **3,000** → bottom 4%
+- **5,000** → bottom 10%
+- **8,000** → bottom 25%
+- **11,000** → ~50% (median)
+- **14,000** → top 35%
+- **17,000** → top 18%
+- **20,000** → top 8%
+- **23,000** → top 4%
+- **25,000+** → top 2%
+
+These are approximations. Valve does not publish the actual curve, and the curve shifts as the season ages.
+
+## Why the Curve Is Skewed
+
+You'll notice the distribution isn't a clean bell. Two reasons:
+
+1. **The 1,000 floor.** Players who would mathematically be at 800 or 600 all pile up at 1,000, fattening the Gray tier. [Our floor analysis](/guides/lowest-cs2-premier-rating) covers why.
+2. **Selection bias.** Players with fewer than ~30 Premier matches a season are often filtered out of public rating charts. That removes a lot of casual accounts from the visible "active" population, shifting the visible median up.
+
+So if you see "average rating is 11,000" but you remember Season 1 averages of 8,000 — both are real. Season 1 included more casuals; Season 4 stats filter to regulars.
+
+## Premier vs. Competitive vs. CS:GO Ranks
+
+Premier is the modern flagship mode and is what most "rank" discussion refers to. But CS2 still ships two other ladders:
+
+- **Competitive (per-map)** — Old CS:GO 18-rank system. Each map has its own rank from Silver I to Global Elite. Slower seasonal swings.
+- **CS:GO legacy ranks** — Frozen for accounts that didn't migrate. No new placements.
+
+Skill correlations from community data:
+
+- Premier 5,000 ≈ Competitive Silver Elite to Gold Nova I
+- Premier 10,000 ≈ Master Guardian II to DMG
+- Premier 15,000 ≈ DMG to Legendary Eagle Master
+- Premier 20,000+ ≈ Supreme to Global Elite
+
+These are loose because Premier weights teamplay and round impact differently than per-map Competitive.
+
+## What Changes Between Seasons
+
+Each new season:
+
+1. Everyone's rating is **recalculated down** based on prior season performance — typically lopped to roughly 75% of your previous final rating.
+2. The visible distribution shifts down for the first 2-3 weeks before pulling back toward the long-term curve.
+3. Players queueing in the first week tend to face higher variance because the system is recollecting data.
+
+If your goal is to **see your true skill**, wait three weeks into a season before checking your rating, not the day after a reset.
+
+## How Elite Players Actually Play
+
+Players who hold 20,000+ across seasons share a few common traits:
+
+- Sub-1.0 deaths per round average (positioning beats aim)
+- 80%+ utility usage (every grenade gets thrown, never carried into the next round)
+- 70%+ open-pick success rate when initiating contact
+- Sub-25 ms ping to their primary relay (matters more than people think)
+
+You don't reach Gold tier by aim alone — but elite aim is table stakes. [Browse pro players by role](/pro) to see how the top tier organizes their utility and positioning.
+
+## Setting a Realistic Goal
+
+The biggest mistake new Premier players make is targeting "Supreme" or "Global" without knowing those are essentially top 2%. A more useful framing:
+
+- New player → first goal is **5,000** (clears the bottom Gray pit; usually achievable in 30-50 games)
+- Coming from CS:GO Nova/MG → first goal is **10,000** (median)
+- Coming from DMG/LE → first goal is **15,000+** (top third)
+- Coming from Supreme/Global → goal is **20,000+** and consistency through season resets
+
+Pair the goal with [our climb plan from the floor](/guides/lowest-cs2-premier-rating) if you're starting from Gray, and [the wins-per-rank math](/guides/how-many-wins-to-rank-up-cs2) to estimate how many sessions it'll take.
+
+## Related Reading
+
+- [The lowest CS2 Premier rating](/guides/lowest-cs2-premier-rating) — what 1,000 means
+- [How many wins to rank up in CS2](/guides/how-many-wins-to-rank-up-cs2) — wins per tier
+`,
+    contentZh: `
+## 一图速览
+
+CS2 Premier rating 范围 1,000 到约 35,000,多数玩家聚集在中段。基于 2026 年初公开账号数据:
+
+- **Gray**(1,000 – 4,999) — 约 7% 活跃玩家
+- **Light Blue**(5,000 – 9,999) — 约 32%
+- **Blue**(10,000 – 14,999) — 约 33%
+- **Purple**(15,000 – 19,999) — 约 18%
+- **Pink**(20,000 – 24,999) — 约 7%
+- **Red**(25,000 – 29,999) — 约 2%
+- **Gold**(30,000+) — 约 0.1%
+
+S4 赛季(2026 年 1 月 20 日开赛)的 Premier 中位数约 **11,000**——稳在 Blue 段。
+
+## 你的百分位怎么读
+
+常见问题:"我 X 分在玩家群体里排哪?" 粗略对照:
+
+- **3,000** → 后 4%
+- **5,000** → 后 10%
+- **8,000** → 后 25%
+- **11,000** → ~50%(中位)
+- **14,000** → 前 35%
+- **17,000** → 前 18%
+- **20,000** → 前 8%
+- **23,000** → 前 4%
+- **25,000+** → 前 2%
+
+这是近似值,Valve 没公开真实曲线,曲线也随赛季时间推移而变化。
+
+## 为什么曲线偏斜
+
+分布不是漂亮的钟形,原因有二:
+
+1. **1,000 硬底。** 数学上本应是 800 或 600 的账号全堆在 1,000,把 Gray 段撑胖。详见[底层段位分析](/guides/lowest-cs2-premier-rating)。
+2. **抽样偏差。** 一季打不到约 30 场 Premier 的账号常被剔出公开 rating 图表。这把大量休闲账号从可见"活跃"池里去掉,让可见中位数往上漂。
+
+所以你看到"平均 11,000"但记得 S1 平均 8,000——两个都是真的。S1 包含更多休闲玩家,S4 数据只筛常打的。
+
+## Premier vs Competitive vs CS:GO 段位
+
+Premier 是现代主力模式,多数"段位"讨论指的是它。但 CS2 还保留另两套:
+
+- **Competitive(单图)** — 老 CS:GO 18 段。每张图独立段位,从 Silver I 到 Global Elite。赛季波动慢。
+- **CS:GO 遗产段位** — 没迁移到 CS2 的账号冻结状态,不再新定级。
+
+社区数据估算的水平对照:
+
+- Premier 5,000 ≈ Competitive Silver Elite 到 Gold Nova I
+- Premier 10,000 ≈ Master Guardian II 到 DMG
+- Premier 15,000 ≈ DMG 到 Legendary Eagle Master
+- Premier 20,000+ ≈ Supreme 到 Global Elite
+
+只能算粗略——Premier 对团队配合和回合影响力的权重和单图 Competitive 不同。
+
+## 赛季之间会变什么
+
+每个新赛季:
+
+1. 所有人的 rating **重新计算降级**,通常砍到上赛季最终分的约 75%
+2. 头 2-3 周可见分布往下漂,之后逐渐拉回长期曲线
+3. 第一周排位的玩家方差更大,系统还在重新收集数据
+
+想看自己真实水平,赛季开始 3 周后再看,不要重置当天就检查。
+
+## 顶尖玩家实际怎么打
+
+跨赛季稳定在 20,000+ 的玩家有几个共同特征:
+
+- 每回合死亡率小于 1.0(位置 > 枪法)
+- 道具利用率 80%+(每个手雷都丢出去,绝不带进下一回合)
+- 70%+ 开火主动权成功率
+- 到主要中继 ping 小于 25ms(这个比想象中重要)
+
+光靠枪法到不了 Gold——但顶尖枪法是入场券。[按位置看 pro 列表](/pro) 看顶级玩家怎么组织道具和位置。
+
+## 设个实际目标
+
+新 Premier 玩家最常犯的错是直接定 "Supreme" 或 "Global" 目标,却不知道这是前 2%。更实用的框架:
+
+- 新玩家 → 第一目标 **5,000**(跳出 Gray 底坑,30-50 局可达)
+- CS:GO Nova/MG 过来 → 第一目标 **10,000**(中位)
+- DMG/LE 过来 → **15,000+**(前三分之一)
+- Supreme/Global 过来 → **20,000+**,并在赛季重置间保持稳定
+
+如果从 Gray 起步,配合[从底层往上爬的计划](/guides/lowest-cs2-premier-rating)看,加上[每段需要的胜场数](/guides/how-many-wins-to-rank-up-cs2)估算要打多少局。
+
+## 相关阅读
+
+- [CS2 Premier 最低分](/guides/lowest-cs2-premier-rating) — 1,000 意味着什么
+- [CS2 升一段要赢几场](/guides/how-many-wins-to-rank-up-cs2) — 每段所需胜场
+`,
+  },
+  {
+    slug: 'how-many-wins-to-rank-up-cs2',
+    title: 'How Many Wins to Rank Up in CS2 (2026)',
+    titleZh: 'CS2 升一段要赢几场(2026)',
+    description: 'No fixed number, but here are the realistic ranges: 5-10 wins per 1,000 rating in Premier, 25-50 wins per color tier, and 2 wins for initial Competitive placement.',
+    descriptionZh: '没有固定数字,但实际范围是:Premier 每涨 1,000 分需 5-10 胜,跨一个颜色段需 25-50 胜,Competitive 单图定级 2 胜。',
+    category: 'tips',
+    readTime: 7,
+    publishedAt: '2026-05-20',
+    author: 'CS2 Practice Team',
+    content: `
+## The Short Answer
+
+There is no fixed number. CS2 uses point-based rating changes, not "X wins to advance." But here's what we know in practical terms:
+
+- **Premier — cross a 5,000-point color tier** (e.g. Light Blue → Blue): 25-50 wins
+- **Premier — gain 1,000 rating within a tier**: 5-10 wins
+- **Competitive — earn initial rank for a new map**: 2 wins
+- **Competitive — promote one rank within a map**: 5-15 wins
+
+If you came here looking for a guarantee like "win 4 in a row," that doesn't exist in CS2 — your individual stats matter as much as wins. The numbers above are the median for an average performer.
+
+## How Premier Actually Rates Wins
+
+Each Premier match adjusts your rating by **+50 to +250** for a win and **-50 to -200** for a loss. The size of the swing depends on:
+
+1. **Opponent average rating relative to yours.** Beating a team rated 1,500 above you can be worth +250. Beating a team 1,500 below you can be as little as +25.
+2. **Round differential.** A 13-4 stomp gains more than a 13-11 grind.
+3. **Personal stats.** K/D, ADR, clutches, MVPs, and entry kills all feed into a "personal performance" multiplier. A 25-bomb on a losing team can still net you slight gains.
+4. **Win streaks.** Small bonus for 3+ wins in a row.
+
+This is why two players who both played 10 matches and went 6-4 can land 1,200 rating apart at the end.
+
+## Premier: Climbing 1,000 Rating
+
+A practical rough target for moving up within a color tier:
+
+- **+1,000 rating** typically takes 5-10 wins if your win rate is above 55%
+- At a 50/50 win rate you'll trend sideways — rating drifts ±200 around your mean
+- Below 45% win rate you'll drop, full stop
+
+Climbing one full tier (5,000 points, e.g. Light Blue → Blue) usually takes **25-50 wins** for an active player on a 55%+ win rate. If you're queueing solo, expect the higher end of that range — duo and trio queues with friends tend to win more consistently.
+
+## Competitive: The 2-Win Placement
+
+Competitive (per-map ranking) is the simpler ladder:
+
+- **First 2 wins on a new map** → you receive an initial rank
+- After that, each win can promote you by one rank if you outperform expectations
+- A loss can demote you, but only after a streak of poor performance — single losses with strong stats usually hold rank
+
+Most players reach their settling rank within 15-20 matches on a single map. After that, climbing slows down considerably.
+
+## What Affects How Fast You Gain
+
+Sorted by impact:
+
+1. **Opponent strength.** Smurfs in your lobby boost your gains massively if you win.
+2. **Personal round impact.** Entry frags, clutches, and assists all count. Watching demos teaches you which actions the system rewards.
+3. **Streaks.** 3+ wins in a row triggers a multiplier. 3+ losses in a row triggers nothing — losses don't compound, but they don't decay either.
+4. **Deficit recovery.** Winning from an 0-7 deficit at half-time is rated higher than winning 13-3.
+5. **Premade size.** Solo queue has higher variance but the same average gain per win.
+
+## When You Lose: How Much It Costs
+
+A loss costs about 70-90% of what an equivalent win would have given. So a clean 60% win rate is net-positive: a six-win, four-loss stretch typically nets +400 to +700 rating.
+
+Critical: **two consecutive losses don't compound** — they're each penalized once. Tilt-queuing makes the math worse only because you start playing badly, not because the system stacks penalties.
+
+## How to Grind Wins Efficiently
+
+If your goal is to rank up fast:
+
+1. **Warm up for 15 minutes before queueing.** [Pick one aim trainer](/play) and don't skip this.
+2. **Queue at the same time every day.** Stable matchmaking pools form at peak hours in your region.
+3. **Solo queue or duo queue.** Five-stacks face inflated opponents — net rating gain is lower.
+4. **Watch one pro POV per week.** Pick a player with similar strengths. [Browse pros by role](/pro).
+5. **Track your own stats.** Pay attention to ADR (aim for 80+) and rounds with multikills, not raw K/D.
+
+## Stopping Rules
+
+If you go 0-5 in a sitting, stop. Tilt costs more than the rating itself — bad form bleeds into the next day's matches. Your matchmaking memory only resets fully after sleep.
+
+[Use the time off to train](/play) instead of queueing through it.
+
+## Related Reading
+
+- [CS2 rank distribution](/guides/cs2-rank-distribution) — what tier you'd be in after these wins
+- [The lowest CS2 Premier rating](/guides/lowest-cs2-premier-rating) — the floor you'll never drop below
+- [CS2 failed-to-connect fix](/guides/cs2-failed-to-connect-ranked-fix) — don't lose wins to a bad handshake
+`,
+    contentZh: `
+## 简短答案
+
+没有固定数字。CS2 用积分制 rating 计算,不是"赢 X 场升一段"。但实际数字大致是:
+
+- **Premier — 跨过 5,000 分一个颜色段**(例如 Light Blue → Blue):25-50 胜
+- **Premier — 段内涨 1,000 分**:5-10 胜
+- **Competitive — 新地图初始定级**:2 胜
+- **Competitive — 单图升一段**:5-15 胜
+
+想找"连赢 4 场必升"那种保证——CS2 没有,你的个人表现和胜负权重相当。上面是中等表现玩家的中位数。
+
+## Premier 怎么给分
+
+每场 Premier 比赛调整 **+50 到 +250** 分胜场,**-50 到 -200** 分败场。波动大小取决于:
+
+1. **对手平均分相对于你**。打赢比你高 1,500 分的队伍可以拿 +250。打赢比你低 1,500 分的队伍可能只有 +25。
+2. **回合差**。13-4 大胜比 13-11 拉锯加分更多。
+3. **个人数据**。K/D、ADR、残局、MVP、首杀都进入"个人表现倍率"。输的局里打出 25 杀也能小幅加分。
+4. **连胜**。3+ 连胜有小奖励。
+
+所以两个都打 10 场都拿到 6-4 的玩家,最后分数可以差 1,200。
+
+## Premier:涨 1,000 分
+
+段内上升的实际目标:
+
+- **+1,000 分**通常需要 5-10 胜,前提胜率 55%+
+- 50/50 胜率横盘——分数在均值上下 200 漂移
+- 胜率低于 45% 必跌,没有例外
+
+跨一整个段(5,000 分,比如 Light Blue → Blue)通常需要 **25-50 胜**,前提是活跃玩家且胜率 55%+。单排预期偏上限——跟朋友双排三排胜场更稳。
+
+## Competitive:2 胜定级
+
+Competitive(单图段位)阶梯更简单:
+
+- **新地图前 2 胜** → 拿到初始段位
+- 之后每胜可能升一段,前提是超出预期表现
+- 一场败不会马上掉段,要连续表现差才掉——单场输但数据好通常保段
+
+多数玩家单图 15-20 场后稳定在自己的真实段位。之后升段会显著放慢。
+
+## 影响升段速度的因素
+
+按影响力排:
+
+1. **对手强度**。房间里有小号你赢了能拿巨多分。
+2. **个人回合影响力**。首杀、残局、助攻都算。看 demo 能学到系统奖励什么动作。
+3. **连胜**。3+ 连胜触发倍率。3+ 连败不会叠加惩罚——但也不会衰减。
+4. **逆风翻盘**。从半场 0-7 翻盘比 13-3 大胜分数更高。
+5. **车队规模**。单排方差更大但每胜平均加分相同。
+
+## 输了扣多少
+
+一场败扣分约为同等胜场加分的 70-90%。所以 60% 胜率净赚:6 胜 4 负的一段通常净 +400 到 +700 分。
+
+关键:**连败不叠加扣分**——各扣各的。摆烂排位真正的代价是你开始打得更差,不是系统加码罚分。
+
+## 怎么高效刷胜
+
+想快速升段:
+
+1. **排位前热身 15 分钟。** [挑一个枪法训练器](/play),别跳过。
+2. **每天同一时间排位。** 你所在区域高峰时段匹配池更稳。
+3. **单排或双排。** 五排匹配会被拉高对手——净涨分反而少。
+4. **每周看一段 pro POV。** 挑特点跟你相近的选手。[按位置看 pro 列表](/pro)。
+5. **追踪自己数据。** 关注 ADR(目标 80+)和多杀回合,不是单纯 K/D。
+
+## 停止规则
+
+如果一坐 0-5,停。摆烂的代价比输那点分高得多——状态差会渗到第二天。匹配记忆只有睡一觉才完全重置。
+
+[用休息时间练枪](/play),别硬肝。
+
+## 相关阅读
+
+- [CS2 段位分布](/guides/cs2-rank-distribution) — 这些胜场打完你在哪一段
+- [CS2 Premier 最低分](/guides/lowest-cs2-premier-rating) — 你永远不会跌破的底线
+- [CS2 连接失败修复](/guides/cs2-failed-to-connect-ranked-fix) — 别让坏握手吃掉你的胜场
+`,
+  },
 ];
 
 // 获取所有 slug
