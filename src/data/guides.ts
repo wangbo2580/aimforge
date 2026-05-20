@@ -3013,6 +3013,511 @@ Competitive(单图段位)阶梯更简单:
 - [CS2 连接失败修复](/guides/cs2-failed-to-connect-ranked-fix) — 别让坏握手吃掉你的胜场
 `,
   },
+  {
+    slug: 'cs2-ranking-system-explained',
+    title: 'The CS2 Ranking System, Actually Explained',
+    titleZh: 'CS2 排位系统,真讲清楚',
+    description: 'How Premier and Competitive rate each match, what placement matches actually do, the hidden MMR vs visible rating split, and which myths to drop.',
+    descriptionZh: 'Premier 和 Competitive 怎么给每场算分、定级 10 场实际在做什么、隐藏 MMR 与可见 rating 的关系,以及哪些常见迷信该丢。',
+    category: 'tips',
+    readTime: 8,
+    publishedAt: '2026-05-20',
+    author: 'CS2 Practice Team',
+    content: `
+## The Two-System Overview
+
+CS2 ships two parallel ranking systems that share none of their internal math:
+
+- **Premier** — a single number from 1,000 to 35,000+ across all maps, displayed in seven color tiers
+- **Competitive** — old 18-rank Silver → Global Elite, but assigned per map (your Mirage rank and your Nuke rank are independent)
+
+Most "I rank up / I don't rank up" conversations refer to Premier. Competitive is treated more like a casual ladder by Valve in 2026, with slower seasonal swings and lower-stakes matchmaking.
+
+You don't have to pick one. Most active players play both: Premier for the headline number, Competitive to learn new maps without putting their main rating on the line.
+
+## How Premier Calculates Each Match
+
+Each Premier match adjusts your rating by between +50 and +250 for a win, -50 and -200 for a loss. The size of that swing is driven by four inputs:
+
+1. **Opponent strength.** The single biggest factor. Beating a team rated 1,500 above you can net +250. Beating a team 1,500 below you can be as little as +25.
+2. **Round margin.** A 13-4 stomp earns more than a 13-11 grind. Half-time score also matters — coming back from 0-7 is treated as a bigger achievement than 7-0 → 13-0.
+3. **Personal performance.** K/D, ADR, MVPs, clutch wins, and entry frags feed a personal multiplier. A 25-bomb on a losing team can still net positive rating.
+4. **Win streaks.** 3+ consecutive wins triggers a small multiplier. Losses do not compound — each loss is penalized once, then the system "forgets" the streak.
+
+The full algorithm has never been published by Valve. The four factors above are the consensus from community datasets of leaked match histories and forum experimentation.
+
+## How Competitive Calculates Each Match
+
+Competitive uses a similar but simpler engine, locked to a specific map:
+
+- After **2 wins** on a new map you receive an initial rank
+- Each subsequent win can move you up by one rank if you outperform expectations
+- Single losses with strong personal stats usually hold rank
+- Demotion typically requires 2-3 consecutive bad performances, not just one loss
+
+Because each map has its own rating, your competitive ranks can be wildly asymmetric — Master Guardian on Mirage, Silver Elite on Anubis. That's not a bug, it's the design.
+
+## Placement Phase vs. Ongoing Phase
+
+The first 10 Premier matches behave differently from match 11 onward:
+
+- **Placement (matches 1-10):** You play without a visible rating. The hidden MMR is being calculated from your stats. Win these games and you'll spawn above the median (often 8,000-12,000). Lose them and you'll spawn near the floor.
+- **Ongoing (match 11+):** Rating swings shrink. The system already has a confident estimate of your skill — large jumps require you to repeatedly outperform that estimate.
+
+This is why most "stuck rating" complaints come from match 30-60 players. The system has settled on a number and is testing whether you can break it.
+
+## Hidden MMR vs. Visible Rating
+
+Community testing strongly suggests Valve maintains a hidden MMR separate from the visible Premier rating. The hidden number drives matchmaking; the visible number lags it.
+
+Practical implication: if you're crushing your lobbies despite a flat visible rating, your hidden MMR is climbing. The visible number will catch up over 5-15 games once the system has enough evidence. Don't queue-spam to force it — quality of play matters more than quantity here.
+
+## What Does NOT Affect Your Rating
+
+A few persistent myths worth killing:
+
+- **Trade-up wins.** Killing the same opponent five times in a row doesn't multiply your gain.
+- **MVP star count.** MVPs feed into personal performance, but they're not separately multiplied.
+- **Chat behavior.** Toxic chat can get you a comm ban, but it doesn't directly affect rating.
+- **5-stacking.** Bigger premades face slightly harder opponents — your net rating gain per win is the same on average.
+- **Time of day.** Off-peak hours have higher variance but no rating bias.
+
+## Where to Go From Here
+
+If you want to put numbers on what each tier means, read [our rank distribution breakdown](/guides/cs2-rank-distribution). If you want to know how many wins it takes to actually move, see [the wins-per-rank math](/guides/how-many-wins-to-rank-up-cs2). And if you're stuck, [this diagnostic checklist](/guides/why-not-ranking-up-cs2) covers the six most common reasons.
+
+## Related Reading
+
+- [CS2 rank distribution](/guides/cs2-rank-distribution) — where you fit in the curve
+- [How many wins to rank up](/guides/how-many-wins-to-rank-up-cs2) — the math per tier
+- [Why am I not ranking up](/guides/why-not-ranking-up-cs2) — diagnostic checklist
+`,
+    contentZh: `
+## 两套系统总览
+
+CS2 同时跑两套独立排位系统,内部算法互不相干:
+
+- **Premier** — 一个跨所有地图的数字,1,000 到 35,000+,分七个颜色 tier
+- **Competitive** — 老 18 段 Silver → Global Elite,但每张图独立(你 Mirage 段位和 Nuke 段位互不影响)
+
+多数"升段 / 卡段"讨论指的是 Premier。Competitive 在 2026 年被 Valve 当成休闲阶梯——赛季波动慢,匹配压力低。
+
+你不必二选一。多数活跃玩家两个都打:Premier 看主分数,Competitive 用来学新图不影响主 rating。
+
+## Premier 怎么给每场分
+
+每场 Premier 调整 +50 到 +250 胜场,-50 到 -200 败场。波动大小由四个输入驱动:
+
+1. **对手强度。** 最大因子。打赢比你高 1,500 分的队伍可以拿 +250。打赢比你低 1,500 分的队伍可能只有 +25。
+2. **回合差。** 13-4 大胜比 13-11 拉锯加分更多。半场比分也算——0-7 翻盘比 7-0 → 13-0 加分更多。
+3. **个人表现。** K/D、ADR、MVP、残局胜、首杀进入个人倍率。输的局里打出 25 杀也能净加分。
+4. **连胜。** 3+ 连胜触发小倍率。连败不叠加——各扣各的,系统不会"记仇"。
+
+完整算法 Valve 从未公开。上面四个因子是社区从泄露比赛记录和论坛实验中得出的共识。
+
+## Competitive 怎么给每场分
+
+Competitive 用类似但更简单的引擎,锁定单图:
+
+- 新图 **2 胜** 后拿到初始段位
+- 之后每胜可能升一段,前提是超出预期
+- 单场输但数据好通常保段
+- 降段通常要连续 2-3 场表现差,不是单场输
+
+因为每图独立,你的 Competitive 段位可以差距巨大——Mirage 是 Master Guardian,Anubis 是 Silver Elite。这不是 bug,是设计。
+
+## 定级阶段 vs 持续阶段
+
+前 10 场 Premier 和第 11 场后表现不同:
+
+- **定级(1-10 场):** 不显示 rating。隐藏 MMR 正从你的数据计算。赢了会从中位往上(通常 8,000-12,000)开始。输了从底线附近开始。
+- **持续(11+ 场):** rating 波动变小。系统已对你的水平有信心估计——大幅跳跃需要你反复超出这个估计。
+
+这就是为什么"卡段"投诉多数来自 30-60 场玩家。系统对一个数字定心了,正在测试你能不能突破。
+
+## 隐藏 MMR vs 可见 Rating
+
+社区测试强烈表明 Valve 维持一个与可见 Premier rating 分开的隐藏 MMR。隐藏数决定匹配,可见数滞后。
+
+实际含义:如果你在房间里碾压但可见分横盘,你的隐藏 MMR 在涨。5-15 局后系统证据充足,可见数会追上。别 spam 排位强推——质量比数量更重要。
+
+## 哪些事 **不** 影响 rating
+
+几个值得杀掉的迷信:
+
+- **同人多杀。** 连杀同一个对手 5 次不会乘倍。
+- **MVP 数量。** MVP 进入个人表现,但不单独乘倍。
+- **聊天行为。** 喷队友会拿语音封禁,但不直接影响 rating。
+- **五排。** 五排车队对手会被拉高,平均每胜净涨分跟单排一样。
+- **时段。** 非高峰时段方差大,但 rating 没偏倚。
+
+## 接下来看哪
+
+想知道每个 tier 对应什么水平,看[段位分布分析](/guides/cs2-rank-distribution)。想知道升一段要赢几场,看[每段胜场数学](/guides/how-many-wins-to-rank-up-cs2)。卡住了,[诊断 checklist](/guides/why-not-ranking-up-cs2) 列了 6 个最常见原因。
+
+## 相关阅读
+
+- [CS2 段位分布](/guides/cs2-rank-distribution) — 你在曲线上的位置
+- [升一段要赢几场](/guides/how-many-wins-to-rank-up-cs2) — 每段数学
+- [我为什么升不了段](/guides/why-not-ranking-up-cs2) — 诊断 checklist
+`,
+  },
+  {
+    slug: 'how-long-to-rank-up-cs2',
+    title: 'How Long Does It Take to Rank Up in CS2?',
+    titleZh: 'CS2 升一段要多久?',
+    description: 'Realistic timelines for each Premier tier transition, why higher tiers slow down dramatically, and how seasonal resets change the math.',
+    descriptionZh: '每个 Premier 段位升段的实际时间表,为什么高段位会显著变慢,以及赛季重置如何改变这个数学。',
+    category: 'tips',
+    readTime: 8,
+    publishedAt: '2026-05-20',
+    author: 'CS2 Practice Team',
+    content: `
+## The Quick Answer
+
+If you're an average-skill player playing 3-4 matches a week with a ~55% win rate, here are realistic timelines:
+
+- **Within a single tier** (e.g. moving from 6,000 to 8,000 in Light Blue): 2-4 weeks
+- **One tier up** (e.g. Light Blue → Blue, 5,000 to 10,000): 6-12 weeks
+- **From Gray to Blue** (1,000 → 10,000): 3-5 months
+- **From Blue to Purple** (10,000 → 15,000): 4-8 months
+- **From Purple to Pink** (15,000 → 20,000): 8-16 months
+- **Reaching Pink+ (20,000+)** from scratch: typically 1-2 years of consistent play
+
+If you can play 10+ matches a week you can roughly halve these estimates. If you play 1-2 a week, double them.
+
+## Why Higher Tiers Slow Down So Dramatically
+
+The system is designed to make the curve harder as you climb. There are two compounding reasons:
+
+1. **Smaller swings per match.** Once your hidden MMR converges, +200 swings become +80 swings. The system thinks it has you measured.
+2. **Tougher opponents.** In Light Blue you face other Light Blues. In Pink you face other Pinks — players who survived a year of climbing. Your 60% win rate against Light Blue becomes 50% against Pink.
+
+A practical illustration: gaining the first 5,000 rating typically takes 25-40 wins. Gaining the next 5,000 (Blue → Purple) often takes 60-100 wins. Gaining from Purple to Pink (15K → 20K) can take 150-250 wins.
+
+## Per-Tier Time Breakdown
+
+Assuming 4 matches/week at ~45 minutes per match (3 hours/week of actual queue time):
+
+- **Gray → Light Blue** (~25 wins, 50-60 matches): 3-4 weeks
+- **Light Blue → Blue** (~40 wins, 75-90 matches): 5-7 weeks
+- **Blue → Purple** (~60 wins, 110-130 matches): 8-11 weeks
+- **Purple → Pink** (~100 wins, 180-220 matches): 14-18 weeks
+- **Pink → Red** (~150 wins, 300+ matches): 25-35 weeks
+
+These add up. From cold-start to Pink legitimately takes 30+ weeks for the median committed player.
+
+## Daily and Weekly Cadence
+
+What's a healthy schedule?
+
+**For improvement (recommended):**
+
+- 3-5 matches per week
+- Warm up 15 minutes before each session ([Gridshot](/play/gridshot) or [Reflex](/play/reflex))
+- 1-2 demo reviews per week (your own demos, not pros')
+
+**For burnout (not recommended):**
+
+- 10+ matches per week without warm-up or demo review
+- Queueing tilted after a loss streak
+- 5+ matches in a single sitting
+
+Why the cap on session length? After 3-4 matches your aim and decision quality degrade visibly. Continuing past that point typically loses more rating than the next few wins would have gained. Sleep matters more than people think — most matchmaking memory only resets fully after sleep.
+
+## How Long to Recover from a Loss Streak
+
+A 5-loss streak typically costs 500-800 rating. Recovering it takes about 8-15 wins (assuming you return to your normal win rate in later sessions). The math: each loss costs ~80% of an equivalent win, so 5 losses at -150 each = -750, recovered by ~6-10 wins at +120 each.
+
+The catch: **playing tilted extends loss streaks**. If you went 0-5 today, take the rest of the day off. Coming back tomorrow recovers rating faster than continuing to queue tonight.
+
+## Seasonal Time Pressure
+
+Premier seasons run roughly 4 months (Valve adjusts this). Each new season:
+
+1. Everyone's rating is recalculated down — typically to ~75% of your previous final number.
+2. The first 2-3 weeks of a season are higher-variance because the system is rebuilding its model.
+3. Players who climb fast in early season tend to settle 1-2 tiers above their previous max by end of season.
+
+If you want to maximize end-of-season rating, **play heavily in the first 4 weeks** of a season (when each match has higher swing) and lighter mid-season. The first week is messy, but a strong week-2 streak compounds across the whole season.
+
+## Putting It Together
+
+If your goal is "reach Purple this year" and you're currently in Light Blue, you need roughly 6 months of 4 matches/week with a consistent 55%+ win rate. Achievable but not casual. If you can't commit to that cadence, target +1 tier instead of +2 — it preserves motivation.
+
+[Use our aim trainers](/play) to make the warm-up sustainable, and [watch a pro with similar strengths](/pro) once a week to keep improving without burning queue time.
+
+## Related Reading
+
+- [How many wins to rank up](/guides/how-many-wins-to-rank-up-cs2) — wins per tier math
+- [Why am I not ranking up](/guides/why-not-ranking-up-cs2) — when the curve flattens
+- [CS2 rank distribution](/guides/cs2-rank-distribution) — what tier you're aiming for
+`,
+    contentZh: `
+## 简短答案
+
+中等水平玩家,每周 3-4 局,胜率 55%,实际时间:
+
+- **段内移动**(比如 Light Blue 内从 6,000 到 8,000):2-4 周
+- **升一段**(Light Blue → Blue,5,000 到 10,000):6-12 周
+- **从 Gray 到 Blue**(1,000 → 10,000):3-5 个月
+- **从 Blue 到 Purple**(10,000 → 15,000):4-8 个月
+- **从 Purple 到 Pink**(15,000 → 20,000):8-16 个月
+- **从零达到 Pink+**(20,000+):通常 1-2 年持续游戏
+
+激进打法(每周 10+ 局)可以把上面估算砍半。每周 1-2 局则翻倍。
+
+## 为什么高段位会显著变慢
+
+系统设计就是让曲线越爬越陡。两个原因叠加:
+
+1. **每场波动变小。** 隐藏 MMR 收敛后,+200 波动变成 +80 波动。系统认为已经测准你。
+2. **对手更强。** Light Blue 段打的是其他 Light Blue。Pink 段打的是其他 Pink——撑过一年爬升的玩家。你打 Light Blue 的 60% 胜率,到 Pink 变成 50%。
+
+实操对比:前 5,000 分通常需要 25-40 胜。下一个 5,000(Blue → Purple)往往 60-100 胜。Purple 到 Pink(15K → 20K)可能 150-250 胜。
+
+## 每段时间分解
+
+按每周 4 场每场 45 分钟(每周实际排位时间 3 小时):
+
+- **Gray → Light Blue**(~25 胜,50-60 场):3-4 周
+- **Light Blue → Blue**(~40 胜,75-90 场):5-7 周
+- **Blue → Purple**(~60 胜,110-130 场):8-11 周
+- **Purple → Pink**(~100 胜,180-220 场):14-18 周
+- **Pink → Red**(~150 胜,300+ 场):25-35 周
+
+加起来:从零到 Pink 中位认真玩家确实需要 30+ 周。
+
+## 每天和每周节奏
+
+什么是健康节奏?
+
+**为了进步(推荐):**
+
+- 每周 3-5 场
+- 每次开打前热身 15 分钟([Gridshot](/play/gridshot) 或 [Reflex](/play/reflex))
+- 每周 1-2 次 demo review(自己的 demo,不是 pro 的)
+
+**容易倦怠(不推荐):**
+
+- 每周 10+ 场没热身没 demo review
+- 输完连续摆烂排位
+- 一坐 5+ 场
+
+为什么单次会话不要太长?3-4 场后枪法和决策质量明显下降。继续打通常会输掉比下面几胜更多的分。睡眠比想象中重要——多数匹配记忆要睡一觉才完全重置。
+
+## 输了一波要多久恢复
+
+5 连败通常掉 500-800 分。恢复需要约 8-15 胜(假设之后按正常胜率打)。数学:每败扣分约为同等胜场的 80%,5 败每场 -150 = -750,需要 6-10 胜每场 +120 来补。
+
+陷阱:**摆烂会让连败延长**。今天 0-5 了就关电脑。明天再来比今晚继续排恢复更快。
+
+## 赛季时间压力
+
+Premier 赛季约 4 个月(Valve 会调)。每个新赛季:
+
+1. 所有人 rating 重新计算降级——通常砍到上赛季最终的 75%
+2. 赛季头 2-3 周方差更大,系统在重建模型
+3. 早赛季冲得快的玩家通常季末稳在比上赛季最高分高 1-2 段的位置
+
+想最大化赛季末分数,**赛季头 4 周重点冲**(那时每场波动大),赛季中段轻打。第一周乱但第二周连胜能影响整季。
+
+## 综合应用
+
+如果目标"年内到 Purple"且当前 Light Blue,你需要约 6 个月每周 4 场,稳定胜率 55%+。可达但不算休闲。如果做不到这个节奏,目标定 +1 段而不是 +2 段——保动力。
+
+[用我们的训练器](/play)让热身可持续,[每周看一段特点跟你近的 pro](/pro),不烧排位时间也能进步。
+
+## 相关阅读
+
+- [升一段要赢几场](/guides/how-many-wins-to-rank-up-cs2) — 每段胜场数学
+- [我为什么升不了段](/guides/why-not-ranking-up-cs2) — 曲线变平时怎么办
+- [CS2 段位分布](/guides/cs2-rank-distribution) — 目标段位什么样
+`,
+  },
+  {
+    slug: 'why-not-ranking-up-cs2',
+    title: 'Why Am I Not Ranking Up in CS2? A 6-Step Diagnostic',
+    titleZh: '我为什么升不了段?CS2 卡段 6 步自检',
+    description: 'Six common reasons your CS2 rating is stuck, the myths to drop, and what to actually do when youve genuinely plateaued for 30+ matches.',
+    descriptionZh: 'CS2 卡段的 6 个常见原因、该丢的迷信、真的横盘 30+ 场后该怎么办。',
+    category: 'tips',
+    readTime: 8,
+    publishedAt: '2026-05-20',
+    author: 'CS2 Practice Team',
+    content: `
+## Before You Panic: A 6-Step Diagnostic
+
+Stuck rating is one of the most common CS2 complaints, and 90% of the time the answer is one of six fixable issues. Work through them in order — stop at whichever one matches you.
+
+### Step 1: Premier or Competitive?
+
+These are different ladders with different rules. If you've been queueing Competitive, your "rating" is per-map and moves slowly by design. If you want a single visible number that updates each match, queue Premier instead. [How both systems work](/guides/cs2-ranking-system-explained).
+
+### Step 2: Did you finish 10 placement matches?
+
+Premier requires 10 matches before assigning a visible rating. During placement you can win 6 and lose 4 but still see no progress because the system is silently calibrating. If you have fewer than 10 Premier matches this season, keep playing — the rating will appear after match 10.
+
+### Step 3: What is your actual win rate?
+
+Pull up your Steam profile, count your wins and losses for this season. Then divide:
+
+- **Above 55%** → rating should be climbing. If it isn't, jump to Step 5.
+- **45-55%** → rating drifts sideways. ±200 around your mean is the expected behavior, not "stuck."
+- **Below 45%** → rating will drop, not climb. You're not stuck — the system is correctly placing you lower.
+
+This is the most common "stuck" complaint: people remember the wins, forget the losses, and feel the system is broken. Actually counting fixes the perception.
+
+### Step 4: Are you facing fair opponents?
+
+Open the scoreboard mid-match. Are your opponents' ratings clustered around yours, ±2,000? If everyone is 3,000+ above you, you're being smurfed on. If everyone is 3,000+ below, your wins are worth almost nothing.
+
+If you keep getting mismatched lobbies, your queue settings or region may be wrong. Switch to your true home region (matchmaking → server selection) and re-queue.
+
+### Step 5: Is your personal performance below expectations?
+
+The Premier system rewards round impact, not just wins. Check these baselines for your tier:
+
+- **Light Blue (5-10K):** ADR 65+, K/D 0.9+
+- **Blue (10-15K):** ADR 75+, K/D 1.0+
+- **Purple (15-20K):** ADR 80+, K/D 1.1+
+- **Pink+ (20K+):** ADR 85+, K/D 1.15+
+
+Below these baselines and your gains shrink even on wins. The fix isn't more queue — it's [aim training](/play) and demo review.
+
+### Step 6: Are you stuck on a single map?
+
+Premier picks maps based on your map preference. If you've voted everything except one map, you'll keep playing it. Map fatigue ruins both your performance and the variety the matchmaker needs to calibrate. Re-enable 4-5 maps in your preferences and your performance variance often improves.
+
+## Common Myths to Drop
+
+**"My KDA is 1.5 but I'm not ranking up"**
+KDA matters less than round impact (entries, clutches, MVPs) and team result. A 1.5 KDA on a 1-13 loss is worth almost nothing.
+
+**"I've won 3 in a row, why didn't I rank up?"**
+Premier moves continuously, not in steps. Three wins = +300 to +700 rating, not a "tier promotion." Your number is moving — just not crossing a color boundary yet.
+
+**"5-stacking with friends will make us climb faster"**
+5-stacks face inflated opponents. Average gain per win is the same, but variance is higher and tilt is contagious. Solo or duo queue tends to be more consistent.
+
+**"The system is broken at higher ranks"**
+At Pink+ you're playing against the top 8%. Climbing slows because the opponents are genuinely better, not because the math hides points from you.
+
+## The 'Invisible Cap' Problem
+
+A specific scenario worth calling out: your hidden MMR is climbing but your visible rating lags. Symptoms:
+
+- You're crushing your lobbies (top-fragger, 80%+ rounds with impact)
+- Visible rating drifts sideways
+- Opponents feel "below your skill"
+
+This is the system testing whether your performance is sustainable before promoting the visible number. Resist the urge to queue-spam. 5-15 more matches at the same intensity will pull the visible rating up — usually in a single jump of 800-1,500.
+
+## What to Do If You're Genuinely Stuck
+
+If steps 1-6 all check out and you've still drifted sideways for 30+ matches:
+
+1. **Take 3 days off.** Most "stuck" feelings dissolve after a break.
+2. **Review three of your demos**, focused only on positioning. Not aim, not utility.
+3. **Lock your sensitivity** for at least a month if you've been changing it.
+4. **Watch one [pro POV](/pro) per week** of someone in the tier above yours (not Pink+ if you're Light Blue — too big a gap).
+5. **Warm up [15 minutes before every session](/play).** This is the single biggest performance multiplier most players skip.
+
+If you do all five for 4 weeks and still don't move, the issue is genuinely fundamentals — and the answer is more time on basics, not more queue time.
+
+## Related Reading
+
+- [How the CS2 ranking system works](/guides/cs2-ranking-system-explained) — what the system actually rewards
+- [How long does ranking up take](/guides/how-long-to-rank-up-cs2) — realistic timelines
+- [How many wins per tier](/guides/how-many-wins-to-rank-up-cs2) — the math behind movement
+`,
+    contentZh: `
+## 别先慌:6 步自检
+
+卡段是 CS2 最常见的抱怨之一,90% 情况答案是 6 个可修复问题之一。按顺序检查,匹配的那一步就停。
+
+### Step 1:Premier 还是 Competitive?
+
+两套不同阶梯不同规则。如果你排的是 Competitive,你的"段位"是单图制度计算慢。想要一个跨图随每场更新的可见数字,排 Premier。[两套系统怎么工作](/guides/cs2-ranking-system-explained)。
+
+### Step 2:打完 10 场定级了吗?
+
+Premier 要 10 场才给出可见 rating。定级期间可以 6 胜 4 负但看不到进度,系统在悄悄校准。本赛季 Premier 不到 10 场就继续打——10 场后 rating 会出来。
+
+### Step 3:你的实际胜率是多少?
+
+打开 Steam 个人页面,数本赛季胜负,然后除:
+
+- **55% 以上** → rating 应该在涨。没涨跳到 Step 5。
+- **45-55%** → rating 横盘漂移。均值上下 ±200 是预期,不是"卡段"。
+- **45% 以下** → rating 会跌不会涨。不是卡——系统正确把你定到更低位置。
+
+这是最常见的"卡段"投诉:人们记住胜场忘掉败场,觉得系统坏了。实际数一下就能纠正认知。
+
+### Step 4:对手公平吗?
+
+比赛中开记分板。对手 rating 是不是聚集在你 ±2,000 范围内?如果都比你高 3,000+,你被小号打。如果都低 3,000+,你的胜场基本不值钱。
+
+总遇到错配房间,说明你的排位设置或区域不对。切到真实主区域(匹配 → 服务器选择)再排。
+
+### Step 5:个人表现达标了吗?
+
+Premier 奖励回合影响力,不只是胜负。各 tier 基线:
+
+- **Light Blue(5-10K):** ADR 65+,K/D 0.9+
+- **Blue(10-15K):** ADR 75+,K/D 1.0+
+- **Purple(15-20K):** ADR 80+,K/D 1.1+
+- **Pink+(20K+):** ADR 85+,K/D 1.15+
+
+低于基线胜场加分会缩水。修法不是多排——是[练枪](/play)和看 demo。
+
+### Step 6:一直打同一张图?
+
+Premier 按你的地图偏好选图。如果你 ban 掉了除一张之外的所有图,会一直打那张。地图疲劳同时影响表现和匹配系统校准。在偏好里重新开启 4-5 张图,你的表现方差通常会改善。
+
+## 几个该丢的迷信
+
+**"我 KDA 1.5 但不升段"**
+KDA 不如回合影响力(首杀、残局、MVP)和团队结果重要。1-13 输的局里 1.5 KDA 几乎不值钱。
+
+**"我连胜 3 场为什么没升段?"**
+Premier 是连续移动不是阶跃。3 胜 = +300 到 +700 分,不是"段位升级"。数字在动——只是还没跨过颜色边界。
+
+**"五排会更快升段"**
+五排车队对手会被拉高。每胜平均加分一样,但方差更大,摆烂会传染。单排或双排往往更稳。
+
+**"高段位系统坏了"**
+Pink+ 段你打的是前 8% 玩家。爬升放慢是因为对手真的更强,不是数学在藏你的分。
+
+## "隐形天花板"问题
+
+一个特定场景值得指出:你的隐藏 MMR 在涨但可见 rating 滞后。症状:
+
+- 你在房间里碾压(top fragger,80%+ 回合有影响)
+- 可见 rating 横盘漂移
+- 对手感觉"水平不够"
+
+这是系统在测试你的表现可持续之前是否提升可见数。别 spam 排位强推。再打 5-15 场同样强度,可见 rating 会被拉上来——通常一次跳 800-1,500。
+
+## 如果真的卡住了
+
+如果 1-6 步都没问题,你还横漂 30+ 场:
+
+1. **休 3 天。** 多数"卡段"感觉休息一下就消了。
+2. **看 3 场自己的 demo**,只看位置不看枪法不看道具。
+3. **锁定灵敏度** 至少一个月,别频繁改。
+4. **每周看一段比你高一段的 [pro POV](/pro)**(不要 Light Blue 直接看 Pink+ pro,差距太大)。
+5. **每次开打前热身 [15 分钟](/play)。** 这是多数玩家跳过的最大表现倍率。
+
+5 件全做 4 周还不动,问题真的是基本功——答案是更多基础时间,不是更多排位时间。
+
+## 相关阅读
+
+- [CS2 排位系统怎么工作](/guides/cs2-ranking-system-explained) — 系统实际奖励什么
+- [升一段要多久](/guides/how-long-to-rank-up-cs2) — 实际时间表
+- [每段要赢几场](/guides/how-many-wins-to-rank-up-cs2) — 移动的数学
+`,
+  },
 ];
 
 // 获取所有 slug
