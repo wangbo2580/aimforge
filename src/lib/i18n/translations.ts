@@ -182,6 +182,14 @@ export const translations = {
     pro_crosshair_tip: 'To use: Open CS2 → Settings → Crosshair → Share or Import → Paste code',
     pro_practice_with: 'Practice with',
     pro_settings_suffix: "'s Settings",
+    pro_quick_answer: 'Quick Answer',
+    pro_viewmodel: 'Viewmodel',
+    pro_launch_options: 'Launch Options',
+    pro_config: 'Config (autoexec.cfg)',
+    pro_config_tip: 'Save as autoexec.cfg in your CS2 cfg folder, or paste line by line into the developer console (~).',
+    pro_faq: 'Frequently Asked Questions',
+    pro_last_updated: 'Last verified',
+    pro_copy: 'Copy',
 
     // Crosshair Page
     crosshair_title: 'CS2 Crosshair Codes',
@@ -439,6 +447,14 @@ export const translations = {
     pro_crosshair_tip: '使用方法：打开 CS2 → 设置 → 准星 → 分享或导入 → 粘贴代码',
     pro_practice_with: '使用',
     pro_settings_suffix: '的设置训练',
+    pro_quick_answer: '速查',
+    pro_viewmodel: '视角模型',
+    pro_launch_options: '启动项',
+    pro_config: '配置文件 (autoexec.cfg)',
+    pro_config_tip: '保存为 CS2 cfg 目录下的 autoexec.cfg，或在开发者控制台 (~) 中逐行粘贴。',
+    pro_faq: '常见问题',
+    pro_last_updated: '最后核对',
+    pro_copy: '复制',
 
     // Crosshair Page
     crosshair_title: 'CS2 准星代码',

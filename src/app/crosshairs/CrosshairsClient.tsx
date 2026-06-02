@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import { crosshairs, categories, Crosshair } from '@/data/crosshairs';
+import { CrosshairCodePreview } from '@/components/ui/CrosshairPreview';
 import { useTranslation } from '@/lib/i18n';
 import { trackEvent } from '@/lib/analytics';
 
@@ -48,6 +49,12 @@ export default function CrosshairsClient() {
             <p className="text-sm text-gray-500 mt-2">
               {crosshairs.length} crosshairs &middot; {crosshairs.filter(c => c.category === 'pro').length} pro players &middot; copy-paste ready
             </p>
+            <Link
+              href="/tools/crosshair-generator"
+              className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition-colors"
+            >
+              🎯 Build your own — CS2 Crosshair Generator
+            </Link>
           </div>
 
           {/* Category Filter */}
@@ -91,8 +98,13 @@ export default function CrosshairsClient() {
                 {/* Preview & Name */}
                 <div className="flex items-center gap-4 mb-4">
                   {/* Crosshair Preview */}
-                  <div className="w-16 h-16 bg-gray-900 rounded-lg flex items-center justify-center relative">
-                    <CrosshairPreview color={crosshair.color} size={crosshair.size} />
+                  <div className="w-16 h-16 bg-gray-900 rounded-lg flex items-center justify-center relative overflow-hidden">
+                    <CrosshairCodePreview
+                      code={crosshair.code}
+                      size={60}
+                      background="transparent"
+                      fallback={<CrosshairPreview color={crosshair.color} size={crosshair.size} />}
+                    />
                   </div>
                   <div className="flex-1">
                     <h3 className="font-bold text-white text-lg">{crosshair.name}</h3>
@@ -217,8 +229,9 @@ export default function CrosshairsClient() {
                 <div>
                   <h3 className="text-xl font-semibold text-white mb-2">donk crosshair</h3>
                   <p>
-                    Small cyan, almost a dot. donk is the youngest superstar in the current scene
-                    and his crosshair reflects that — close to no visual noise, just the bare
+                    A tiny green classic-static with a negative gap and no dot — the four lines
+                    almost touch in the middle. donk is the youngest superstar in the current scene
+                    and his crosshair reflects that: close to no visual noise, just the bare
                     minimum needed to know where the bullets go. People copy it because, well,
                     he never misses. Whether his crosshair is the reason is another question, but
                     it doesn&apos;t hurt.
@@ -282,7 +295,7 @@ export default function CrosshairsClient() {
               </p>
               <ul className="list-disc list-inside space-y-1 text-gray-400">
                 <li>Pure white dot (most common starter)</li>
-                <li>Cyan dot (donk-style)</li>
+                <li>Cyan dot (high contrast on most maps)</li>
                 <li>Green static with center dot (transitional setup if a pure dot feels too minimal)</li>
               </ul>
               <p className="mt-3 text-sm text-gray-400">

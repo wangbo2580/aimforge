@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n';
-import { ProPlayer, countryToFlag } from '@/data/pro-players';
+import { ProPlayer, countryToFlag, getPlayerConfig, getPlayerFaqs, getPlayerCrosshairDescription } from '@/data/pro-players';
 import CopyButton from '@/components/ui/CopyButton';
+import { CrosshairCodePreview } from '@/components/ui/CrosshairPreview';
 import { amazonSearchLink } from '@/lib/amazon-affiliate';
 import { trackEvent } from '@/lib/analytics';
 
@@ -17,11 +18,13 @@ function GearRow({
   value,
   gearType,
   playerSlug,
+  note,
 }: {
   label: string;
   value: string;
   gearType: string;
   playerSlug: string;
+  note?: string;
 }) {
   const handleClick = () => {
     trackEvent('click_pro_gear', {
@@ -32,26 +35,34 @@ function GearRow({
   };
 
   return (
-    <a
-      href={amazonSearchLink(value)}
-      target="_blank"
-      rel="sponsored noopener noreferrer"
-      onClick={handleClick}
-      className="flex justify-between items-center py-3 px-4 bg-gray-900/50 hover:bg-gray-900 rounded-lg transition-colors group"
-    >
-      <span className="text-gray-400">{label}</span>
-      <span className="text-white font-medium group-hover:text-blue-400 flex items-center gap-1">
-        {value}
-        <svg className="w-3 h-3 opacity-40 group-hover:opacity-100" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-        </svg>
-      </span>
-    </a>
+    <div className="bg-gray-900/50 hover:bg-gray-900 rounded-lg transition-colors group">
+      <a
+        href={amazonSearchLink(value)}
+        target="_blank"
+        rel="sponsored noopener noreferrer"
+        onClick={handleClick}
+        className="flex justify-between items-center py-3 px-4"
+      >
+        <span className="text-gray-400">{label}</span>
+        <span className="text-white font-medium group-hover:text-blue-400 flex items-center gap-1 text-right">
+          {value}
+          <svg className="w-3 h-3 opacity-40 group-hover:opacity-100 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+          </svg>
+        </span>
+      </a>
+      {note && (
+        <p className="text-gray-500 text-xs px-4 pb-3 -mt-1 leading-relaxed">{note}</p>
+      )}
+    </div>
   );
 }
 
 export default function ProPlayerDetailContent({ player, similarPlayers }: ProPlayerDetailContentProps) {
   const { t } = useTranslation();
+  const config = getPlayerConfig(player);
+  const faqs = getPlayerFaqs(player);
+  const crosshairDesc = getPlayerCrosshairDescription(player);
 
   return (
     <div className="container mx-auto max-w-4xl">
@@ -124,6 +135,24 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
         )}
       </div>
 
+      {/* Quick Answer — plain-language summary for featured snippets & AI answer engines */}
+      <div className="bg-gray-800/60 rounded-xl p-6 mb-8 border-l-4 border-blue-500">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-sm font-bold text-blue-400 uppercase tracking-wide">{t('pro_quick_answer')}</h2>
+          {player.lastUpdated && (
+            <span className="text-xs text-gray-500">{t('pro_last_updated')} {player.lastUpdated}</span>
+          )}
+        </div>
+        <p className="text-gray-200 leading-relaxed">
+          {player.name} plays CS2 at <strong className="text-white">{player.sensitivity} sensitivity</strong> on{' '}
+          <strong className="text-white">{player.dpi} DPI</strong> (eDPI {player.edpi}, {player.cm360.toFixed(1)} cm/360°),
+          at <strong className="text-white">{player.resolution}</strong> {player.aspectRatio} {player.scalingMode.toLowerCase()}.
+          {` His crosshair is a ${crosshairDesc.toLowerCase()}.`} He uses a{' '}
+          <strong className="text-white">{player.mouse}</strong> and a <strong className="text-white">{player.keyboard}</strong>.
+          The crosshair code, a copy-paste config and full gear are below.
+        </p>
+      </div>
+
       {/* Settings Grid */}
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         {/* Mouse Settings */}
@@ -169,10 +198,18 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
               <span className="text-gray-400">{t('pro_aspect_ratio')}</span>
               <span className="text-white font-bold">{player.aspectRatio}</span>
             </div>
-            <div className="flex justify-between items-center py-2">
+            <div className={`flex justify-between items-center py-2 ${player.viewmodel ? 'border-b border-gray-700' : ''}`}>
               <span className="text-gray-400">{t('pro_scaling_mode')}</span>
               <span className="text-white font-bold">{player.scalingMode}</span>
             </div>
+            {player.viewmodel && (
+              <div className="flex justify-between items-center py-2">
+                <span className="text-gray-400">{t('pro_viewmodel')}</span>
+                <span className="text-white font-bold text-sm">
+                  FOV {player.viewmodel.fov} · {player.viewmodel.offsetX}/{player.viewmodel.offsetY}/{player.viewmodel.offsetZ}
+                </span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -182,26 +219,77 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
         <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
           <span>🎯</span> {t('pro_crosshair')}
         </h2>
-        <div className="bg-gray-900 rounded-lg p-4 mb-4">
-          <div className="flex items-center justify-between">
-            <code className="text-green-400 text-sm break-all">{player.crosshairCode}</code>
-            <CopyButton
-              text={player.crosshairCode}
-              trackingEvent="copy_crosshair"
-              trackingParams={{
-                source: 'pro_player_page',
-                player: player.slug,
-              }}
-            />
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-20 h-20 shrink-0 bg-gray-900 rounded-lg flex items-center justify-center overflow-hidden">
+            <CrosshairCodePreview code={player.crosshairCode} size={76} background="transparent" />
+          </div>
+          <div className="flex-1 min-w-0">
+            <div className="bg-gray-900 rounded-lg p-4">
+              <div className="flex items-center justify-between gap-2">
+                <code className="text-green-400 text-sm break-all">{player.crosshairCode}</code>
+                <CopyButton
+                  text={player.crosshairCode}
+                  trackingEvent="copy_crosshair"
+                  trackingParams={{
+                    source: 'pro_player_page',
+                    player: player.slug,
+                  }}
+                />
+              </div>
+            </div>
+            <p className="text-gray-400 text-sm mt-2">{crosshairDesc}</p>
           </div>
         </div>
-        {player.crosshairDescription && (
-          <p className="text-gray-400 text-sm">{player.crosshairDescription}</p>
-        )}
+        <Link
+          href={`/tools/crosshair-generator?code=${encodeURIComponent(player.crosshairCode)}`}
+          className="text-blue-400 hover:underline text-sm"
+        >
+          Edit this crosshair in the generator →
+        </Link>
         <p className="text-gray-500 text-xs mt-3">
           {t('pro_crosshair_tip')}
         </p>
       </div>
+
+      {/* Config / autoexec — generated from verified settings, serves "{player} config / cfg" searches */}
+      <div className="bg-gray-800 rounded-xl p-6 mb-8">
+        <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+          <span>⚙️</span> {player.name} {t('pro_config')}
+        </h2>
+        <div className="bg-gray-900 rounded-lg p-4 mb-3 relative">
+          <div className="absolute top-3 right-3">
+            <CopyButton
+              text={config}
+              trackingEvent="copy_config"
+              trackingParams={{ source: 'pro_player_page', player: player.slug }}
+            />
+          </div>
+          <pre className="text-green-400 text-xs sm:text-sm whitespace-pre-wrap break-all leading-relaxed pr-12 font-mono">
+            {config}
+          </pre>
+        </div>
+        <p className="text-gray-500 text-xs">{t('pro_config_tip')}</p>
+      </div>
+
+      {/* Launch Options */}
+      {player.launchOptions && (
+        <div className="bg-gray-800 rounded-xl p-6 mb-8">
+          <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
+            <span>🚀</span> {player.name} {t('pro_launch_options')}
+          </h2>
+          <div className="bg-gray-900 rounded-lg p-4 flex items-center justify-between gap-3">
+            <code className="text-green-400 text-sm break-all font-mono">{player.launchOptions}</code>
+            <CopyButton
+              text={player.launchOptions}
+              trackingEvent="copy_launch_options"
+              trackingParams={{ source: 'pro_player_page', player: player.slug }}
+            />
+          </div>
+          <p className="text-gray-500 text-xs mt-3">
+            Steam → right-click CS2 → Properties → Launch Options → paste.
+          </p>
+        </div>
+      )}
 
       {/* Gaming Gear */}
       <div className="bg-gray-800 rounded-xl p-6 mb-8">
@@ -209,12 +297,12 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
           <span>🎮</span> {t('pro_gaming_gear')}
         </h2>
         <div className="grid md:grid-cols-2 gap-4">
-          <GearRow label={t('pro_mouse')} value={player.mouse} gearType="mouse" playerSlug={player.slug} />
-          <GearRow label={t('pro_mousepad')} value={player.mousepad} gearType="mousepad" playerSlug={player.slug} />
-          <GearRow label={t('pro_keyboard')} value={player.keyboard} gearType="keyboard" playerSlug={player.slug} />
-          <GearRow label={t('pro_monitor')} value={player.monitor} gearType="monitor" playerSlug={player.slug} />
+          <GearRow label={t('pro_mouse')} value={player.mouse} gearType="mouse" playerSlug={player.slug} note={player.gearNotes?.mouse} />
+          <GearRow label={t('pro_mousepad')} value={player.mousepad} gearType="mousepad" playerSlug={player.slug} note={player.gearNotes?.mousepad} />
+          <GearRow label={t('pro_keyboard')} value={player.keyboard} gearType="keyboard" playerSlug={player.slug} note={player.gearNotes?.keyboard} />
+          <GearRow label={t('pro_monitor')} value={player.monitor} gearType="monitor" playerSlug={player.slug} note={player.gearNotes?.monitor} />
           <div className="md:col-span-2">
-            <GearRow label={t('pro_headset')} value={player.headset} gearType="headset" playerSlug={player.slug} />
+            <GearRow label={t('pro_headset')} value={player.headset} gearType="headset" playerSlug={player.slug} note={player.gearNotes?.headset} />
           </div>
         </div>
         <p className="text-xs text-gray-500 mt-4">
@@ -268,6 +356,23 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
           </Link>
         </div>
       </div>
+
+      {/* FAQ — visible Q&A; matching FAQPage JSON-LD is emitted in the page route */}
+      {faqs.length > 0 && (
+        <div className="bg-gray-800 rounded-xl p-6 md:p-8 mb-8">
+          <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
+            <span>❓</span> {t('pro_faq')}
+          </h2>
+          <div className="space-y-5">
+            {faqs.map((faq, i) => (
+              <div key={i}>
+                <h3 className="text-base font-semibold text-white mb-1.5">{faq.q}</h3>
+                <p className="text-gray-300 leading-relaxed text-sm">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Similar Players */}
       {similarPlayers.length > 0 && (

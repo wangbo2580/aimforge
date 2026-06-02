@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import type { Crosshair } from '@/data/crosshairs';
+import { CrosshairCodePreview } from '@/components/ui/CrosshairPreview';
 
 interface Props {
   items: Crosshair[];
@@ -29,8 +30,13 @@ export default function DotCrosshairList({ items }: Props) {
           className="bg-gray-800 rounded-xl p-5 hover:bg-gray-750 transition-colors"
         >
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center">
-              <DotPreview color={c.color} />
+            <div className="w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center overflow-hidden">
+              <CrosshairCodePreview
+                code={c.code}
+                size={46}
+                background="transparent"
+                fallback={<DotPreview color={c.color} />}
+              />
             </div>
             <div className="flex-1 min-w-0">
               <h3 className="font-bold text-white">{c.name}</h3>

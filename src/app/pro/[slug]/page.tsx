@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Header from '@/components/layout/Header';
 import ProPlayerDetailContent from '@/components/pages/ProPlayerDetailContent';
-import { getPlayerBySlug, getAllPlayerSlugs, proPlayers } from '@/data/pro-players';
+import { getPlayerBySlug, getAllPlayerSlugs, proPlayers, getPlayerFaqs } from '@/data/pro-players';
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -103,6 +103,18 @@ export default async function ProPlayerPage({ params }: Props) {
     ],
   };
 
+  // FAQPage JSON-LD — must mirror the visible FAQ rendered on the page
+  const faqs = getPlayerFaqs(player);
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((faq) => ({
+      '@type': 'Question',
+      name: faq.q,
+      acceptedAnswer: { '@type': 'Answer', text: faq.a },
+    })),
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <script
@@ -112,6 +124,10 @@ export default async function ProPlayerPage({ params }: Props) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
       <Header />
       <main className="flex-1 py-12 px-4">
