@@ -55,6 +55,18 @@ export default function CrosshairsClient() {
             >
               🎯 Build your own — CS2 Crosshair Generator
             </Link>
+
+            {/* Browse by type — internal links to dedicated landing pages */}
+            <nav className="flex flex-wrap justify-center gap-x-2 gap-y-1 mt-5 text-sm text-gray-400">
+              <span>Jump to:</span>
+              <Link href="/crosshairs/dot" className="text-blue-400 hover:underline">
+                Dot crosshair codes
+              </Link>
+              <span className="text-gray-600">·</span>
+              <Link href="/crosshairs/pro" className="text-blue-400 hover:underline">
+                Pro player crosshairs
+              </Link>
+            </nav>
           </div>
 
           {/* Category Filter */}
@@ -200,109 +212,33 @@ export default function CrosshairsClient() {
             <section>
               <h2 className="text-2xl font-bold text-white mb-4">The crosshairs people actually search for</h2>
               <p className="mb-4 text-gray-400">
-                A few pro crosshairs get searched far more than the rest. If you&apos;re here looking
-                for one of these, scroll up — they&apos;re all in the grid with a copy button.
-                Below is what each one looks like and why people copy it.
+                A handful of pro crosshairs get searched far more than the rest — s1mple, donk,
+                ZywOo, NiKo, m0NESY. They&apos;re all in the grid above with a copy button (filter
+                by Pro Players). For every pro&apos;s code in one place, plus what each setup is and
+                why people copy it, see the{' '}
+                <Link href="/crosshairs/pro" className="text-blue-400 hover:underline">
+                  CS2 pro player crosshair codes page
+                </Link>
+                . For a player&apos;s full sensitivity, DPI and gear, open their{' '}
+                <Link href="/pro" className="text-blue-400 hover:underline">
+                  pro settings page
+                </Link>
+                .
               </p>
-
-              <div className="space-y-6">
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">s1mple crosshair</h3>
-                  <p>
-                    Tiny static cyan cross with a small gap and no center dot. s1mple has used
-                    variations of this since the CS:GO days, and the current crew of pros mostly
-                    landed on something close to it. If you&apos;re used to large dynamic
-                    crosshairs, his version will feel naked at first. Give it a week before you
-                    judge — most people stop noticing the size and start hitting heads more
-                    consistently.
-                  </p>
-                  <p className="mt-2 text-sm text-gray-400">
-                    Code is in the grid above (filter by Pro Players → s1mple).
-                    Pair it with{' '}
-                    <Link href="/pro/s1mple" className="text-blue-400 hover:underline">
-                      his full sensitivity, DPI and gear setup
-                    </Link>{' '}
-                    if you want the whole thing.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">donk crosshair</h3>
-                  <p>
-                    A tiny green classic-static with a negative gap and no dot — the four lines
-                    almost touch in the middle. donk is the youngest superstar in the current scene
-                    and his crosshair reflects that: close to no visual noise, just the bare
-                    minimum needed to know where the bullets go. People copy it because, well,
-                    he never misses. Whether his crosshair is the reason is another question, but
-                    it doesn&apos;t hurt.
-                  </p>
-                  <p className="mt-2 text-sm text-gray-400">
-                    See{' '}
-                    <Link href="/pro/donk" className="text-blue-400 hover:underline">
-                      donk&apos;s full settings
-                    </Link>{' '}
-                    — sensitivity, mouse, monitor.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">ZywOo crosshair</h3>
-                  <p>
-                    Small green static. The classic Vitality look. ZywOo&apos;s crosshair has barely
-                    changed in years and works for both rifles and AWP, which is part of why so many
-                    aspiring AWPers copy it.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">NiKo crosshair</h3>
-                  <p>
-                    Slightly larger than s1mple, small gap, green. NiKo&apos;s setup is a good middle
-                    ground if a tiny static crosshair feels too aggressive but you don&apos;t want
-                    a dynamic one either.
-                  </p>
-                </div>
-
-                <div>
-                  <h3 className="text-xl font-semibold text-white mb-2">m0NESY crosshair</h3>
-                  <p>
-                    Small pink. Stands out from the green / cyan default that most CS pros run.
-                    Worth trying if you have trouble seeing your crosshair against bright walls
-                    or the inferno orange overlays — pink contrasts well in those situations.
-                  </p>
-                </div>
-              </div>
             </section>
 
-            {/* Dot Crosshair Codes */}
+            {/* Dot Crosshair Codes — teaser; full content lives on /crosshairs/dot */}
             <section>
-              <h2 className="text-2xl font-bold text-white mb-4">CS2 dot crosshair codes (copy paste)</h2>
+              <h2 className="text-2xl font-bold text-white mb-4">Looking for a dot crosshair?</h2>
               <p className="mb-3">
-                A pure dot crosshair — no cross lines, just a center dot — is one of the most
-                searched setups in CS2. People look it up because it&apos;s clean, it removes
-                visual clutter, and a few high-profile pros actually use it.
-              </p>
-              <p className="mb-3">
-                The reason people search &quot;csgo dot crosshair copy paste&quot; specifically is
-                because building a clean dot crosshair from scratch in the CS2 settings menu is
-                fiddly — you have to set <code className="text-green-400">cl_crosshairsize 0</code>,
-                turn off the gap, set length to 0, and hope the dot setting actually shows. A
-                share code skips all of that.
-              </p>
-              <p className="mb-3">
-                Use the <strong className="text-white">Dot</strong> filter button above to see
-                all dot-style codes in the grid. The popular ones in our list:
-              </p>
-              <ul className="list-disc list-inside space-y-1 text-gray-400">
-                <li>Pure white dot (most common starter)</li>
-                <li>Cyan dot (high contrast on most maps)</li>
-                <li>Green static with center dot (transitional setup if a pure dot feels too minimal)</li>
-              </ul>
-              <p className="mt-3 text-sm text-gray-400">
-                Tip: if a dot crosshair throws off your spray transfer at first, that&apos;s normal.
-                You&apos;re used to lines guiding your eye through recoil. Two weeks is the usual
-                adjustment window. If after two weeks it still feels worse, switch back — there&apos;s
-                no rule that says pros use dots so you should too.
+                A pure dot — no cross lines, just a center dot — is one of the most searched CS2
+                setups. Grab dot codes from the grid above with the{' '}
+                <strong className="text-white">Dot</strong> filter, or head to the dedicated{' '}
+                <Link href="/crosshairs/dot" className="text-blue-400 hover:underline">
+                  CS2 dot crosshair codes page
+                </Link>{' '}
+                for the full set: pure-dot codes, a build-from-scratch guide, CSGO copy-paste
+                compatibility, and when a dot actually helps your aim.
               </p>
             </section>
 

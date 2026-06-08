@@ -4,16 +4,13 @@ import CrosshairsClient from './CrosshairsClient';
 import { crosshairs } from '@/data/crosshairs';
 
 export const metadata: Metadata = {
-  title: 'CS2 Crosshair Codes — Copy / Paste Pro Player Crosshairs',
-  description: 's1mple, donk, ZywOo, NiKo, m0NESY and 25+ more. Copy a CS2 crosshair code with one click and paste it straight into your game. Includes dot crosshairs, CSGO-compatible codes, and an import guide.',
+  title: 'CS2 Crosshair Codes — One-Click Copy & Paste (30+ Crosshairs)',
+  description: 'Copy any CS2 crosshair code in one click and paste it straight into your game. 30+ crosshairs, CSGO-compatible, with an import guide. Dedicated pages for dot crosshairs and pro player setups.',
   keywords: [
-    's1mple crosshair',
     'cs2 crosshair codes',
+    'cs2 crosshair code',
     'csgo crosshair codes',
-    'csgo dot crosshair copy paste',
-    'cs2 dot crosshair code',
     'crosshair codes copy paste',
-    'pro crosshair cs2',
     'cs2 crosshair',
     'cs2 funny crosshair codes',
     'cs2 crosshair import',
@@ -22,8 +19,8 @@ export const metadata: Metadata = {
     canonical: '/crosshairs',
   },
   openGraph: {
-    title: 'CS2 Crosshair Codes — Pro Player Crosshairs (Copy / Paste)',
-    description: 'Copy s1mple, donk, ZywOo, NiKo crosshair codes in one click. CSGO codes work too. Includes dot crosshairs and a full import guide.',
+    title: 'CS2 Crosshair Codes — One-Click Copy & Paste',
+    description: 'Copy any CS2 crosshair code in one click. 30+ crosshairs, CSGO-compatible, with a full import guide.',
     type: 'website',
   },
 };
