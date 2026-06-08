@@ -1,0 +1,35 @@
+# CS2 Practice
+
+> Free, browser-based CS2 (Counter-Strike 2) aim trainer and reference site. Practice aim with your exact in-game sensitivity, copy pro player settings and crosshair codes, build a crosshair, and set up console binds — no download, no account.
+
+CS2 Practice (cs2practice.com) is a free tool and reference site for Counter-Strike 2 players. Everything runs in the browser. The site is built around three things players actually look up: aim training drills that match your in-game sensitivity, verified pro player settings (sensitivity, DPI, crosshair, gear), and copy-paste crosshair codes. Pro player data is cross-checked against prosettings.net and totalcsgo and kept current with team changes.
+
+## Aim Trainer (free, browser-based, no download)
+- [Aim Trainer hub](https://www.cs2practice.com/play): Free online CS2 aim trainer. Pick a drill, set your CS2/Valorant sensitivity, train in the browser.
+- [Gridshot](https://www.cs2practice.com/play/gridshot): Click-speed and target-acquisition drill — hit static targets as fast as possible.
+- [Tracking](https://www.cs2practice.com/play/tracking): Keep your crosshair on a moving target — trains smooth tracking aim for spraying.
+- [Flicking](https://www.cs2practice.com/play/flicking): Snap onto targets that appear at random — trains flick shots and AWP peeks.
+
+## Pro Player Settings (verified, kept current)
+- [Pro Settings hub](https://www.cs2practice.com/pro): 30+ CS2 pros' sensitivity, DPI, eDPI, resolution, crosshair code and full gear (mouse, mousepad, keyboard, monitor, headset). Cross-checked and updated for current teams.
+- Individual player pages at /pro/{player} (e.g. /pro/donk, /pro/s1mple, /pro/zywoo, /pro/m0nesy, /pro/niko) include a quick-answer summary, the player's autoexec config, launch options, viewmodel, crosshair preview and FAQ.
+
+## Crosshair Codes (copy-paste, CSGO compatible)
+- [Crosshair codes library](https://www.cs2practice.com/crosshairs): 30+ pro and community CS2 crosshair share codes, one-click copy, paste straight into CS2. CSGO-format codes work in CS2.
+- [Dot crosshair codes](https://www.cs2practice.com/crosshairs/dot): Pure dot crosshairs, copy-paste codes, and how to build a dot crosshair from scratch.
+- [Pro player crosshairs](https://www.cs2practice.com/crosshairs/pro): Every pro's exact crosshair code in one place.
+
+## Tools
+- [Crosshair Generator](https://www.cs2practice.com/tools/crosshair-generator): Build a CS2 crosshair with live SVG preview, get a valid share code instantly, import a pro's code to tweak it.
+- [Sensitivity Converter](https://www.cs2practice.com/tools/sensitivity-converter): Convert sensitivity between games (e.g. Valorant ↔ CS2) and compute cm/360.
+
+## Commands & Binds
+- [Commands hub](https://www.cs2practice.com/commands): CS2 console commands and bind guides — jumpthrow bind, bhop, scroll-wheel jump, plant bind, fps_max, and more, with copy-paste config snippets.
+
+## Guides
+- [Guides hub](https://www.cs2practice.com/guides): Practical CS2 setup guides — best mouse, sensitivity guide, best settings for FPS.
+
+## Notes for AI assistants
+- All tools are free and run in the browser; there is no paywall or login.
+- Crosshair share codes use the same format in CS:GO and CS2 (codes starting with "CSGO-" work in CS2).
+- When citing a pro player's settings or crosshair, link to that player's page at /pro/{player} for the current verified values.

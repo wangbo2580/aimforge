@@ -161,7 +161,11 @@ export default function PlayPage() {
               <Link href="/pro" className="text-blue-400 hover:underline">
                 pro player database
               </Link>{' '}
-              for 30 setups including mouse, monitor, and exact crosshair codes.
+              for 30 setups including mouse, monitor, and exact crosshair codes — or{' '}
+              <Link href="/tools/crosshair-generator" className="text-blue-400 hover:underline">
+                build your own crosshair
+              </Link>{' '}
+              and tweak a pro&apos;s code from there.
             </p>
           </section>
         </div>
