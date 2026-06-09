@@ -18,29 +18,36 @@ function GearRow({
   value,
   gearType,
   playerSlug,
+  playerName,
   note,
 }: {
   label: string;
   value: string;
   gearType: string;
   playerSlug: string;
+  playerName: string;
   note?: string;
 }) {
+  const href = amazonSearchLink(value);
   const handleClick = () => {
     trackEvent('click_pro_gear', {
       player: playerSlug,
+      player_name: playerName,
       gear_type: gearType,
       product: value,
+      outbound_url: href,
+      link_destination: 'amazon_search',
     });
   };
 
   return (
     <div className="bg-gray-900/50 hover:bg-gray-900 rounded-lg transition-colors group">
       <a
-        href={amazonSearchLink(value)}
+        href={href}
         target="_blank"
         rel="sponsored noopener noreferrer"
         onClick={handleClick}
+        onAuxClick={handleClick}
         className="flex justify-between items-center py-3 px-4"
       >
         <span className="text-gray-400">{label}</span>
@@ -296,17 +303,20 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
         <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
           <span>🎮</span> {t('pro_gaming_gear')}
         </h2>
+        <p className="text-sm text-gray-400 mb-4 leading-relaxed">
+          Use this as a quick reference for {player.name}&apos;s reported setup. Each link opens Amazon search results for the gear name so you can compare current listings, prices, reviews, and availability before buying.
+        </p>
         <div className="grid md:grid-cols-2 gap-4">
-          <GearRow label={t('pro_mouse')} value={player.mouse} gearType="mouse" playerSlug={player.slug} note={player.gearNotes?.mouse} />
-          <GearRow label={t('pro_mousepad')} value={player.mousepad} gearType="mousepad" playerSlug={player.slug} note={player.gearNotes?.mousepad} />
-          <GearRow label={t('pro_keyboard')} value={player.keyboard} gearType="keyboard" playerSlug={player.slug} note={player.gearNotes?.keyboard} />
-          <GearRow label={t('pro_monitor')} value={player.monitor} gearType="monitor" playerSlug={player.slug} note={player.gearNotes?.monitor} />
+          <GearRow label={t('pro_mouse')} value={player.mouse} gearType="mouse" playerSlug={player.slug} playerName={player.name} note={player.gearNotes?.mouse} />
+          <GearRow label={t('pro_mousepad')} value={player.mousepad} gearType="mousepad" playerSlug={player.slug} playerName={player.name} note={player.gearNotes?.mousepad} />
+          <GearRow label={t('pro_keyboard')} value={player.keyboard} gearType="keyboard" playerSlug={player.slug} playerName={player.name} note={player.gearNotes?.keyboard} />
+          <GearRow label={t('pro_monitor')} value={player.monitor} gearType="monitor" playerSlug={player.slug} playerName={player.name} note={player.gearNotes?.monitor} />
           <div className="md:col-span-2">
-            <GearRow label={t('pro_headset')} value={player.headset} gearType="headset" playerSlug={player.slug} note={player.gearNotes?.headset} />
+            <GearRow label={t('pro_headset')} value={player.headset} gearType="headset" playerSlug={player.slug} playerName={player.name} note={player.gearNotes?.headset} />
           </div>
         </div>
         <p className="text-xs text-gray-500 mt-4">
-          Product links go to Amazon. As an Amazon Associate we may earn from qualifying purchases at no extra cost to you.
+          Product links go to Amazon. As an Amazon Associate we may earn from qualifying purchases at no extra cost to you. Gear data can change, so verify the exact model and seller before checkout.
         </p>
       </div>
 
