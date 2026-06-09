@@ -7,6 +7,7 @@ import GoogleAnalytics from '@/components/GoogleAnalytics';
 import FeedbackButton from '@/components/FeedbackButton';
 
 const inter = Inter({ subsets: ['latin'] });
+const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.cs2practice.com'),
@@ -41,12 +42,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} bg-gray-950 text-white antialiased`}>
-        <Script
-          async
-          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2284455165697243"
-          crossOrigin="anonymous"
-          strategy="afterInteractive"
-        />
+        {adsenseClientId && (
+          <Script
+            async
+            src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adsenseClientId}`}
+            crossOrigin="anonymous"
+            strategy="afterInteractive"
+          />
+        )}
         <GoogleAnalytics />
         <Providers>
           {children}

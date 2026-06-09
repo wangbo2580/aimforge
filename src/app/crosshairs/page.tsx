@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import AdsterraAdSlot from '@/components/ads/AdsterraAdSlot';
 import CrosshairsClient from './CrosshairsClient';
 import { crosshairs } from '@/data/crosshairs';
 
@@ -140,6 +141,7 @@ export default function CrosshairsPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
       />
       <CrosshairsClient />
+      <AdsterraAdSlot />
 
       {/* SEO Article — server-rendered for crawlers */}
       <article className="container mx-auto max-w-3xl px-4 py-16 border-t border-gray-800 text-gray-300 space-y-8">

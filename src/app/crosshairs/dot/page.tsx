@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
+import AdsterraAdSlot from '@/components/ads/AdsterraAdSlot';
 import { crosshairs } from '@/data/crosshairs';
 import DotCrosshairList from './DotCrosshairList';
 
@@ -182,6 +183,8 @@ export default function DotCrosshairsPage() {
                 </p>
               )}
             </section>
+
+            <AdsterraAdSlot />
 
             {/* How to make from scratch */}
             <section className="space-y-4 mb-12 text-gray-300">

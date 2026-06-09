@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
+import AdsterraAdSlot from '@/components/ads/AdsterraAdSlot';
 import ProPlayersContent from '@/components/pages/ProPlayersContent';
 import { proPlayers, featuredPlayers } from '@/data/pro-players';
 
@@ -52,6 +53,7 @@ export default function ProPlayersPage() {
       <Header />
       <main className="flex-1 py-12 px-4">
         <ProPlayersContent featured={featured} others={others} />
+        <AdsterraAdSlot />
 
         {/* SEO Article — server-rendered for crawlers */}
         <article className="container mx-auto max-w-3xl mt-20 pt-12 border-t border-gray-800 text-gray-300 space-y-8">

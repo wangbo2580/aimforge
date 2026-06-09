@@ -5,6 +5,7 @@ import { useTranslation } from '@/lib/i18n';
 import { ProPlayer, countryToFlag, getPlayerConfig, getPlayerFaqs, getPlayerCrosshairDescription } from '@/data/pro-players';
 import CopyButton from '@/components/ui/CopyButton';
 import { CrosshairCodePreview } from '@/components/ui/CrosshairPreview';
+import AdsterraAdSlot from '@/components/ads/AdsterraAdSlot';
 import { amazonSearchLink } from '@/lib/amazon-affiliate';
 import { trackEvent } from '@/lib/analytics';
 
@@ -348,6 +349,8 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
           </div>
         </div>
       )}
+
+      <AdsterraAdSlot className="mb-8" />
 
       {/* Practice CTA */}
       <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl p-6 mb-8 border border-blue-500/30">

@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
+import AdsterraAdSlot from '@/components/ads/AdsterraAdSlot';
 import { crosshairs } from '@/data/crosshairs';
 import ProCrosshairList from './ProCrosshairList';
 
@@ -115,6 +116,8 @@ export default function ProCrosshairsPage() {
               </h2>
               <ProCrosshairList items={proCrosshairs} />
             </section>
+
+            <AdsterraAdSlot />
 
             {/* Common patterns */}
             <section className="space-y-4 mb-12 text-gray-300">

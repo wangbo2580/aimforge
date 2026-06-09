@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import Header from '@/components/layout/Header';
+import AdsterraAdSlot from '@/components/ads/AdsterraAdSlot';
 import GuidesContent from '@/components/pages/GuidesContent';
 import { guides } from '@/data/guides';
 
@@ -23,6 +24,7 @@ export default function GuidesPage() {
       <Header />
       <main className="flex-1 py-12 px-4">
         <GuidesContent guides={guides} />
+        <AdsterraAdSlot />
       </main>
     </div>
   );

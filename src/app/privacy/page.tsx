@@ -4,7 +4,7 @@ import Header from '@/components/layout/Header';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | CS2 Practice',
-  description: 'Privacy Policy for CS2 Practice. Learn how we handle your data, what we collect, and how we use cookies and Google AdSense.',
+  description: 'Privacy Policy for CS2 Practice. Learn how we handle your data, what we collect, and how we use cookies, analytics, advertising, and affiliate links.',
   alternates: { canonical: '/privacy' },
 };
 
@@ -18,7 +18,7 @@ export default function PrivacyPage() {
           <h1 className="text-3xl font-bold mb-8">Privacy Policy</h1>
 
           <div className="prose prose-invert prose-gray max-w-none space-y-6">
-            <p className="text-gray-400">Last updated: February 2025</p>
+            <p className="text-gray-400">Last updated: June 2026</p>
 
             <section>
               <h2 className="text-xl font-semibold mb-3">1. Introduction</h2>
@@ -80,15 +80,15 @@ export default function PrivacyPage() {
             <section>
               <h2 className="text-xl font-semibold mb-3">5. Cookies</h2>
               <p className="text-gray-300">
-                We use cookies for analytics purposes (Google Analytics) and for displaying advertisements
-                (Google AdSense). Google and its advertising partners may use cookies to serve ads based on
-                your prior visits to this website or other websites.
+                We use cookies and similar technologies for analytics purposes (Google Analytics), for
+                displaying advertisements through third-party advertising partners, and for tracking
+                qualifying affiliate referrals. Advertising partners may use cookies or similar identifiers
+                to measure ad impressions, prevent fraud, and serve ads based on your prior visits to this
+                website or other websites.
               </p>
               <p className="text-gray-300 mt-2">
-                You can opt out of personalized advertising by visiting{' '}
-                <a href="https://www.google.com/settings/ads" className="text-blue-400 hover:underline" target="_blank" rel="noopener noreferrer">
-                  Google&apos;s Ads Settings
-                </a>. You can also disable cookies in your browser settings, though this may affect some functionality.
+                You can disable cookies in your browser settings, though this may affect some functionality.
+                Some advertising providers also offer their own opt-out or privacy controls.
               </p>
             </section>
 
@@ -97,7 +97,8 @@ export default function PrivacyPage() {
               <p className="text-gray-300">We use the following third-party services:</p>
               <ul className="list-disc list-inside text-gray-300 mt-2 space-y-1">
                 <li><strong>Google Analytics</strong> - for usage analytics</li>
-                <li><strong>Google AdSense</strong> - for displaying advertisements</li>
+                <li><strong>Third-party advertising networks</strong> - for displaying advertisements on non-training content pages</li>
+                <li><strong>Amazon Associates</strong> - for affiliate links on gear pages</li>
                 <li><strong>Vercel/Cloudflare</strong> - for hosting</li>
               </ul>
               <p className="text-gray-300 mt-2">

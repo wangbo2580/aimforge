@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useTranslation, useI18n } from '@/lib/i18n';
+import AdsterraAdSlot from '@/components/ads/AdsterraAdSlot';
 import { Guide } from '@/data/guides';
 
 interface GuideDetailContentProps {
@@ -57,6 +58,8 @@ export default function GuideDetailContent({ guide, relatedGuides }: GuideDetail
       <div className="prose prose-invert prose-lg max-w-none">
         <MarkdownContent content={isZh ? guide.contentZh : guide.content} />
       </div>
+
+      <AdsterraAdSlot />
 
       {/* CTA */}
       <div className="mt-12 bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-2xl p-8 border border-blue-500/30 text-center">
