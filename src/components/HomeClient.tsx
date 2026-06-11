@@ -54,25 +54,33 @@ export default function HomeClient() {
             <p className="text-xl text-gray-400 mb-8 max-w-2xl mx-auto">
               {t('home_subtitle')}
             </p>
-            <Link
-              href="/play"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl text-lg font-semibold transition-colors"
-            >
-              {t('home_start')}
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <Link
+                href="/play"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl text-lg font-semibold transition-colors"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
-            </Link>
+                {t('home_start')}
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M13 7l5 5m0 0l-5 5m5-5H6"
+                  />
+                </svg>
+              </Link>
+              <Link
+                href="/pro"
+                className="inline-flex items-center gap-2 px-8 py-4 border border-gray-700 hover:border-blue-500 hover:bg-gray-900 rounded-xl text-lg font-semibold transition-colors"
+              >
+                {t('resources_pro')}
+              </Link>
+            </div>
           </div>
         </section>
 

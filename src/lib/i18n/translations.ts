@@ -11,6 +11,7 @@ export const translations = {
     // Navigation
     nav_home: 'Home',
     nav_play: 'Play',
+    nav_pro: 'Pro Settings',
     nav_commands: 'Commands',
     nav_stats: 'Stats',
     nav_settings: 'Settings',
@@ -279,6 +280,7 @@ export const translations = {
     // Navigation
     nav_home: '首页',
     nav_play: '训练',
+    nav_pro: '职业选手',
     nav_commands: '指令',
     nav_stats: '统计',
     nav_settings: '设置',
