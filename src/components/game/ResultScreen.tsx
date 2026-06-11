@@ -2,8 +2,20 @@
 
 // 训练结果展示组件 (F005)
 
+import Link from 'next/link';
 import { TrainingResult } from '@/types/game';
 import { useTranslation } from '@/lib/i18n';
+
+// 导流到已变现内容页（/pro Amazon 联盟、/crosshairs Adsterra）+ GA 事件埋点，
+// 用于衡量「训练页 → 变现内容页」导流效果（复盘实验 #2）。
+function trackContentCta(target: 'pro' | 'crosshairs') {
+  if (typeof window === 'undefined') return;
+  const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
+  gtag?.('event', 'content_cta_click', {
+    cta_location: 'result_screen',
+    cta_target: target,
+  });
+}
 
 interface ResultScreenProps {
   result: TrainingResult;
@@ -87,6 +99,32 @@ export default function ResultScreen({ result, onRestart, onBack }: ResultScreen
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">{t('result_duration')}</span>
             <span className="text-white font-medium">{result.duration}s</span>
+          </div>
+        </div>
+
+        {/* 导流：刚练完瞄准的用户 → 抄 pro 设置/准星（已变现内容页）。
+            放在结算屏 = 全训练页覆盖 + 每回合一次 + 自然停顿。 */}
+        <div className="mb-6 rounded-lg border border-gray-700 bg-gray-700/30 p-4">
+          <p className="mb-3 text-center text-sm font-medium text-gray-300">
+            {t('result_cta_title')}
+          </p>
+          <div className="space-y-2">
+            <Link
+              href="/pro"
+              onClick={() => trackContentCta('pro')}
+              className="flex items-center justify-between rounded-lg bg-gray-700/60 px-4 py-2.5 text-sm text-white transition-colors hover:bg-gray-700"
+            >
+              <span>⭐ {t('result_cta_pro')}</span>
+              <span className="text-blue-400">→</span>
+            </Link>
+            <Link
+              href="/crosshairs"
+              onClick={() => trackContentCta('crosshairs')}
+              className="flex items-center justify-between rounded-lg bg-gray-700/60 px-4 py-2.5 text-sm text-white transition-colors hover:bg-gray-700"
+            >
+              <span>🎯 {t('result_cta_crosshair')}</span>
+              <span className="text-blue-400">→</span>
+            </Link>
           </div>
         </div>
 

@@ -226,6 +226,30 @@ export default function HomeClient() {
                 has 30+ players with full configs and one-click apply.
               </p>
             </div>
+
+            <div>
+              <h2 className="text-2xl font-bold text-white mb-4">Crosshair and settings matter too</h2>
+              <p>
+                Aim is half the picture &mdash; the other half is what you&apos;re looking through.
+                Plenty of players gain accuracy just by switching to a{' '}
+                <Link href="/crosshairs/dot" className="text-blue-400 hover:underline">
+                  dot crosshair
+                </Link>{' '}
+                (grab the{' '}
+                <Link href="/crosshairs" className="text-blue-400 hover:underline">
+                  copy-paste crosshair codes
+                </Link>
+                ), or by copying a pro&apos;s exact config. donk runs a dot &mdash; his full{' '}
+                <Link href="/pro/donk" className="text-blue-400 hover:underline">
+                  settings and crosshair
+                </Link>{' '}
+                are a common starting point, and the{' '}
+                <Link href="/pro" className="text-blue-400 hover:underline">
+                  pro settings database
+                </Link>{' '}
+                has 30+ players with one-click apply.
+              </p>
+            </div>
           </div>
         </section>
       </main>

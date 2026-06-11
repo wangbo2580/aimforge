@@ -61,6 +61,9 @@ export const translations = {
     result_duration: 'Duration',
     result_back: 'Back',
     result_restart: 'Try Again',
+    result_cta_title: "Now grab a pro's exact setup",
+    result_cta_pro: 'Pro settings & sensitivity (30+ players)',
+    result_cta_crosshair: 'Pro crosshair codes — copy & paste',
 
     // Settings
     settings_title: 'Settings',
@@ -326,6 +329,9 @@ export const translations = {
     result_duration: '训练时长',
     result_back: '返回',
     result_restart: '再来一次',
+    result_cta_title: '顺手抄一套职业选手配置',
+    result_cta_pro: '职业选手设置与灵敏度（30+ 选手）',
+    result_cta_crosshair: '职业准星代码 — 复制粘贴即用',
 
     // Settings
     settings_title: '设置',
