@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import { useTranslation } from '@/lib/i18n';
+import { trackEvent } from '@/lib/analytics';
 
 export default function PlayClient() {
   const { t } = useTranslation();
@@ -57,6 +58,12 @@ export default function PlayClient() {
               <Link
                 key={mode.id}
                 href={`/play/${mode.id}`}
+                onClick={() =>
+                  trackEvent('mode_select', {
+                    mode: mode.id,
+                    source: 'play_hub',
+                  })
+                }
                 className="group bg-gray-800 rounded-2xl overflow-hidden hover:ring-2 hover:ring-blue-500 transition-all hover:scale-[1.02]"
               >
                 {/* Header */}

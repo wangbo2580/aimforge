@@ -21,14 +21,19 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   // 初始化语言设置
   useEffect(() => {
-    setMounted(true);
     // 仅从 localStorage 读取用户手动选择的语言
     // 默认使用英文，不自动检测浏览器语言
     const saved = localStorage.getItem(STORAGE_KEY) as Locale;
-    if (saved && (saved === 'en' || saved === 'zh')) {
-      setLocaleState(saved);
-    }
-    // 如果没有保存的设置，保持默认英文 (useState 初始值)
+
+    const initLocale = window.setTimeout(() => {
+      if (saved && (saved === 'en' || saved === 'zh')) {
+        setLocaleState(saved);
+      }
+      // 如果没有保存的设置，保持默认英文 (useState 初始值)
+      setMounted(true);
+    }, 0);
+
+    return () => window.clearTimeout(initLocale);
   }, []);
 
   const setLocale = (newLocale: Locale) => {

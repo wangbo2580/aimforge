@@ -2,10 +2,12 @@
 
 // 统计页面
 
+import { useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import { useGameStore, useStats } from '@/store/game-store';
 import { useTranslation } from '@/lib/i18n';
 import { TrainingType } from '@/types/game';
+import { trackEvent } from '@/lib/analytics';
 
 export default function StatsPage() {
   const { trainingHistory } = useGameStore();
@@ -13,6 +15,13 @@ export default function StatsPage() {
   const { t } = useTranslation();
 
   const totalStats = getTotalStats();
+
+  useEffect(() => {
+    trackEvent('stats_view', {
+      sessions_saved: trainingHistory.length,
+      has_training_history: trainingHistory.length > 0,
+    });
+  }, [trainingHistory.length]);
 
   const trainingTypes: { type: TrainingType; nameKey: 'mode_gridshot' | 'mode_tracking' | 'mode_flicking'; color: string }[] = [
     { type: 'gridshot', nameKey: 'mode_gridshot', color: 'text-red-400' },

@@ -2,6 +2,7 @@
 
 // 设置页面
 
+import { useEffect } from 'react';
 import Header from '@/components/layout/Header';
 import SensitivityConfig from '@/components/game/SensitivityConfig';
 import { useGameStore } from '@/store/game-store';
@@ -10,6 +11,7 @@ import { LanguageSelector } from '@/components/layout/LanguageSwitcher';
 import { SoundPreset } from '@/types/game';
 import { soundManager } from '@/lib/sound-manager';
 import { TranslationKey } from '@/lib/i18n/translations';
+import { trackEvent } from '@/lib/analytics';
 
 export default function SettingsPage() {
   const { settings, updateSettings, clearHistory } = useGameStore();
@@ -18,6 +20,12 @@ export default function SettingsPage() {
   // 为旧版本数据提供默认值
   const soundVolume = settings.soundVolume ?? 0.5;
   const soundPreset = settings.soundPreset ?? 'pistol';
+
+  useEffect(() => {
+    trackEvent('settings_open', {
+      source: 'settings_page',
+    });
+  }, []);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -48,9 +56,14 @@ export default function SettingsPage() {
                   <div className="text-sm text-gray-400">{t('settings_sound_desc')}</div>
                 </div>
                 <button
-                  onClick={() =>
-                    updateSettings({ soundEnabled: !settings.soundEnabled })
-                  }
+                  onClick={() => {
+                    const enabled = !settings.soundEnabled;
+                    updateSettings({ soundEnabled: enabled });
+                    trackEvent('settings_changed', {
+                      setting: 'sound_enabled',
+                      enabled,
+                    });
+                  }}
                   className={`w-12 h-6 rounded-full transition-colors relative ${
                     settings.soundEnabled ? 'bg-blue-600' : 'bg-gray-600'
                   }`}
@@ -82,6 +95,10 @@ export default function SettingsPage() {
                             soundManager.setPreset(preset);
                             soundManager.setVolume(soundVolume);
                             soundManager.play('hit');
+                            trackEvent('settings_changed', {
+                              setting: 'sound_preset',
+                              value: preset,
+                            });
                           }}
                           className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                             soundPreset === preset
@@ -117,6 +134,10 @@ export default function SettingsPage() {
                         soundManager.setVolume(volume);
                         soundManager.setPreset(soundPreset);
                         soundManager.play('hit');
+                        trackEvent('settings_changed', {
+                          setting: 'sound_volume',
+                          value: Math.round(volume * 100),
+                        });
                       }}
                       className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
                     />
@@ -133,9 +154,12 @@ export default function SettingsPage() {
                 <input
                   type="color"
                   value={settings.crosshairColor}
-                  onChange={(e) =>
-                    updateSettings({ crosshairColor: e.target.value })
-                  }
+                  onChange={(e) => {
+                    updateSettings({ crosshairColor: e.target.value });
+                    trackEvent('settings_changed', {
+                      setting: 'crosshair_color',
+                    });
+                  }}
                   className="w-10 h-10 rounded cursor-pointer"
                 />
               </div>
@@ -156,9 +180,14 @@ export default function SettingsPage() {
                   min="5"
                   max="25"
                   value={settings.crosshairSize}
-                  onChange={(e) =>
-                    updateSettings({ crosshairSize: parseInt(e.target.value) })
-                  }
+                  onChange={(e) => {
+                    const size = parseInt(e.target.value);
+                    updateSettings({ crosshairSize: size });
+                    trackEvent('settings_changed', {
+                      setting: 'crosshair_size',
+                      value: size,
+                    });
+                  }}
                   className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
                 />
               </div>
@@ -179,6 +208,9 @@ export default function SettingsPage() {
                   onClick={() => {
                     if (confirm(t('settings_clear_confirm'))) {
                       clearHistory();
+                      trackEvent('training_history_clear', {
+                        source: 'settings_page',
+                      });
                     }
                   }}
                   className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded-lg text-sm font-medium transition-colors"

@@ -7,6 +7,7 @@ import { useGameStore } from '@/store/game-store';
 import { calculateCm360, formatCm360, PRESET_CONFIGS } from '@/lib/sensitivity';
 import { SensitivityConfig as SensitivityConfigType } from '@/types/game';
 import { useTranslation } from '@/lib/i18n';
+import { trackEvent } from '@/lib/analytics';
 
 export default function SensitivityConfig() {
   const { settings, updateSettings } = useGameStore();
@@ -24,6 +25,10 @@ export default function SensitivityConfig() {
         mYaw: game === 'cs2' ? 0.022 : undefined,
       },
     });
+    trackEvent('sensitivity_saved', {
+      field: 'game',
+      game,
+    });
     setActivePreset(null);
   };
 
@@ -33,6 +38,11 @@ export default function SensitivityConfig() {
         ...sensitivity,
         sensitivity: value,
       },
+    });
+    trackEvent('sensitivity_saved', {
+      field: 'sensitivity',
+      game: sensitivity.game,
+      value,
     });
     setActivePreset(null);
   };
@@ -44,6 +54,11 @@ export default function SensitivityConfig() {
         dpi: value,
       },
     });
+    trackEvent('sensitivity_saved', {
+      field: 'dpi',
+      game: sensitivity.game,
+      value,
+    });
     setActivePreset(null);
   };
 
@@ -51,6 +66,11 @@ export default function SensitivityConfig() {
     const preset = PRESET_CONFIGS[presetName];
     if (preset) {
       updateSettings({ sensitivity: preset });
+      trackEvent('sensitivity_saved', {
+        field: 'preset',
+        game: preset.game,
+        preset: presetName,
+      });
       setActivePreset(presetName);
     }
   };
@@ -62,6 +82,11 @@ export default function SensitivityConfig() {
         game: 'custom',
         cm360: value,
       },
+    });
+    trackEvent('sensitivity_saved', {
+      field: 'cm360',
+      game: 'custom',
+      value,
     });
     setActivePreset(null);
   };
@@ -138,7 +163,7 @@ export default function SensitivityConfig() {
             <label className="block text-sm text-gray-400 mb-2">{t('settings_presets')}</label>
             <div className="grid grid-cols-3 gap-2">
               {Object.entries(PRESET_CONFIGS)
-                .filter(([_, config]) => config.game === sensitivity.game)
+                .filter(([, config]) => config.game === sensitivity.game)
                 .map(([name]) => (
                   <button
                     key={name}

@@ -5,13 +5,13 @@
 import Link from 'next/link';
 import { TrainingResult } from '@/types/game';
 import { useTranslation } from '@/lib/i18n';
+import { trackEvent } from '@/lib/analytics';
+import { useGameStore } from '@/store/game-store';
 
 // 导流到已变现内容页（/pro Amazon 联盟、/crosshairs Adsterra）+ GA 事件埋点，
 // 用于衡量「训练页 → 变现内容页」导流效果（复盘实验 #2）。
 function trackContentCta(target: 'pro' | 'crosshairs') {
-  if (typeof window === 'undefined') return;
-  const gtag = (window as unknown as { gtag?: (...args: unknown[]) => void }).gtag;
-  gtag?.('event', 'content_cta_click', {
+  trackEvent('content_cta_click', {
     cta_location: 'result_screen',
     cta_target: target,
   });
@@ -25,6 +25,18 @@ interface ResultScreenProps {
 
 export default function ResultScreen({ result, onRestart, onBack }: ResultScreenProps) {
   const { t } = useTranslation();
+  const trainingHistory = useGameStore((state) => state.trainingHistory);
+
+  const previousSameMode = trainingHistory.filter(
+    (record) =>
+      record.trainingType === result.trainingType &&
+      record.timestamp !== result.timestamp
+  );
+  const previousBest =
+    previousSameMode.length > 0
+      ? Math.max(...previousSameMode.map((record) => record.score))
+      : null;
+  const bestDelta = previousBest === null ? null : result.score - previousBest;
 
   const getTrainingTypeLabel = (type: string) => {
     switch (type) {
@@ -50,9 +62,65 @@ export default function ResultScreen({ result, onRestart, onBack }: ResultScreen
 
   const { grade, color } = getGrade(result.accuracy);
 
+  const getNextDrill = () => {
+    if (result.accuracy < 75) {
+      return {
+        type: result.trainingType,
+        label: getTrainingTypeLabel(result.trainingType),
+        reason: t('routine_reason_precision'),
+        isSameMode: true,
+      };
+    }
+
+    if (result.trainingType === 'tracking') {
+      return {
+        type: 'flicking',
+        label: t('mode_flicking'),
+        reason: t('routine_reason_flicking'),
+        isSameMode: false,
+      };
+    }
+
+    if (result.trainingType === 'flicking') {
+      return {
+        type: 'gridshot',
+        label: t('mode_gridshot'),
+        reason: t('routine_reason_gridshot'),
+        isSameMode: false,
+      };
+    }
+
+    return {
+      type: 'tracking',
+      label: t('mode_tracking'),
+      reason: t('routine_reason_tracking'),
+      isSameMode: false,
+    };
+  };
+
+  const nextDrill = getNextDrill();
+
+  const trackRoutineContinue = () => {
+    trackEvent('routine_continue_click', {
+      from_mode: result.trainingType,
+      next_mode: nextDrill.type,
+      score: result.score,
+      accuracy: Number(result.accuracy.toFixed(1)),
+      best_delta: bestDelta ?? 0,
+    });
+  };
+
+  const trackStatsView = () => {
+    trackEvent('stats_view_click', {
+      source: 'result_screen',
+      mode: result.trainingType,
+      sessions_saved: trainingHistory.length,
+    });
+  };
+
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-black/90">
-      <div className="bg-gray-800 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl">
+      <div className="bg-gray-800 rounded-lg p-6 max-w-lg w-full mx-4 shadow-2xl max-h-[92vh] overflow-y-auto">
         {/* 标题 */}
         <div className="text-center mb-6">
           <h2 className="text-2xl font-bold text-white mb-2">{t('result_complete')}</h2>
@@ -99,6 +167,63 @@ export default function ResultScreen({ result, onRestart, onBack }: ResultScreen
           <div className="flex justify-between text-sm">
             <span className="text-gray-400">{t('result_duration')}</span>
             <span className="text-white font-medium">{result.duration}s</span>
+          </div>
+        </div>
+
+        {/* 留存实验：把一次训练变成下一次训练的入口。 */}
+        <div className="mb-6 rounded-lg border border-blue-500/30 bg-blue-500/10 p-4">
+          <div className="mb-3 flex items-start justify-between gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-blue-300">
+                {t('routine_title')}
+              </p>
+              <h3 className="mt-1 text-lg font-bold text-white">{nextDrill.label}</h3>
+            </div>
+            <div className="rounded-lg bg-gray-950/60 px-3 py-2 text-right">
+              <div className="text-xs text-gray-400">{t('routine_best_delta')}</div>
+              <div
+                className={`text-sm font-bold ${
+                  bestDelta === null
+                    ? 'text-gray-300'
+                    : bestDelta >= 0
+                    ? 'text-green-400'
+                    : 'text-orange-300'
+                }`}
+              >
+                {bestDelta === null
+                  ? t('routine_first_run')
+                  : `${bestDelta >= 0 ? '+' : ''}${bestDelta}`}
+              </div>
+            </div>
+          </div>
+          <p className="mb-4 text-sm text-gray-300">{nextDrill.reason}</p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            {nextDrill.isSameMode ? (
+              <button
+                onClick={() => {
+                  trackRoutineContinue();
+                  onRestart();
+                }}
+                className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+              >
+                {t('routine_continue')}
+              </button>
+            ) : (
+              <Link
+                href={`/play/${nextDrill.type}`}
+                onClick={trackRoutineContinue}
+                className="rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+              >
+                {t('routine_continue')}
+              </Link>
+            )}
+            <Link
+              href="/stats"
+              onClick={trackStatsView}
+              className="rounded-lg bg-gray-700 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-gray-600"
+            >
+              {t('routine_view_progress')}
+            </Link>
           </div>
         </div>
 

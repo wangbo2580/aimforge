@@ -65,6 +65,15 @@ export const translations = {
     result_cta_title: "Now grab a pro's exact setup",
     result_cta_pro: 'Pro settings & sensitivity (30+ players)',
     result_cta_crosshair: 'Pro crosshair codes — copy & paste',
+    routine_title: 'Your next 5-minute warm-up',
+    routine_best_delta: 'vs best',
+    routine_first_run: 'First run',
+    routine_continue: 'Continue routine',
+    routine_view_progress: 'View progress',
+    routine_reason_precision: 'Accuracy dipped this round. Run the same drill again before switching modes.',
+    routine_reason_tracking: 'Clicking is warm. Now train smooth tracking for sprays and transfers.',
+    routine_reason_flicking: 'Tracking is warm. Add quick flicks so your first bullet lands faster.',
+    routine_reason_gridshot: 'Cycle back to Gridshot to finish the warm-up with clean click timing.',
 
     // Settings
     settings_title: 'Settings',
@@ -334,6 +343,15 @@ export const translations = {
     result_cta_title: '顺手抄一套职业选手配置',
     result_cta_pro: '职业选手设置与灵敏度（30+ 选手）',
     result_cta_crosshair: '职业准星代码 — 复制粘贴即用',
+    routine_title: '下一段 5 分钟热身',
+    routine_best_delta: '相比最佳',
+    routine_first_run: '首次记录',
+    routine_continue: '继续训练',
+    routine_view_progress: '查看进步',
+    routine_reason_precision: '这局准确率偏低，先重复同一项，把命中稳定下来再切换模式。',
+    routine_reason_tracking: '点击手感已经热起来了，下一步练平滑追踪，用于压枪和转火。',
+    routine_reason_flicking: '追踪已经热起来了，下一步加入快速甩枪，让第一发更快落点。',
+    routine_reason_gridshot: '回到 Gridshot，用干净的点击节奏完成这一轮热身。',
 
     // Settings
     settings_title: '设置',

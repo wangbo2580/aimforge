@@ -5,6 +5,7 @@ import './globals.css';
 import Providers from '@/components/Providers';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import FeedbackButton from '@/components/FeedbackButton';
+import RetentionTracker from '@/components/RetentionTracker';
 
 const inter = Inter({ subsets: ['latin'] });
 const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
@@ -52,6 +53,7 @@ export default function RootLayout({
         )}
         <GoogleAnalytics />
         <Providers>
+          <RetentionTracker />
           {children}
           <FeedbackButton />
         </Providers>
