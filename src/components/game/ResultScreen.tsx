@@ -3,10 +3,16 @@
 // 训练结果展示组件 (F005)
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { TrainingResult } from '@/types/game';
 import { useTranslation } from '@/lib/i18n';
 import { trackEvent } from '@/lib/analytics';
 import { useGameStore } from '@/store/game-store';
+import {
+  buildFeedbackContext,
+  FeedbackCategory,
+  submitFeedback,
+} from '@/lib/feedback';
 
 // 导流到已变现内容页（/pro Amazon 联盟、/crosshairs Adsterra）+ GA 事件埋点，
 // 用于衡量「训练页 → 变现内容页」导流效果（复盘实验 #2）。
@@ -26,6 +32,11 @@ interface ResultScreenProps {
 export default function ResultScreen({ result, onRestart, onBack }: ResultScreenProps) {
   const { t } = useTranslation();
   const trainingHistory = useGameStore((state) => state.trainingHistory);
+  const [quickFeedback, setQuickFeedback] = useState<string | null>(null);
+  const [quickNote, setQuickNote] = useState('');
+  const [quickStatus, setQuickStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [retentionAnswer, setRetentionAnswer] = useState<string | null>(null);
+  const [retentionStatus, setRetentionStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   const previousSameMode = trainingHistory.filter(
     (record) =>
@@ -116,6 +127,108 @@ export default function ResultScreen({ result, onRestart, onBack }: ResultScreen
       mode: result.trainingType,
       sessions_saved: trainingHistory.length,
     });
+  };
+
+  const feedbackContext = (source: string, selectedOption?: string) =>
+    buildFeedbackContext(source, {
+      trainingMode: result.trainingType,
+      score: result.score,
+      accuracy: Number(result.accuracy.toFixed(1)),
+      duration: result.duration,
+      sessionsSaved: trainingHistory.length,
+      localRuns: trainingHistory.length,
+      selectedOption,
+    });
+
+  const quickFeedbackOptions: {
+    value: string;
+    label: string;
+    category: FeedbackCategory;
+    message: string;
+  }[] = [
+    {
+      value: 'good',
+      label: t('quick_feedback_good'),
+      category: 'positive',
+      message: 'The drill felt good.',
+    },
+    {
+      value: 'too_easy',
+      label: t('quick_feedback_too_easy'),
+      category: 'missing_feature',
+      message: 'The drill felt too easy.',
+    },
+    {
+      value: 'too_hard',
+      label: t('quick_feedback_too_hard'),
+      category: 'missing_feature',
+      message: 'The drill felt too hard.',
+    },
+    {
+      value: 'laggy',
+      label: t('quick_feedback_laggy'),
+      category: 'lag_or_controls',
+      message: 'The drill felt laggy or choppy.',
+    },
+    {
+      value: 'aim_wrong',
+      label: t('quick_feedback_aim_wrong'),
+      category: 'aim_feels_off',
+      message: 'Aim or sensitivity felt wrong.',
+    },
+    {
+      value: 'want_progress',
+      label: t('quick_feedback_progress'),
+      category: 'stats_confusing',
+      message: 'I want better progress tracking.',
+    },
+  ];
+
+  const retentionOptions = [
+    { value: 'daily_warmup_plan', label: t('retention_daily_plan') },
+    { value: 'progress_chart', label: t('retention_progress_chart') },
+    { value: 'leaderboard', label: t('retention_leaderboard') },
+    { value: 'shareable_score_card', label: t('retention_share_card') },
+    { value: 'more_drills', label: t('retention_more_drills') },
+    { value: 'better_cs2_sensitivity', label: t('retention_better_sens') },
+    { value: 'pro_routines', label: t('retention_pro_routines') },
+    { value: 'one_time_use', label: t('retention_one_time') },
+  ];
+
+  const handleQuickFeedback = async (option: typeof quickFeedbackOptions[number]) => {
+    setQuickFeedback(option.value);
+    setQuickStatus('sending');
+
+    try {
+      const success = await submitFeedback({
+        category: option.category,
+        message: quickNote.trim()
+          ? `${option.message}\n\nNote: ${quickNote.trim()}`
+          : option.message,
+        context: feedbackContext('result_screen_quick_feedback', option.value),
+      });
+
+      setQuickStatus(success ? 'success' : 'error');
+    } catch {
+      setQuickStatus('error');
+    }
+  };
+
+  const handleRetentionFeedback = async (option: typeof retentionOptions[number]) => {
+    setRetentionAnswer(option.value);
+    setRetentionStatus('sending');
+
+    try {
+      const success = await submitFeedback({
+        category: 'retention_reason',
+        message: `What would make me come back tomorrow: ${option.value}`,
+        context: feedbackContext('result_screen_retention_question', option.value),
+      });
+
+      setRetentionStatus(success ? 'success' : 'error');
+    } catch {
+      setRetentionStatus('error');
+    }
   };
 
   return (
@@ -226,6 +339,70 @@ export default function ResultScreen({ result, onRestart, onBack }: ResultScreen
             </Link>
           </div>
         </div>
+
+        {/* 结果页微反馈：刚用完工具时收集真实手感。 */}
+        <div className="mb-6 rounded-lg border border-gray-700 bg-gray-900/70 p-4">
+          <div className="mb-3">
+            <p className="text-sm font-semibold text-white">{t('quick_feedback_title')}</p>
+            <p className="mt-1 text-xs text-gray-400">{t('quick_feedback_subtitle')}</p>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {quickFeedbackOptions.map((option) => (
+              <button
+                key={option.value}
+                type="button"
+                onClick={() => handleQuickFeedback(option)}
+                disabled={quickStatus === 'sending'}
+                className={`rounded-lg border px-3 py-2 text-left text-sm transition-colors ${
+                  quickFeedback === option.value
+                    ? 'border-green-500 bg-green-500/15 text-white'
+                    : 'border-gray-700 bg-gray-800 text-gray-300 hover:border-gray-500'
+                }`}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+          <textarea
+            value={quickNote}
+            onChange={(e) => setQuickNote(e.target.value)}
+            placeholder={t('quick_feedback_note')}
+            rows={2}
+            className="mt-3 w-full resize-none rounded-lg border border-gray-700 bg-gray-950 px-3 py-2 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+          />
+          {quickStatus === 'success' && (
+            <p className="mt-2 text-xs text-green-400">{t('quick_feedback_thanks')}</p>
+          )}
+          {quickStatus === 'error' && (
+            <p className="mt-2 text-xs text-red-400">{t('quick_feedback_error')}</p>
+          )}
+        </div>
+
+        {trainingHistory.length >= 2 && (
+          <div className="mb-6 rounded-lg border border-purple-500/30 bg-purple-500/10 p-4">
+            <p className="text-sm font-semibold text-white">{t('retention_question_title')}</p>
+            <div className="mt-3 grid grid-cols-2 gap-2">
+              {retentionOptions.map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  onClick={() => handleRetentionFeedback(option)}
+                  disabled={retentionStatus === 'sending'}
+                  className={`rounded-lg border px-3 py-2 text-left text-xs transition-colors ${
+                    retentionAnswer === option.value
+                      ? 'border-purple-400 bg-purple-500/20 text-white'
+                      : 'border-gray-700 bg-gray-900 text-gray-300 hover:border-gray-500'
+                  }`}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+            {retentionStatus === 'success' && (
+              <p className="mt-2 text-xs text-green-400">{t('quick_feedback_thanks')}</p>
+            )}
+          </div>
+        )}
 
         {/* 导流：刚练完瞄准的用户 → 抄 pro 设置/准星（已变现内容页）。
             放在结算屏 = 全训练页覆盖 + 每回合一次 + 自然停顿。 */}

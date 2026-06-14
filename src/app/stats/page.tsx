@@ -2,17 +2,20 @@
 
 // 统计页面
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Header from '@/components/layout/Header';
 import { useGameStore, useStats } from '@/store/game-store';
 import { useTranslation } from '@/lib/i18n';
 import { TrainingType } from '@/types/game';
 import { trackEvent } from '@/lib/analytics';
+import { buildFeedbackContext, submitFeedback } from '@/lib/feedback';
 
 export default function StatsPage() {
   const { trainingHistory } = useGameStore();
   const { getStatsByType, getTotalStats } = useStats();
   const { t } = useTranslation();
+  const [statsFeedback, setStatsFeedback] = useState('');
+  const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   const totalStats = getTotalStats();
 
@@ -22,6 +25,30 @@ export default function StatsPage() {
       has_training_history: trainingHistory.length > 0,
     });
   }, [trainingHistory.length]);
+
+  const handleStatsFeedback = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!statsFeedback.trim()) return;
+
+    setFeedbackStatus('sending');
+
+    try {
+      const success = await submitFeedback({
+        category: 'stats_confusing',
+        message: statsFeedback,
+        context: buildFeedbackContext('stats_empty_state', {
+          sessionsSaved: trainingHistory.length,
+        }),
+      });
+
+      setFeedbackStatus(success ? 'success' : 'error');
+      if (success) {
+        setStatsFeedback('');
+      }
+    } catch {
+      setFeedbackStatus('error');
+    }
+  };
 
   const trainingTypes: { type: TrainingType; nameKey: 'mode_gridshot' | 'mode_tracking' | 'mode_flicking'; color: string }[] = [
     { type: 'gridshot', nameKey: 'mode_gridshot', color: 'text-red-400' },
@@ -78,6 +105,32 @@ export default function StatsPage() {
             <div className="bg-gray-800 rounded-xl p-8 text-center mb-8">
               <p className="text-gray-400">{t('stats_no_data')}</p>
               <p className="text-sm text-gray-500 mt-2">{t('stats_no_data_hint')}</p>
+              <form onSubmit={handleStatsFeedback} className="mx-auto mt-6 max-w-lg text-left">
+                <label className="block text-sm font-medium text-white">
+                  {t('stats_feedback_title')}
+                </label>
+                <p className="mt-1 text-xs text-gray-500">{t('stats_feedback_desc')}</p>
+                <textarea
+                  value={statsFeedback}
+                  onChange={(e) => setStatsFeedback(e.target.value)}
+                  placeholder={t('stats_feedback_placeholder')}
+                  rows={3}
+                  className="mt-3 w-full resize-none rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-sm text-white placeholder-gray-500 focus:border-blue-500 focus:outline-none"
+                />
+                <button
+                  type="submit"
+                  disabled={feedbackStatus === 'sending' || !statsFeedback.trim()}
+                  className="mt-3 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-500 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {feedbackStatus === 'sending' ? t('feedback_sending') : t('feedback_submit')}
+                </button>
+                {feedbackStatus === 'success' && (
+                  <p className="mt-2 text-xs text-green-400">{t('quick_feedback_thanks')}</p>
+                )}
+                {feedbackStatus === 'error' && (
+                  <p className="mt-2 text-xs text-red-400">{t('quick_feedback_error')}</p>
+                )}
+              </form>
             </div>
           )}
 
