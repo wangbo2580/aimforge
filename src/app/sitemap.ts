@@ -12,6 +12,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${BASE_URL}/`, lastModified, changeFrequency: 'weekly', priority: 1.0 },
     { url: `${BASE_URL}/play`, lastModified, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}/play/warmup`, lastModified, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${BASE_URL}/play/quick-warmup`, lastModified, changeFrequency: 'weekly', priority: 0.85 },
     { url: `${BASE_URL}/play/gridshot`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/play/tracking`, lastModified, changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE_URL}/play/flicking`, lastModified, changeFrequency: 'monthly', priority: 0.8 },

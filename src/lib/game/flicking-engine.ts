@@ -1,6 +1,12 @@
 // Flicking训练引擎 - 快速甩枪训练
 
 import { Target, GameState, TrainingConfig, TARGET_SIZES } from '@/types/game';
+import {
+  AngularCamera,
+  isTargetCentered,
+  projectTarget,
+  rotateCamera,
+} from './angular-aim';
 
 export interface FlickingCallbacks {
   onTargetHit?: (target: Target, reactionTime: number, flickDistance: number) => void;
@@ -12,9 +18,9 @@ export interface FlickingCallbacks {
 
 // 距离配置
 const DISTANCE_CONFIG = {
-  close: { min: 0.15, max: 0.25 },
-  medium: { min: 0.25, max: 0.4 },
-  far: { min: 0.4, max: 0.6 },
+  close: { min: 6, max: 10 },
+  medium: { min: 10, max: 18 },
+  far: { min: 18, max: 28 },
 };
 
 export class FlickingEngine {
@@ -31,8 +37,7 @@ export class FlickingEngine {
   private config: TrainingConfig;
 
   // 输入状态
-  private mouseX: number = 0;
-  private mouseY: number = 0;
+  private camera: AngularCamera = { yaw: 0, pitch: 0 };
   private sensitivityFactor: number = 1;
 
   // 准星设置
@@ -41,7 +46,7 @@ export class FlickingEngine {
 
   // 目标
   private currentTarget: Target | null = null;
-  private lastTargetPos: { x: number; y: number } | null = null;
+  private lastTargetAngle: { yaw: number; pitch: number } | null = null;
 
   // 统计
   private score: number = 0;
@@ -89,11 +94,9 @@ export class FlickingEngine {
     this.flickDistances = [];
     this.remainingTime = this.config.duration;
     this.currentTarget = null;
-    this.lastTargetPos = null;
+    this.lastTargetAngle = null;
 
-    // 初始化鼠标位置到中心
-    this.mouseX = this.canvas.width / 2;
-    this.mouseY = this.canvas.height / 2;
+    this.camera = { yaw: 0, pitch: 0 };
 
     // 生成第一个目标
     this.spawnTarget();
@@ -138,7 +141,7 @@ export class FlickingEngine {
     const deltaTime = (currentTime - this.lastTime) / 1000;
     this.lastTime = currentTime;
 
-    this.update(deltaTime);
+    this.update();
     this.render();
 
     this.remainingTime -= deltaTime;
@@ -151,7 +154,7 @@ export class FlickingEngine {
     this.callbacks.onTick?.(deltaTime);
   }
 
-  private update(_deltaTime: number) {
+  private update() {
     if (!this.currentTarget) return;
 
     // 检查目标是否过期 (2秒)
@@ -171,9 +174,6 @@ export class FlickingEngine {
     ctx.fillStyle = '#1a1a2e';
     ctx.fillRect(0, 0, width, height);
 
-    // 绘制中心参考点
-    this.drawCenterReference();
-
     // 绘制目标
     if (this.currentTarget) {
       this.drawTarget(this.currentTarget);
@@ -186,21 +186,11 @@ export class FlickingEngine {
     this.drawHUD();
   }
 
-  private drawCenterReference() {
-    const ctx = this.ctx;
-    const centerX = this.canvas.width / 2;
-    const centerY = this.canvas.height / 2;
-
-    // 绘制小圆点作为中心参考
-    ctx.beginPath();
-    ctx.arc(centerX, centerY, 3, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
-    ctx.fill();
-  }
-
   private drawTarget(target: Target) {
     const ctx = this.ctx;
-    const { x, y, radius } = target;
+    const projected = projectTarget(this.canvas, this.camera, target);
+    if (!projected.visible) return;
+    const { x, y, radius } = projected;
 
     // 计算剩余时间比例 (2秒超时)
     const age = performance.now() - target.createdAt;
@@ -228,8 +218,8 @@ export class FlickingEngine {
 
   private drawCrosshair() {
     const ctx = this.ctx;
-    const x = this.mouseX;
-    const y = this.mouseY;
+    const x = this.canvas.width / 2;
+    const y = this.canvas.height / 2;
     const size = this.crosshairSize;
     const gap = Math.max(2, this.crosshairSize * 0.3);
 
@@ -275,64 +265,50 @@ export class FlickingEngine {
     const radius = TARGET_SIZES[this.config.targetSize];
     const distanceConfig = DISTANCE_CONFIG[this.config.targetDistance || 'medium'];
 
-    // 从上一个目标位置或中心计算新位置
-    const fromX = this.lastTargetPos?.x ?? this.canvas.width / 2;
-    const fromY = this.lastTargetPos?.y ?? this.canvas.height / 2;
-
-    // 计算距离范围
-    const minDist = Math.min(this.canvas.width, this.canvas.height) * distanceConfig.min;
-    const maxDist = Math.min(this.canvas.width, this.canvas.height) * distanceConfig.max;
-    const distance = minDist + Math.random() * (maxDist - minDist);
-
-    // 随机角度
+    const distance = distanceConfig.min + Math.random() * (distanceConfig.max - distanceConfig.min);
     const angle = Math.random() * Math.PI * 2;
-
-    // 计算新位置
-    let newX = fromX + Math.cos(angle) * distance;
-    let newY = fromY + Math.sin(angle) * distance;
-
-    // 边界限制
-    const margin = radius + 30;
-    newX = Math.max(margin, Math.min(this.canvas.width - margin, newX));
-    newY = Math.max(margin, Math.min(this.canvas.height - margin, newY));
+    const baseYaw = this.camera.yaw;
+    const basePitch = this.camera.pitch;
+    const pitch = Math.max(-18, Math.min(18, basePitch + Math.sin(angle) * distance * 0.65));
 
     this.currentTarget = {
       id: crypto.randomUUID(),
-      x: newX,
-      y: newY,
+      x: 0,
+      y: 0,
       radius,
       createdAt: performance.now(),
       isHit: false,
+      yaw: baseYaw + Math.cos(angle) * distance,
+      pitch,
+      angularRadius:
+        this.config.targetSize === 'small'
+          ? 1.1
+          : this.config.targetSize === 'large'
+          ? 2.4
+          : 1.7,
     };
 
     this.totalTargets++;
   }
 
   onMouseMove(movementX: number, movementY: number) {
-    this.mouseX += movementX * this.sensitivityFactor;
-    this.mouseY += movementY * this.sensitivityFactor;
-
-    this.mouseX = Math.max(0, Math.min(this.canvas.width, this.mouseX));
-    this.mouseY = Math.max(0, Math.min(this.canvas.height, this.mouseY));
+    this.camera = rotateCamera(this.camera, movementX, movementY, this.sensitivityFactor);
   }
 
   onClick(): boolean {
     if (this.gameState !== 'playing' || !this.currentTarget) return false;
 
-    const distance = Math.sqrt(
-      (this.mouseX - this.currentTarget.x) ** 2 +
-      (this.mouseY - this.currentTarget.y) ** 2
-    );
-
-    if (distance <= this.currentTarget.radius) {
+    if (isTargetCentered(this.currentTarget, this.camera)) {
       // 命中
       const reactionTime = performance.now() - this.currentTarget.createdAt;
 
       // 计算甩枪距离
-      const flickDistance = this.lastTargetPos
+      const targetYaw = this.currentTarget.yaw ?? this.camera.yaw;
+      const targetPitch = this.currentTarget.pitch ?? this.camera.pitch;
+      const flickDistance = this.lastTargetAngle
         ? Math.sqrt(
-            (this.currentTarget.x - this.lastTargetPos.x) ** 2 +
-            (this.currentTarget.y - this.lastTargetPos.y) ** 2
+            (targetYaw - this.lastTargetAngle.yaw) ** 2 +
+            (targetPitch - this.lastTargetAngle.pitch) ** 2
           )
         : 0;
 
@@ -346,7 +322,7 @@ export class FlickingEngine {
       this.callbacks.onTargetHit?.(this.currentTarget, reactionTime, flickDistance);
 
       // 记录位置并生成新目标
-      this.lastTargetPos = { x: this.currentTarget.x, y: this.currentTarget.y };
+      this.lastTargetAngle = { yaw: targetYaw, pitch: targetPitch };
       this.spawnTarget();
       return true;
     } else {
@@ -390,7 +366,11 @@ export class FlickingEngine {
   }
 
   destroy() {
-    this.stop();
+    this.isRunning = false;
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+      this.animationId = null;
+    }
     this.currentTarget = null;
   }
 }

@@ -23,13 +23,38 @@ function trackContentCta(target: 'pro' | 'crosshairs') {
   });
 }
 
+function clampScore(value: number) {
+  return Math.max(0, Math.min(100, Math.round(value)));
+}
+
+function gradeFromScore(score: number): { grade: string; color: string; band: string } {
+  if (score >= 95) return { grade: 'S', color: 'text-yellow-400', band: 'Elite' };
+  if (score >= 90) return { grade: 'A', color: 'text-green-400', band: 'Strong' };
+  if (score >= 80) return { grade: 'B', color: 'text-blue-400', band: 'Solid' };
+  if (score >= 70) return { grade: 'C', color: 'text-purple-400', band: 'Developing' };
+  if (score >= 60) return { grade: 'D', color: 'text-orange-400', band: 'Unstable' };
+  return { grade: 'F', color: 'text-red-400', band: 'Needs work' };
+}
+
 interface ResultScreenProps {
   result: TrainingResult;
   onRestart: () => void;
   onBack: () => void;
+  routineAction?: {
+    label: string;
+    description: string;
+    onClick: () => void;
+  };
+  hideRoutineRecommendation?: boolean;
 }
 
-export default function ResultScreen({ result, onRestart, onBack }: ResultScreenProps) {
+export default function ResultScreen({
+  result,
+  onRestart,
+  onBack,
+  routineAction,
+  hideRoutineRecommendation = false,
+}: ResultScreenProps) {
   const { t } = useTranslation();
   const trainingHistory = useGameStore((state) => state.trainingHistory);
   const [quickFeedback, setQuickFeedback] = useState<string | null>(null);
@@ -62,16 +87,40 @@ export default function ResultScreen({ result, onRestart, onBack }: ResultScreen
     }
   };
 
-  const getGrade = (accuracy: number): { grade: string; color: string } => {
-    if (accuracy >= 95) return { grade: 'S', color: 'text-yellow-400' };
-    if (accuracy >= 90) return { grade: 'A', color: 'text-green-400' };
-    if (accuracy >= 80) return { grade: 'B', color: 'text-blue-400' };
-    if (accuracy >= 70) return { grade: 'C', color: 'text-purple-400' };
-    if (accuracy >= 60) return { grade: 'D', color: 'text-orange-400' };
-    return { grade: 'F', color: 'text-red-400' };
-  };
+  const hitsPerSecond = result.duration > 0 ? result.hits / result.duration : 0;
+  const precisionScore = clampScore(result.accuracy);
+  const speedScore = clampScore(
+    result.avgReactionTime > 0
+      ? ((650 - result.avgReactionTime) / 350) * 100
+      : (hitsPerSecond / 1.5) * 100
+  );
+  const controlScore = clampScore(
+    result.trainingType === 'tracking'
+      ? result.accuracy
+      : result.totalTargets > 0
+      ? 100 - (result.misses / result.totalTargets) * 120
+      : result.accuracy
+  );
+  const drillScore = clampScore(
+    result.trainingType === 'tracking'
+      ? precisionScore * 0.65 + controlScore * 0.35
+      : result.trainingType === 'flicking'
+      ? precisionScore * 0.55 + speedScore * 0.3 + controlScore * 0.15
+      : precisionScore * 0.5 + speedScore * 0.35 + controlScore * 0.15
+  );
+  const { grade, color, band } = gradeFromScore(drillScore);
 
-  const { grade, color } = getGrade(result.accuracy);
+  const weakestMetric =
+    [
+      { label: 'precision', score: precisionScore },
+      { label: result.trainingType === 'tracking' ? 'control uptime' : 'speed', score: speedScore },
+      { label: 'miss control', score: controlScore },
+    ].sort((a, b) => a.score - b.score)[0]?.label ?? 'precision';
+
+  const gradeReason =
+    result.trainingType === 'tracking'
+      ? `This tracking grade weighs time-on-target most heavily. Your weakest signal was ${weakestMetric}.`
+      : `This ${result.trainingType} grade weighs precision first, then speed and miss control. Your weakest signal was ${weakestMetric}.`;
 
   const getNextDrill = () => {
     if (result.accuracy < 75) {
@@ -138,6 +187,12 @@ export default function ResultScreen({ result, onRestart, onBack }: ResultScreen
       sessionsSaved: trainingHistory.length,
       localRuns: trainingHistory.length,
       selectedOption,
+      inputMode: result.inputMode,
+      aimEngine: result.aimEngine,
+      calibrationMultiplier: result.calibrationMultiplier,
+      routineId: result.routineId,
+      routineStepId: result.routineStepId,
+      routineStepName: result.routineStepName,
     });
 
   const quickFeedbackOptions: {
@@ -243,6 +298,87 @@ export default function ResultScreen({ result, onRestart, onBack }: ResultScreen
         {/* 评级 */}
         <div className="text-center mb-8">
           <div className={`text-8xl font-black ${color}`}>{grade}</div>
+          <div className="mt-1 text-sm font-semibold text-white">Drill Grade: {band}</div>
+          <p className="mx-auto mt-2 max-w-sm text-xs text-gray-400">
+            {gradeReason} This is a drill score, not a CS2 rank.
+          </p>
+        </div>
+
+        <div className="mb-6 rounded-lg border border-gray-700 bg-gray-900/70 p-4">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold text-white">Why this grade?</p>
+              <p className="mt-1 text-xs text-gray-400">
+                S 95+, A 90-94, B 80-89, C 70-79, D 60-69, F below 60.
+              </p>
+            </div>
+            <span className="rounded bg-gray-950 px-2 py-1 text-sm font-bold text-gray-200">
+              {drillScore}/100
+            </span>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {[
+              { label: 'Precision', value: precisionScore, hint: `${result.accuracy.toFixed(1)}% accuracy` },
+              {
+                label: result.trainingType === 'tracking' ? 'Control' : 'Speed',
+                value: result.trainingType === 'tracking' ? controlScore : speedScore,
+                hint:
+                  result.trainingType === 'tracking'
+                    ? 'time on target'
+                    : result.avgReactionTime > 0
+                    ? `${result.avgReactionTime}ms avg`
+                    : `${hitsPerSecond.toFixed(2)} hits/s`,
+              },
+              { label: 'Miss control', value: controlScore, hint: `${result.misses} misses` },
+            ].map((metric) => (
+              <div key={metric.label} className="rounded-lg bg-gray-800 p-3">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="font-medium text-gray-300">{metric.label}</span>
+                  <span className="font-semibold text-white">{metric.value}</span>
+                </div>
+                <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-gray-700">
+                  <div
+                    className="h-full rounded-full bg-blue-400"
+                    style={{ width: `${metric.value}%` }}
+                  />
+                </div>
+                <div className="mt-1 text-xs text-gray-500">{metric.hint}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-6 rounded-lg border border-gray-700 bg-gray-900/70 p-4">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="text-sm font-semibold text-white">Mouse input confidence</p>
+              <p className="mt-1 text-xs text-gray-400">
+                {result.inputMode === 'raw'
+                  ? 'Raw mouse input was active for this run.'
+                  : result.inputMode === 'pointer-lock'
+                  ? 'Pointer Lock was active, but raw input was not confirmed.'
+                  : 'Browser fallback was used; this run may not feel like CS2.'}
+              </p>
+            </div>
+            <span
+              className={`shrink-0 rounded px-2 py-1 text-xs font-semibold ${
+                result.inputMode === 'raw'
+                  ? 'bg-green-500/15 text-green-300'
+                  : result.inputMode === 'pointer-lock'
+                  ? 'bg-yellow-500/15 text-yellow-200'
+                  : 'bg-red-500/15 text-red-200'
+              }`}
+            >
+              {result.inputMode === 'raw'
+                ? 'Raw'
+                : result.inputMode === 'pointer-lock'
+                ? 'Pointer Lock'
+                : 'Fallback'}
+            </span>
+          </div>
+          <div className="mt-3 text-xs text-gray-500">
+            Aim model: {result.aimEngine === 'angular' ? 'CS2-like angular' : 'cursor'} · Browser calibration: {(result.calibrationMultiplier ?? 1).toFixed(2)}x
+          </div>
         </div>
 
         {/* 主要数据 */}
@@ -283,62 +419,83 @@ export default function ResultScreen({ result, onRestart, onBack }: ResultScreen
           </div>
         </div>
 
+        {routineAction && (
+          <div className="mb-6 rounded-lg border border-green-500/30 bg-green-500/10 p-4">
+            <p className="text-xs font-semibold uppercase tracking-wide text-green-300">
+              Warm-up routine
+            </p>
+            <h3 className="mt-1 text-lg font-bold text-white">{routineAction.description}</h3>
+            <p className="mt-2 text-sm text-gray-300">
+              Keep the flow going while your hand is warm. The full summary comes after the last step.
+            </p>
+            <button
+              type="button"
+              onClick={routineAction.onClick}
+              className="mt-4 w-full rounded-lg bg-green-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-green-500"
+            >
+              {routineAction.label}
+            </button>
+          </div>
+        )}
+
         {/* 留存实验：把一次训练变成下一次训练的入口。 */}
-        <div className="mb-6 rounded-lg border border-blue-500/30 bg-blue-500/10 p-4">
-          <div className="mb-3 flex items-start justify-between gap-4">
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-blue-300">
-                {t('routine_title')}
-              </p>
-              <h3 className="mt-1 text-lg font-bold text-white">{nextDrill.label}</h3>
-            </div>
-            <div className="rounded-lg bg-gray-950/60 px-3 py-2 text-right">
-              <div className="text-xs text-gray-400">{t('routine_best_delta')}</div>
-              <div
-                className={`text-sm font-bold ${
-                  bestDelta === null
-                    ? 'text-gray-300'
-                    : bestDelta >= 0
-                    ? 'text-green-400'
-                    : 'text-orange-300'
-                }`}
-              >
-                {bestDelta === null
-                  ? t('routine_first_run')
-                  : `${bestDelta >= 0 ? '+' : ''}${bestDelta}`}
+        {!hideRoutineRecommendation && (
+          <div className="mb-6 rounded-lg border border-blue-500/30 bg-blue-500/10 p-4">
+            <div className="mb-3 flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-blue-300">
+                  {t('routine_title')}
+                </p>
+                <h3 className="mt-1 text-lg font-bold text-white">{nextDrill.label}</h3>
+              </div>
+              <div className="rounded-lg bg-gray-950/60 px-3 py-2 text-right">
+                <div className="text-xs text-gray-400">{t('routine_best_delta')}</div>
+                <div
+                  className={`text-sm font-bold ${
+                    bestDelta === null
+                      ? 'text-gray-300'
+                      : bestDelta >= 0
+                      ? 'text-green-400'
+                      : 'text-orange-300'
+                  }`}
+                >
+                  {bestDelta === null
+                    ? t('routine_first_run')
+                    : `${bestDelta >= 0 ? '+' : ''}${bestDelta}`}
+                </div>
               </div>
             </div>
-          </div>
-          <p className="mb-4 text-sm text-gray-300">{nextDrill.reason}</p>
-          <div className="grid gap-2 sm:grid-cols-2">
-            {nextDrill.isSameMode ? (
-              <button
-                onClick={() => {
-                  trackRoutineContinue();
-                  onRestart();
-                }}
-                className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
-              >
-                {t('routine_continue')}
-              </button>
-            ) : (
+            <p className="mb-4 text-sm text-gray-300">{nextDrill.reason}</p>
+            <div className="grid gap-2 sm:grid-cols-2">
+              {nextDrill.isSameMode ? (
+                <button
+                  onClick={() => {
+                    trackRoutineContinue();
+                    onRestart();
+                  }}
+                  className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+                >
+                  {t('routine_continue')}
+                </button>
+              ) : (
+                <Link
+                  href={`/play/${nextDrill.type}`}
+                  onClick={trackRoutineContinue}
+                  className="rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+                >
+                  {t('routine_continue')}
+                </Link>
+              )}
               <Link
-                href={`/play/${nextDrill.type}`}
-                onClick={trackRoutineContinue}
-                className="rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+                href="/stats"
+                onClick={trackStatsView}
+                className="rounded-lg bg-gray-700 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-gray-600"
               >
-                {t('routine_continue')}
+                {t('routine_view_progress')}
               </Link>
-            )}
-            <Link
-              href="/stats"
-              onClick={trackStatsView}
-              className="rounded-lg bg-gray-700 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-gray-600"
-            >
-              {t('routine_view_progress')}
-            </Link>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* 结果页微反馈：刚用完工具时收集真实手感。 */}
         <div className="mb-6 rounded-lg border border-gray-700 bg-gray-900/70 p-4">

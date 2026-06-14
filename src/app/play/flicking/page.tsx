@@ -5,7 +5,7 @@ import FlickingClient from '@/components/play/FlickingClient';
 export const metadata: Metadata = {
   title: 'Flicking Trainer Online — Free CS2 Flick / AWP Practice',
   description:
-    'Free online flick trainer for CS2 — practice AWP-style snap aim in your browser, no download. Random-angle targets, calibrated to your real in-game sensitivity.',
+    'Free online flick trainer for CS2 — practice AWP-style snap aim in your browser, no download. Random-angle targets with CS2-style cm/360 calibration.',
   keywords: [
     'flick trainer',
     'flicking trainer online',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Flicking Trainer Online — Free CS2 Flick Practice',
     description:
-      'Snap to random-angle targets to build AWP-style flick accuracy. Browser-based, no download, calibrated to your real CS2/Valorant sensitivity.',
+      'Snap to random-angle targets to build AWP-style flick accuracy. Browser-based, no download, with CS2-style cm/360 calibration.',
     url: '/play/flicking',
     type: 'website',
   },

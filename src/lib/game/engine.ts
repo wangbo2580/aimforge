@@ -1,10 +1,17 @@
 // 游戏引擎核心
 
 import { Target, GameState, TrainingConfig, TARGET_SIZES } from '@/types/game';
+import {
+  AngularCamera,
+  isTargetCentered,
+  projectTarget,
+  randomAngularTarget,
+  rotateCamera,
+} from './angular-aim';
 
 export interface EngineCallbacks {
   onTargetHit?: (target: Target, reactionTime: number) => void;
-  onTargetMiss?: (target: Target) => void;
+  onTargetMiss?: (target?: Target) => void;
   onTargetExpire?: (target: Target) => void;
   onGameStateChange?: (state: GameState) => void;
   onTick?: (deltaTime: number) => void;
@@ -24,8 +31,7 @@ export class GameEngine {
   private config: TrainingConfig;
 
   // 输入状态
-  private mouseX: number = 0;
-  private mouseY: number = 0;
+  private camera: AngularCamera = { yaw: 0, pitch: 0 };
   private sensitivityFactor: number = 1;
 
   // 准星设置
@@ -34,7 +40,6 @@ export class GameEngine {
 
   // 目标管理
   private targets: Target[] = [];
-  private gridPositions: { x: number; y: number }[] = [];
 
   // 统计
   private score: number = 0;
@@ -51,27 +56,6 @@ export class GameEngine {
     this.ctx = canvas.getContext('2d')!;
     this.config = config;
     this.remainingTime = config.duration;
-    this.initGridPositions();
-  }
-
-  private initGridPositions() {
-    const { width, height } = this.canvas;
-    const cols = 5;
-    const rows = 3;
-    const marginX = width * 0.15;
-    const marginY = height * 0.2;
-    const spacingX = (width - marginX * 2) / (cols - 1);
-    const spacingY = (height - marginY * 2) / (rows - 1);
-
-    this.gridPositions = [];
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        this.gridPositions.push({
-          x: marginX + c * spacingX,
-          y: marginY + r * spacingY,
-        });
-      }
-    }
   }
 
   setCallbacks(callbacks: EngineCallbacks) {
@@ -103,9 +87,7 @@ export class GameEngine {
     this.targets = [];
     this.remainingTime = this.config.duration;
 
-    // 初始化鼠标位置到中心
-    this.mouseX = this.canvas.width / 2;
-    this.mouseY = this.canvas.height / 2;
+    this.camera = { yaw: 0, pitch: 0 };
 
     // 生成初始目标
     const targetCount = this.config.targetCount || 3;
@@ -157,7 +139,7 @@ export class GameEngine {
     const deltaTime = (currentTime - this.lastTime) / 1000; // 转换为秒
     this.lastTime = currentTime;
 
-    this.update(deltaTime);
+    this.update();
     this.render();
 
     // 检查时间
@@ -172,7 +154,7 @@ export class GameEngine {
   }
 
   // 更新逻辑
-  private update(deltaTime: number) {
+  private update() {
     const now = performance.now();
     const targetCount = this.config.targetCount || 3;
 
@@ -218,7 +200,9 @@ export class GameEngine {
 
   private drawTarget(target: Target) {
     const ctx = this.ctx;
-    const { x, y, radius } = target;
+    const projected = projectTarget(this.canvas, this.camera, target);
+    if (!projected.visible) return;
+    const { x, y, radius } = projected;
 
     // 外圈
     ctx.beginPath();
@@ -235,8 +219,8 @@ export class GameEngine {
 
   private drawCrosshair() {
     const ctx = this.ctx;
-    const x = this.mouseX;
-    const y = this.mouseY;
+    const x = this.canvas.width / 2;
+    const y = this.canvas.height / 2;
     const size = this.crosshairSize;
     const gap = Math.max(2, this.crosshairSize * 0.3);
 
@@ -287,24 +271,36 @@ export class GameEngine {
   // 生成新目标
   spawnTarget(): Target | null {
     const radius = TARGET_SIZES[this.config.targetSize];
+    let angular = randomAngularTarget(this.config.targetSize, {
+      yawMin: this.camera.yaw - 26,
+      yawMax: this.camera.yaw + 26,
+      pitchMin: this.camera.pitch - 14,
+      pitchMax: this.camera.pitch + 14,
+    });
 
-    // 找到未被占用的位置
-    const usedPositions = new Set(this.targets.map(t => `${t.x},${t.y}`));
-    const availablePositions = this.gridPositions.filter(
-      pos => !usedPositions.has(`${pos.x},${pos.y}`)
-    );
-
-    if (availablePositions.length === 0) return null;
-
-    const pos = availablePositions[Math.floor(Math.random() * availablePositions.length)];
+    for (let attempt = 0; attempt < 12; attempt++) {
+      const overlaps = this.targets.some((target) => {
+        const yaw = target.yaw ?? 0;
+        const pitch = target.pitch ?? 0;
+        return Math.sqrt((yaw - (angular.yaw ?? 0)) ** 2 + (pitch - (angular.pitch ?? 0)) ** 2) < 6;
+      });
+      if (!overlaps) break;
+      angular = randomAngularTarget(this.config.targetSize, {
+        yawMin: this.camera.yaw - 26,
+        yawMax: this.camera.yaw + 26,
+        pitchMin: this.camera.pitch - 14,
+        pitchMax: this.camera.pitch + 14,
+      });
+    }
 
     const target: Target = {
       id: crypto.randomUUID(),
-      x: pos.x,
-      y: pos.y,
+      x: 0,
+      y: 0,
       radius,
       createdAt: performance.now(),
       isHit: false,
+      ...angular,
     };
 
     this.targets.push(target);
@@ -319,20 +315,14 @@ export class GameEngine {
       return;
     }
 
-    this.mouseX += movementX * this.sensitivityFactor;
-    this.mouseY += movementY * this.sensitivityFactor;
-
-    // 边界限制（留一点边距）
-    const margin = 5;
-    this.mouseX = Math.max(margin, Math.min(this.canvas.width - margin, this.mouseX));
-    this.mouseY = Math.max(margin, Math.min(this.canvas.height - margin, this.mouseY));
+    this.camera = rotateCamera(this.camera, movementX, movementY, this.sensitivityFactor);
   }
 
   // 处理点击
   onClick(): boolean {
     if (this.gameState !== 'playing') return false;
 
-    const hitTarget = this.checkHit(this.mouseX, this.mouseY);
+    const hitTarget = this.checkHit();
     if (hitTarget) {
       const reactionTime = performance.now() - hitTarget.createdAt;
       hitTarget.isHit = true;
@@ -343,15 +333,16 @@ export class GameEngine {
       // 目标数量由 update() 维护，不在这里生成
       return true;
     }
+    this.misses++;
+    this.callbacks.onTargetMiss?.();
     return false;
   }
 
   // 检查命中
-  private checkHit(x: number, y: number): Target | null {
+  private checkHit(): Target | null {
     for (const target of this.targets) {
       if (target.isHit) continue;
-      const distance = Math.sqrt((x - target.x) ** 2 + (y - target.y) ** 2);
-      if (distance <= target.radius) {
+      if (isTargetCentered(target, this.camera)) {
         return target;
       }
     }
@@ -390,7 +381,11 @@ export class GameEngine {
 
   // 销毁
   destroy() {
-    this.stop();
+    this.isRunning = false;
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+      this.animationId = null;
+    }
     this.targets = [];
   }
 }

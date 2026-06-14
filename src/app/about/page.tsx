@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const faqs = [
   {
     q: 'Is it really free?',
-    a: 'Yes. No account, no premium tier, no "free trial that becomes paid". The site runs on display ads and Amazon affiliate links on the gear pages. That\'s the whole business model.',
+    a: 'Yes. The trainer, warm-up routines, and core stats are free. I may test optional AI Coach Pro features later, but the basic training flow is not locked behind a paywall.',
   },
   {
     q: 'How is this different from Aim Lab or Kovaak\'s?',
@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     q: 'Does my CS2 sensitivity transfer correctly?',
-    a: 'Yes. Put your in-game sens and DPI in the settings panel. The trainer calculates cm/360° (the actual physical distance for a full turn) and matches it. Whatever you train here, your hand can do in CS2.',
+    a: 'Put your in-game sens and DPI in the settings panel. The trainer uses CS2-style cm/360° calibration and shows the active browser input mode. A browser cannot perfectly replicate CS2, so there is also a calibration helper for small corrections.',
   },
   {
     q: 'Where do the pro settings come from?',
@@ -78,15 +78,17 @@ export default function AboutPage() {
             <section>
               <h2 className="text-xl font-semibold mb-3">What CS2 Practice is</h2>
               <p className="text-gray-300">
-                A free, browser-based aim trainer. No account, no download, no subscription.
-                Open the page, pick a mode, train. Your settings and stats stay in your browser&apos;s local storage.
+                A free, browser-based aim trainer. No account, no download.
+                Open the warm-up, train, get a diagnosis. Your settings and stats stay in your browser&apos;s local storage.
               </p>
               <p className="text-gray-300 mt-3">
                 Current features:
               </p>
               <ul className="list-disc list-inside text-gray-300 mt-2 space-y-1">
+                <li>5-minute and 90-second warm-up routines</li>
                 <li>Three training modes: Gridshot, Tracking, and Flicking</li>
-                <li>Sensitivity sync for CS2, Valorant, Apex, and Overwatch 2</li>
+                <li>CS2-style sensitivity calibration with input confidence</li>
+                <li>AI Aim Coach diagnosis after warm-up</li>
                 <li>A sensitivity converter if you switch between games</li>
                 <li>Pro player settings database &mdash; s1mple, ZywOo, donk, NiKo, m0NESY, and more</li>
                 <li>CS2 crosshair code library with one-click copy</li>

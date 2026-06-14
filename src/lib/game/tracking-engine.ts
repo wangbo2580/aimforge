@@ -1,6 +1,13 @@
 // Tracking训练引擎 - 追踪移动目标
 
 import { Target, GameState, TrainingConfig, TARGET_SIZES, SPEED_VALUES } from '@/types/game';
+import {
+  AngularCamera,
+  getAngularTargetRadius,
+  isTargetCentered,
+  projectTarget,
+  rotateCamera,
+} from './angular-aim';
 
 export interface TrackingCallbacks {
   onTrackingUpdate?: (trackingTime: number, totalTime: number) => void;
@@ -26,8 +33,7 @@ export class TrackingEngine {
   private config: TrainingConfig;
 
   // 输入状态
-  private mouseX: number = 0;
-  private mouseY: number = 0;
+  private camera: AngularCamera = { yaw: 0, pitch: 0 };
   private sensitivityFactor: number = 1;
   private isMouseDown: boolean = false;
 
@@ -77,9 +83,7 @@ export class TrackingEngine {
     this.totalActiveTime = 0;
     this.remainingTime = this.config.duration;
 
-    // 初始化鼠标位置到中心
-    this.mouseX = this.canvas.width / 2;
-    this.mouseY = this.canvas.height / 2;
+    this.camera = { yaw: 0, pitch: 0 };
 
     // 生成目标
     this.spawnTarget();
@@ -158,7 +162,7 @@ export class TrackingEngine {
   private updateTargetPosition(deltaTime: number) {
     if (!this.target) return;
 
-    const speed = SPEED_VALUES[this.config.speed || 'medium'] * 60; // 像素/秒
+    const speed = SPEED_VALUES[this.config.speed || 'medium'] * 1.4;
     const pattern = this.config.movePattern || 'strafe';
 
     switch (pattern) {
@@ -183,27 +187,22 @@ export class TrackingEngine {
 
   private moveLinear(deltaTime: number, speed: number) {
     if (!this.target) return;
-    this.target.x += (this.target.velocityX || speed) * deltaTime;
-    this.target.y += (this.target.velocityY || 0) * deltaTime;
+    this.target.yaw = (this.target.yaw ?? 0) + (this.target.velocityX || speed) * deltaTime;
+    this.target.pitch = (this.target.pitch ?? 0) + (this.target.velocityY || 0) * deltaTime;
   }
 
   private moveStrafe(deltaTime: number, speed: number) {
     if (!this.target) return;
     // 左右移动，模拟玩家闪避
-    this.target.x += (this.target.velocityX || speed) * deltaTime;
+    this.target.yaw = (this.target.yaw ?? 0) + (this.target.velocityX || speed) * deltaTime;
   }
 
   private moveCurve(deltaTime: number, speed: number) {
     if (!this.target) return;
     // 曲线移动
     const time = performance.now() / 1000;
-    const centerX = this.canvas.width / 2;
-    const centerY = this.canvas.height / 2;
-    const radiusX = this.canvas.width * 0.3;
-    const radiusY = this.canvas.height * 0.2;
-
-    this.target.x = centerX + Math.cos(time * (speed / 100)) * radiusX;
-    this.target.y = centerY + Math.sin(time * (speed / 50)) * radiusY;
+    this.target.yaw = this.camera.yaw + Math.cos(time * (speed / 4)) * 10;
+    this.target.pitch = this.camera.pitch + Math.sin(time * (speed / 3)) * 5;
   }
 
   private moveRandom(deltaTime: number, speed: number) {
@@ -211,23 +210,24 @@ export class TrackingEngine {
     // 随机改变方向
     if (Math.random() < 0.02) {
       this.target.velocityX = (Math.random() - 0.5) * speed * 2;
-      this.target.velocityY = (Math.random() - 0.5) * speed * 2;
+      this.target.velocityY = (Math.random() - 0.5) * speed;
     }
-    this.target.x += (this.target.velocityX || 0) * deltaTime;
-    this.target.y += (this.target.velocityY || 0) * deltaTime;
+    this.target.yaw = (this.target.yaw ?? 0) + (this.target.velocityX || 0) * deltaTime;
+    this.target.pitch = (this.target.pitch ?? 0) + (this.target.velocityY || 0) * deltaTime;
   }
 
   private handleBoundaryCollision() {
     if (!this.target) return;
-    const margin = this.target.radius + 20;
+    const yaw = this.target.yaw ?? 0;
+    const pitch = this.target.pitch ?? 0;
 
-    if (this.target.x < margin || this.target.x > this.canvas.width - margin) {
+    if (Math.abs(yaw - this.camera.yaw) > 22) {
       this.target.velocityX = -(this.target.velocityX || 0);
-      this.target.x = Math.max(margin, Math.min(this.canvas.width - margin, this.target.x));
+      this.target.yaw = this.camera.yaw + Math.sign(yaw - this.camera.yaw) * 22;
     }
-    if (this.target.y < margin || this.target.y > this.canvas.height - margin) {
+    if (Math.abs(pitch - this.camera.pitch) > 12) {
       this.target.velocityY = -(this.target.velocityY || 0);
-      this.target.y = Math.max(margin, Math.min(this.canvas.height - margin, this.target.y));
+      this.target.pitch = this.camera.pitch + Math.sign(pitch - this.camera.pitch) * 12;
     }
   }
 
@@ -254,7 +254,9 @@ export class TrackingEngine {
   private drawTarget() {
     if (!this.target) return;
     const ctx = this.ctx;
-    const { x, y, radius } = this.target;
+    const projected = projectTarget(this.canvas, this.camera, this.target);
+    if (!projected.visible) return;
+    const { x, y, radius } = projected;
     const isTracking = this.isOnTarget() && this.isMouseDown;
 
     // 外圈
@@ -272,8 +274,8 @@ export class TrackingEngine {
 
   private drawCrosshair() {
     const ctx = this.ctx;
-    const x = this.mouseX;
-    const y = this.mouseY;
+    const x = this.canvas.width / 2;
+    const y = this.canvas.height / 2;
     const size = this.crosshairSize;
     const gap = Math.max(2, this.crosshairSize * 0.3);
 
@@ -322,35 +324,30 @@ export class TrackingEngine {
 
   private spawnTarget() {
     const radius = TARGET_SIZES[this.config.targetSize];
-    const speed = SPEED_VALUES[this.config.speed || 'medium'] * 60;
+    const speed = SPEED_VALUES[this.config.speed || 'medium'] * 1.4;
 
     this.target = {
       id: crypto.randomUUID(),
-      x: this.canvas.width / 2,
-      y: this.canvas.height / 2,
+      x: 0,
+      y: 0,
       radius,
       createdAt: performance.now(),
       isHit: false,
       velocityX: (Math.random() > 0.5 ? 1 : -1) * speed,
       velocityY: 0,
+      yaw: this.camera.yaw + (Math.random() > 0.5 ? 8 : -8),
+      pitch: this.camera.pitch,
+      angularRadius: getAngularTargetRadius(this.config.targetSize) * 1.15,
     };
   }
 
   private isOnTarget(): boolean {
     if (!this.target) return false;
-    const distance = Math.sqrt(
-      (this.mouseX - this.target.x) ** 2 +
-      (this.mouseY - this.target.y) ** 2
-    );
-    return distance <= this.target.radius;
+    return isTargetCentered(this.target, this.camera);
   }
 
   onMouseMove(movementX: number, movementY: number) {
-    this.mouseX += movementX * this.sensitivityFactor;
-    this.mouseY += movementY * this.sensitivityFactor;
-
-    this.mouseX = Math.max(0, Math.min(this.canvas.width, this.mouseX));
-    this.mouseY = Math.max(0, Math.min(this.canvas.height, this.mouseY));
+    this.camera = rotateCamera(this.camera, movementX, movementY, this.sensitivityFactor);
   }
 
   onMouseDown() {
@@ -391,7 +388,11 @@ export class TrackingEngine {
   }
 
   destroy() {
-    this.stop();
+    this.isRunning = false;
+    if (this.animationId) {
+      cancelAnimationFrame(this.animationId);
+      this.animationId = null;
+    }
     this.target = null;
   }
 }

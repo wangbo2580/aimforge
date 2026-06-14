@@ -13,7 +13,7 @@ const adsenseClientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID;
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.cs2practice.com'),
   title: 'CS2 Practice - Free Online FPS Aim Trainer',
-  description: 'Free online aim trainer for CS2, Valorant and other FPS games. Practice gridshot, tracking and flicking with your exact in-game sensitivity. No download required.',
+  description: 'Free online aim trainer for CS2, Valorant and other FPS games. Practice gridshot, tracking and flicking with CS2-style cm/360 calibration. No download required.',
   keywords: ['aim trainer', 'CS2', 'Valorant', 'FPS', 'gridshot', 'tracking', 'flicking', 'sensitivity', 'free', 'online'],
   alternates: {
     canonical: '/',

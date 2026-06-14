@@ -25,6 +25,12 @@ export interface FeedbackContext {
   sessionsSaved?: number;
   localRuns?: number;
   selectedOption?: string;
+  inputMode?: string;
+  aimEngine?: string;
+  calibrationMultiplier?: number;
+  routineId?: string;
+  routineStepId?: string;
+  routineStepName?: string;
 }
 
 export interface FeedbackPayload {

@@ -5,7 +5,7 @@ import TrackingClient from '@/components/play/TrackingClient';
 export const metadata: Metadata = {
   title: 'Tracking Trainer Online — Free CS2 / Valorant Aim Practice',
   description:
-    'Free online tracking trainer for CS2 and Valorant — strafe, linear, curve, and random patterns. Browser-based, no download, calibrated to your real in-game sensitivity.',
+    'Free online tracking trainer for CS2 and Valorant — strafe, linear, curve, and random patterns. Browser-based, no download, with CS2-style cm/360 calibration.',
   keywords: [
     'tracking trainer online',
     'tracking practice',
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Tracking Trainer Online — Free CS2 / Valorant',
     description:
-      'Track moving targets across strafe, linear, curve and random patterns. Browser-based, no download, calibrated to your real CS2/Valorant sensitivity.',
+      'Track moving targets across strafe, linear, curve and random patterns. Browser-based, no download, with CS2-style cm/360 calibration.',
     url: '/play/tracking',
     type: 'website',
   },

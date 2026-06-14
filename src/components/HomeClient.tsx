@@ -56,10 +56,10 @@ export default function HomeClient() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
-                href="/play"
+                href="/play/warmup"
                 className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl text-lg font-semibold transition-colors"
               >
-                {t('home_start')}
+                Start 5-Min Warm-Up
                 <svg
                   className="w-5 h-5"
                   fill="none"
@@ -75,10 +75,10 @@ export default function HomeClient() {
                 </svg>
               </Link>
               <Link
-                href="/pro"
+                href="/play"
                 className="inline-flex items-center gap-2 px-8 py-4 border border-gray-700 hover:border-blue-500 hover:bg-gray-900 rounded-xl text-lg font-semibold transition-colors"
               >
-                {t('resources_pro')}
+                Choose a Drill
               </Link>
             </div>
           </div>
@@ -225,8 +225,8 @@ export default function HomeClient() {
                 want a 5-minute warm-up before ranked.
               </p>
               <p className="mt-3">
-                This site is the opposite. Open it, set your sens, click targets, close the tab.
-                Stats save in your browser. No account, no upload, nothing leaves your device.
+                This site is the opposite. Open the 5-minute warm-up, set your sens, click targets,
+                get an AI weak-point diagnosis, close the tab. Stats save in your browser. No account, no upload, nothing leaves your device.
                 If you want to copy a pro&apos;s exact setup, the{' '}
                 <Link href="/pro" className="text-blue-400 hover:underline">
                   pro database

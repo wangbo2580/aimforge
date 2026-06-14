@@ -33,7 +33,7 @@ export function calculateCm360(config: SensitivityConfig): number {
  * 在 Web 中，鼠标移动是以像素为单位的 movementX/Y
  * 我们使用 1:1 映射，让用户可以通过设置调整
  */
-export function cm360ToWebSensitivity(cm360: number, _canvasWidth: number): number {
+export function cm360ToWebSensitivity(cm360: number): number {
   // 简化处理：使用 1:1 的基础映射
   // 用户可以通过调整游戏内灵敏度来微调
   // 基准 cm360 = 30cm，这是常见的中等敏感度
@@ -44,6 +44,21 @@ export function cm360ToWebSensitivity(cm360: number, _canvasWidth: number): numb
 
   // 限制范围避免极端值
   return Math.max(0.2, Math.min(3, factor));
+}
+
+export function sensitivityToAngularDegrees(config: SensitivityConfig): number {
+  const calibrationMultiplier = config.calibrationMultiplier ?? 1;
+
+  switch (config.game) {
+    case 'cs2':
+      return config.sensitivity * (config.mYaw ?? 0.022) * calibrationMultiplier;
+    case 'valorant':
+      return config.sensitivity * 0.07 * calibrationMultiplier;
+    case 'custom':
+      return (30 / (config.cm360 || 30)) * 0.044 * calibrationMultiplier;
+    default:
+      return 0.044 * calibrationMultiplier;
+  }
 }
 
 /**

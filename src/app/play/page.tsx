@@ -3,9 +3,9 @@ import Link from 'next/link';
 import PlayClient from '@/components/play/PlayClient';
 
 export const metadata: Metadata = {
-  title: 'Free CS2 Aim Trainer Online — Gridshot, Tracking & Flicking',
+  title: 'Free CS2 Aim Trainer Online — AI Warm-Up, Gridshot & Tracking',
   description:
-    'Browser-based CS2 aim trainer, free, no download. Gridshot for clicking, Tracking for smoothness, Flicking for snaps. Calibrated to your real in-game sensitivity.',
+    'Browser-based CS2 aim trainer, free, no download. Run a 5-minute or 90-second AI warm-up, or train Gridshot, Tracking, and Flicking with CS2-style cm/360 calibration.',
   keywords: [
     'cs2 aim trainer online',
     'cs2 aim training online',
@@ -19,9 +19,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: '/play' },
   openGraph: {
-    title: 'Free CS2 Aim Trainer Online — Gridshot, Tracking & Flicking',
+    title: 'Free CS2 Aim Trainer Online — AI Warm-Up, Gridshot & Tracking',
     description:
-      'Browser-based, no download. Three modes — Gridshot, Tracking, Flicking — calibrated to your real CS2/Valorant sensitivity.',
+      'Browser-based, no download. Guided CS2 warm-ups with AI diagnosis plus Gridshot, Tracking, and Flicking modes.',
     url: '/play',
     type: 'website',
   },
@@ -64,8 +64,12 @@ export default function PlayPage() {
           <section>
             <h3 className="text-xl font-semibold text-white mb-3">Which mode does what</h3>
             <p>
-              The three modes here cover the three distinct mechanical skills CS2 actually rewards.
-              They&apos;re not redundant, and most players are bad at one specific one.
+              If you only want to warm up before ranked, start with the{' '}
+              <Link href="/play/warmup" className="text-blue-400 hover:underline font-medium">
+                5-minute CS2 warm-up
+              </Link>
+              . It combines all three drills and ends with a weak-point diagnosis. The individual
+              modes are still useful when you already know what needs extra work.
             </p>
             <ul className="list-disc pl-6 space-y-3 mt-3">
               <li>
@@ -98,12 +102,12 @@ export default function PlayPage() {
           </section>
 
           <section>
-            <h3 className="text-xl font-semibold text-white mb-3">Calibrated to your real sensitivity</h3>
+            <h3 className="text-xl font-semibold text-white mb-3">CS2-style sensitivity calibration</h3>
             <p>
-              The trainer matches your actual CS2 (or Valorant) cm/360°, so the muscle memory you
-              build here transfers one-for-one to the game. Open the settings panel inside any of the
-              three modes, type in your in-game sensitivity and DPI, and the trainer adjusts. Nothing
-              more to configure.
+              The trainer starts from your CS2 (or Valorant) cm/360°, then shows whether raw mouse
+              input, standard Pointer Lock, or browser fallback is active. Open the settings panel
+              inside any mode, type in your sensitivity and DPI, then use browser calibration if the
+              feel needs a small adjustment.
             </p>
             <p className="mt-3">
               Sensitivity on a weird number? The{' '}

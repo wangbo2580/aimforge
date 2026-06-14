@@ -31,6 +31,12 @@ interface FeedbackInfo {
     sessionsSaved?: number;
     localRuns?: number;
     selectedOption?: string;
+    inputMode?: string;
+    aimEngine?: string;
+    calibrationMultiplier?: number;
+    routineId?: string;
+    routineStepId?: string;
+    routineStepName?: string;
   };
 }
 
@@ -68,6 +74,11 @@ export const slackTemplates = {
       info.context?.page ? `*Page:*\n${info.context.page}` : null,
       info.context?.selectedOption ? `*Option:*\n${info.context.selectedOption}` : null,
       info.context?.trainingMode ? `*Mode:*\n${info.context.trainingMode}` : null,
+      info.context?.aimEngine ? `*Aim engine:*\n${info.context.aimEngine}` : null,
+      info.context?.inputMode ? `*Input mode:*\n${info.context.inputMode}` : null,
+      info.context?.routineId ? `*Routine:*\n${info.context.routineId}` : null,
+      info.context?.routineStepName ? `*Routine step:*\n${info.context.routineStepName}` : null,
+      typeof info.context?.calibrationMultiplier === 'number' ? `*Calibration:*\n${info.context.calibrationMultiplier}x` : null,
       typeof info.context?.score === 'number' ? `*Score:*\n${info.context.score}` : null,
       typeof info.context?.accuracy === 'number' ? `*Accuracy:*\n${info.context.accuracy}%` : null,
       typeof info.context?.sessionsSaved === 'number' ? `*Saved runs:*\n${info.context.sessionsSaved}` : null,

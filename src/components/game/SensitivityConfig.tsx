@@ -12,6 +12,8 @@ import { trackEvent } from '@/lib/analytics';
 export default function SensitivityConfig() {
   const { settings, updateSettings } = useGameStore();
   const [activePreset, setActivePreset] = useState<string | null>(null);
+  const [measuredCm, setMeasuredCm] = useState(10);
+  const [measuredDegrees, setMeasuredDegrees] = useState(90);
   const { t } = useTranslation();
 
   const sensitivity = settings.sensitivity;
@@ -65,7 +67,12 @@ export default function SensitivityConfig() {
   const handlePresetSelect = (presetName: string) => {
     const preset = PRESET_CONFIGS[presetName];
     if (preset) {
-      updateSettings({ sensitivity: preset });
+      updateSettings({
+        sensitivity: {
+          ...preset,
+          calibrationMultiplier: 1,
+        },
+      });
       trackEvent('sensitivity_saved', {
         field: 'preset',
         game: preset.game,
@@ -89,6 +96,40 @@ export default function SensitivityConfig() {
       value,
     });
     setActivePreset(null);
+  };
+
+  const handleCalibrationChange = (value: number) => {
+    updateSettings({
+      sensitivity: {
+        ...sensitivity,
+        calibrationMultiplier: value,
+      },
+    });
+    trackEvent('sensitivity_saved', {
+      field: 'calibration_multiplier',
+      game: sensitivity.game,
+      value,
+    });
+  };
+
+  const applyCalibrationWizard = () => {
+    if (measuredCm <= 0 || measuredDegrees <= 0) return;
+
+    const observedCm360 = (measuredCm * 360) / measuredDegrees;
+    const currentMultiplier = sensitivity.calibrationMultiplier ?? 1;
+    const nextMultiplier = Math.max(
+      0.7,
+      Math.min(1.3, currentMultiplier * (observedCm360 / cm360))
+    );
+
+    handleCalibrationChange(Number(nextMultiplier.toFixed(2)));
+    trackEvent('calibration_wizard_apply', {
+      measured_cm: measuredCm,
+      measured_degrees: measuredDegrees,
+      observed_cm360: Number(observedCm360.toFixed(1)),
+      target_cm360: Number(cm360.toFixed(1)),
+      calibration_multiplier: Number(nextMultiplier.toFixed(2)),
+    });
   };
 
   return (
@@ -216,6 +257,72 @@ export default function SensitivityConfig() {
             ? t('cm360_medium')
             : t('cm360_low')}
         </div>
+      </div>
+
+      <div className="mt-4 rounded-lg border border-blue-500/30 bg-blue-500/10 p-4">
+        <div className="mb-3 flex items-start justify-between gap-4">
+          <div>
+            <label className="text-sm font-semibold text-white">Browser calibration</label>
+            <p className="mt-1 text-xs text-gray-400">
+              Fine-tune the browser trainer after entering your CS2 sensitivity. Use this when the mouse feels faster or slower than CS2.
+            </p>
+          </div>
+          <span className="shrink-0 rounded bg-gray-950/70 px-2 py-1 text-sm font-semibold text-blue-200">
+            {(sensitivity.calibrationMultiplier ?? 1).toFixed(2)}x
+          </span>
+        </div>
+        <input
+          type="range"
+          min="0.7"
+          max="1.3"
+          step="0.01"
+          value={sensitivity.calibrationMultiplier ?? 1}
+          onChange={(e) => handleCalibrationChange(parseFloat(e.target.value))}
+          className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+        />
+        <div className="mt-1 flex justify-between text-xs text-gray-500">
+          <span>Slower</span>
+          <span>CS2-style baseline</span>
+          <span>Faster</span>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-lg border border-gray-700 bg-gray-900/70 p-4">
+        <p className="text-sm font-semibold text-white">Calibration helper</p>
+        <p className="mt-1 text-xs text-gray-400">
+          Move your mouse a measured distance in the trainer, estimate the turn angle, then apply a correction. This keeps calibration honest without claiming a perfect CS2 replica.
+        </p>
+        <div className="mt-4 grid grid-cols-2 gap-3">
+          <label className="text-xs text-gray-400">
+            Mouse moved (cm)
+            <input
+              type="number"
+              min="1"
+              max="80"
+              value={measuredCm}
+              onChange={(event) => setMeasuredCm(Number(event.target.value))}
+              className="mt-1 w-full rounded-lg border border-gray-700 bg-gray-950 px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none"
+            />
+          </label>
+          <label className="text-xs text-gray-400">
+            Trainer turned (degrees)
+            <input
+              type="number"
+              min="1"
+              max="360"
+              value={measuredDegrees}
+              onChange={(event) => setMeasuredDegrees(Number(event.target.value))}
+              className="mt-1 w-full rounded-lg border border-gray-700 bg-gray-950 px-3 py-2 text-sm text-white focus:border-blue-500 focus:outline-none"
+            />
+          </label>
+        </div>
+        <button
+          type="button"
+          onClick={applyCalibrationWizard}
+          className="mt-3 w-full rounded-lg bg-gray-700 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-600"
+        >
+          Apply measured correction
+        </button>
       </div>
     </div>
   );

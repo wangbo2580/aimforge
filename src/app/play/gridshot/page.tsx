@@ -5,7 +5,7 @@ import GridshotClient from '@/components/play/GridshotClient';
 export const metadata: Metadata = {
   title: 'Gridshot Online — Free CS2 Aim Trainer (No Download)',
   description:
-    'Free online Gridshot trainer for CS2 and Valorant. Runs in your browser, no download. Click static targets to build reaction time and click accuracy at your real in-game sensitivity.',
+    'Free online Gridshot trainer for CS2 and Valorant. Runs in your browser, no download. Click static targets with CS2-style cm/360 calibration.',
   keywords: [
     'gridshot online',
     'online gridshot',
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'Gridshot Online — Free CS2 Aim Trainer',
     description:
-      'Click static targets to build reaction time and click accuracy. Browser-based, no download, calibrated to your real CS2/Valorant sensitivity.',
+      'Click static targets to build reaction time and click accuracy. Browser-based, no download, with CS2-style cm/360 calibration.',
     url: '/play/gridshot',
     type: 'website',
   },
@@ -62,10 +62,9 @@ export default function GridshotPage() {
             <h3 className="text-xl font-semibold text-white mb-3">Using this trainer</h3>
             <p>
               Open the settings panel and put in your in-game CS2 (or Valorant) sensitivity and
-              DPI. The trainer matches your real cm/360°, so anything you build here transfers
-              directly. Click the canvas to start. Misses cost you accuracy, hits give you score.
-              30-second sessions by default but you can change duration, target size, and target
-              count in the side panel.
+              DPI. The trainer converts it to cm/360° and shows the active mouse input mode before
+              you start. Misses cost you accuracy, hits give you score. 30-second sessions by
+              default but you can change duration, target size, and target count in the side panel.
             </p>
             <p className="mt-3">
               If your sensitivity in-game is something weird, the converter in{' '}

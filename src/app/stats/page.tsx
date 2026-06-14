@@ -3,12 +3,14 @@
 // 统计页面
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import { useGameStore, useStats } from '@/store/game-store';
 import { useTranslation } from '@/lib/i18n';
 import { TrainingType } from '@/types/game';
 import { trackEvent } from '@/lib/analytics';
 import { buildFeedbackContext, submitFeedback } from '@/lib/feedback';
+import { getWarmupSummary } from '@/lib/training-routines';
 
 export default function StatsPage() {
   const { trainingHistory } = useGameStore();
@@ -18,6 +20,8 @@ export default function StatsPage() {
   const [feedbackStatus, setFeedbackStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   const totalStats = getTotalStats();
+  const recentDiagnosis =
+    trainingHistory.length >= 3 ? getWarmupSummary(trainingHistory.slice(0, 12)) : null;
 
   useEffect(() => {
     trackEvent('stats_view', {
@@ -75,32 +79,65 @@ export default function StatsPage() {
 
           {/* 总体统计 */}
           {totalStats ? (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-              <div className="bg-gray-800 rounded-xl p-4 text-center">
-                <div className="text-3xl font-bold text-white">
-                  {totalStats.totalSessions}
+            <>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                <div className="bg-gray-800 rounded-xl p-4 text-center">
+                  <div className="text-3xl font-bold text-white">
+                    {totalStats.totalSessions}
+                  </div>
+                  <div className="text-sm text-gray-400">{t('stats_total_sessions')}</div>
                 </div>
-                <div className="text-sm text-gray-400">{t('stats_total_sessions')}</div>
-              </div>
-              <div className="bg-gray-800 rounded-xl p-4 text-center">
-                <div className="text-3xl font-bold text-white">
-                  {totalStats.totalScore.toLocaleString()}
+                <div className="bg-gray-800 rounded-xl p-4 text-center">
+                  <div className="text-3xl font-bold text-white">
+                    {totalStats.totalScore.toLocaleString()}
+                  </div>
+                  <div className="text-sm text-gray-400">{t('stats_total_score')}</div>
                 </div>
-                <div className="text-sm text-gray-400">{t('stats_total_score')}</div>
-              </div>
-              <div className="bg-gray-800 rounded-xl p-4 text-center">
-                <div className="text-3xl font-bold text-white">
-                  {totalStats.avgAccuracy.toFixed(1)}%
+                <div className="bg-gray-800 rounded-xl p-4 text-center">
+                  <div className="text-3xl font-bold text-white">
+                    {totalStats.avgAccuracy.toFixed(1)}%
+                  </div>
+                  <div className="text-sm text-gray-400">{t('stats_avg_accuracy')}</div>
                 </div>
-                <div className="text-sm text-gray-400">{t('stats_avg_accuracy')}</div>
-              </div>
-              <div className="bg-gray-800 rounded-xl p-4 text-center">
-                <div className="text-3xl font-bold text-white">
-                  {totalStats.avgReactionTime.toFixed(0)}ms
+                <div className="bg-gray-800 rounded-xl p-4 text-center">
+                  <div className="text-3xl font-bold text-white">
+                    {totalStats.avgReactionTime.toFixed(0)}ms
+                  </div>
+                  <div className="text-sm text-gray-400">{t('stats_avg_reaction')}</div>
                 </div>
-                <div className="text-sm text-gray-400">{t('stats_avg_reaction')}</div>
               </div>
-            </div>
+              {recentDiagnosis && (
+                <section className="mb-8 rounded-lg border border-blue-500/30 bg-blue-500/10 p-6">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-300">
+                    Recent diagnosis
+                  </p>
+                  <h2 className="mt-2 text-2xl font-bold text-white">
+                    Focus next on {recentDiagnosis.weakModeLabel}
+                  </h2>
+                  <p className="mt-2 text-sm text-gray-300">{recentDiagnosis.recommendation}</p>
+                  <div className="mt-4 flex flex-wrap gap-3 text-sm">
+                    <span className="rounded bg-gray-950/60 px-3 py-1 text-gray-200">
+                      Recent accuracy {recentDiagnosis.avgAccuracy.toFixed(1)}%
+                    </span>
+                    <span className="rounded bg-gray-950/60 px-3 py-1 text-gray-200">
+                      Raw input {recentDiagnosis.rawInputRuns}/{Math.min(trainingHistory.length, 12)}
+                    </span>
+                  </div>
+                  <Link
+                    href="/play/warmup"
+                    onClick={() =>
+                      trackEvent('warmup_cta_click', {
+                        source: 'stats_diagnosis',
+                        weak_mode: recentDiagnosis.weakMode,
+                      })
+                    }
+                    className="mt-5 inline-flex rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+                  >
+                    Run today&apos;s warm-up
+                  </Link>
+                </section>
+              )}
+            </>
           ) : (
             <div className="bg-gray-800 rounded-xl p-8 text-center mb-8">
               <p className="text-gray-400">{t('stats_no_data')}</p>

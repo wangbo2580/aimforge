@@ -10,7 +10,7 @@ import { GameEngine } from '@/lib/game/engine';
 import { TrackingEngine } from '@/lib/game/tracking-engine';
 import { FlickingEngine } from '@/lib/game/flicking-engine';
 import { TrainingType, TrainingResult, GameState } from '@/types/game';
-import { calculateCm360, cm360ToWebSensitivity } from '@/lib/sensitivity';
+import { sensitivityToAngularDegrees } from '@/lib/sensitivity';
 import { useTranslation } from '@/lib/i18n';
 import { soundManager } from '@/lib/sound-manager';
 import { trackEvent } from '@/lib/analytics';
@@ -19,11 +19,20 @@ import ResultScreen from './ResultScreen';
 interface GameCanvasProps {
   trainingType: TrainingType;
   onComplete?: (result: TrainingResult) => void;
+  routineContext?: {
+    routineId: string;
+    stepId: string;
+    stepName: string;
+    label: string;
+    isLastStep: boolean;
+    onContinue: () => void;
+  };
 }
 
 type AnyEngine = GameEngine | TrackingEngine | FlickingEngine;
+type InputMode = 'unknown' | 'raw' | 'pointer-lock' | 'browser-fallback';
 
-export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps) {
+export default function GameCanvas({ trainingType, onComplete, routineContext }: GameCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<AnyEngine | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -31,16 +40,23 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
   const [gameState, setGameState] = useState<GameState>('idle');
   const [countdown, setCountdown] = useState(3);
   const [result, setResult] = useState<TrainingResult | null>(null);
-  const [usePointerLockMode, setUsePointerLockMode] = useState(true);
+  const [inputMode, setInputMode] = useState<InputMode>('unknown');
+  const [showFallbackPrompt, setShowFallbackPrompt] = useState(false);
 
   const { settings, trainingConfig, addTrainingResult } = useGameStore();
-  const { isLocked, requestLock, exitLock } = usePointerLock(canvasRef);
+  const {
+    isLocked,
+    lockMode,
+    rawInputSupported,
+    requestLock,
+    exitLock,
+    error: pointerLockError,
+  } = usePointerLock(canvasRef);
   const { t } = useTranslation();
 
   // 计算敏感度因子
   const getSensitivityFactor = useCallback(() => {
-    const cm360 = calculateCm360(settings.sensitivity);
-    return cm360ToWebSensitivity(cm360, canvasRef.current?.width || 800);
+    return sensitivityToAngularDegrees(settings.sensitivity);
   }, [settings.sensitivity]);
 
   // 初始化引擎
@@ -96,6 +112,17 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
             duration: trainingConfig.duration,
             timestamp: Date.now(),
             config: trainingConfig,
+            inputMode:
+              inputMode === 'raw'
+                ? 'raw'
+                : inputMode === 'pointer-lock'
+                ? 'pointer-lock'
+                : 'browser-fallback',
+            calibrationMultiplier: settings.sensitivity.calibrationMultiplier ?? 1,
+            aimEngine: 'angular',
+            routineId: routineContext?.routineId,
+            routineStepId: routineContext?.stepId,
+            routineStepName: routineContext?.stepName,
           };
           setResult(trainingResult);
           addTrainingResult(trainingResult);
@@ -105,6 +132,11 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
             mode: trainingType,
             score: results.score,
             accuracy: results.accuracy,
+            input_mode: inputMode,
+            calibration_multiplier: settings.sensitivity.calibrationMultiplier ?? 1,
+            aim_engine: 'angular',
+            routine_id: routineContext?.routineId,
+            routine_step_id: routineContext?.stepId,
           });
         }
       },
@@ -120,7 +152,7 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
     });
 
     engineRef.current = engine;
-  }, [trainingType, trainingConfig, getSensitivityFactor, settings, addTrainingResult, onComplete, exitLock]);
+  }, [trainingType, trainingConfig, getSensitivityFactor, settings, addTrainingResult, onComplete, exitLock, inputMode, routineContext]);
 
   // 开始游戏（带倒计时）
   const startGame = useCallback(() => {
@@ -150,32 +182,51 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
   }, [initEngine, settings.soundEnabled, settings.soundPreset, settings.soundVolume]);
 
   // 处理点击开始
-  const handleStart = useCallback(() => {
+  const handleStart = useCallback(async (force = false) => {
+    if (!force && gameState !== 'idle') return;
+
+    setShowFallbackPrompt(false);
+    const mode = await requestLock();
+
+    trackEvent('pointer_lock_request', {
+      mode,
+      raw_input_supported: mode === 'raw',
+      training_mode: trainingType,
+    });
+
+    if (mode === 'raw') {
+      setInputMode('raw');
+    } else if (mode === 'standard') {
+      setInputMode('pointer-lock');
+    } else {
+      setInputMode('browser-fallback');
+      setShowFallbackPrompt(true);
+      trackEvent('pointer_lock_failed', {
+        training_mode: trainingType,
+      });
+    }
+  }, [gameState, requestLock, trainingType]);
+
+  const handleFallbackStart = useCallback(() => {
     if (gameState !== 'idle') return;
-
-    // 先尝试 Pointer Lock
-    requestLock();
-
-    // 设置一个超时，如果500ms后仍未锁定，则直接开始（无锁定模式）
-    const timeoutId = setTimeout(() => {
-      if (!document.pointerLockElement && gameState === 'idle') {
-        setUsePointerLockMode(false);
-        startGame();
-      }
-    }, 500);
-
-    return () => clearTimeout(timeoutId);
-  }, [gameState, requestLock, startGame]);
+    setInputMode('browser-fallback');
+    setShowFallbackPrompt(false);
+    trackEvent('pointer_lock_fallback_start', {
+      training_mode: trainingType,
+    });
+    startGame();
+  }, [gameState, startGame, trainingType]);
 
   // 处理锁定状态变化
   useEffect(() => {
     if (isLocked && gameState === 'idle') {
+      setInputMode(lockMode === 'raw' ? 'raw' : 'pointer-lock');
       startGame();
-    } else if (!isLocked && gameState === 'playing' && usePointerLockMode) {
+    } else if (!isLocked && gameState === 'playing' && inputMode !== 'browser-fallback') {
       engineRef.current?.pause();
       setGameState('paused');
     }
-  }, [isLocked, gameState, startGame, usePointerLockMode]);
+  }, [isLocked, lockMode, gameState, startGame, inputMode]);
 
   // 输入处理 - 始终启用（不仅仅是锁定时）
   useGameInput(
@@ -212,7 +263,7 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
           }
           exitLock();
         } else if (key === ' ' && gameState === 'paused') {
-          if (usePointerLockMode) {
+          if (inputMode !== 'browser-fallback') {
             requestLock();
           }
           engineRef.current?.resume();
@@ -220,7 +271,7 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
         }
       },
     },
-    isLocked || !usePointerLockMode
+    isLocked || inputMode === 'browser-fallback'
   );
 
   // 清理
@@ -233,8 +284,10 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
   // 重新开始
   const handleRestart = () => {
     setResult(null);
+    setInputMode('unknown');
+    setShowFallbackPrompt(false);
     setGameState('idle');
-    setTimeout(() => handleStart(), 100);
+    setTimeout(() => handleStart(true), 100);
   };
 
   // 返回
@@ -244,7 +297,7 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
 
   // 恢复游戏
   const handleResume = () => {
-    if (usePointerLockMode) {
+    if (inputMode !== 'browser-fallback') {
       requestLock();
     }
     engineRef.current?.resume();
@@ -260,31 +313,117 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
     }
   };
 
+  const getInputStatus = () => {
+    if (inputMode === 'raw') {
+      return {
+        label: 'Raw input',
+        detail: 'Highest browser confidence for CS2-style mouse movement',
+        color: 'border-green-500/40 bg-green-500/15 text-green-200',
+      };
+    }
+
+    if (inputMode === 'pointer-lock') {
+      return {
+        label: 'Pointer lock',
+        detail: 'Mouse is captured, but OS/browser acceleration may still apply',
+        color: 'border-yellow-500/40 bg-yellow-500/15 text-yellow-100',
+      };
+    }
+
+    if (inputMode === 'browser-fallback') {
+      return {
+        label: 'Browser fallback',
+        detail: 'Not CS2-like. Use only if pointer lock is blocked',
+        color: 'border-red-500/40 bg-red-500/15 text-red-100',
+      };
+    }
+
+    return {
+      label: 'Input check',
+      detail:
+        rawInputSupported === false
+          ? 'Raw input unavailable; pointer lock will still be requested'
+          : 'Click start to request raw mouse input',
+      color: 'border-blue-500/40 bg-blue-500/15 text-blue-100',
+    };
+  };
+
+  const inputStatus = getInputStatus();
+
   return (
     <div ref={containerRef} className="relative w-full h-full bg-gray-900">
+      <div className={`absolute left-4 top-4 z-10 max-w-xs rounded-lg border px-3 py-2 text-xs shadow-lg ${inputStatus.color}`}>
+        <div className="font-semibold">{inputStatus.label}</div>
+        <div className="mt-0.5 opacity-90">{inputStatus.detail}</div>
+      </div>
+
       {/* 游戏画布 */}
       <canvas
         ref={canvasRef}
-        className="w-full h-full cursor-crosshair"
+        className={`w-full h-full ${
+          gameState === 'playing' && inputMode !== 'browser-fallback' ? 'cursor-none' : 'cursor-crosshair'
+        }`}
         onClick={() => {
-          if (gameState === 'idle' && !result) {
+          if (gameState === 'idle' && !result && !showFallbackPrompt) {
             handleStart();
           }
         }}
       />
 
       {/* 开始提示 */}
-      {gameState === 'idle' && !result && (
+      {gameState === 'idle' && !result && !showFallbackPrompt && (
         <div
           className="absolute inset-0 flex items-center justify-center bg-black/50 cursor-pointer"
-          onClick={handleStart}
+          onClick={() => handleStart()}
         >
           <div className="text-center text-white pointer-events-none">
             <h2 className="text-3xl font-bold mb-4">{getModeTitle()}</h2>
-            <p className="text-gray-300 mb-6">{t('game_click_to_start')}</p>
+            <p className="text-gray-300 mb-2">{t('game_click_to_start')}</p>
+            <p className="mx-auto mb-6 max-w-md text-sm text-gray-400">
+              Raw mouse input will be requested first. If your browser blocks it, you will see a clear fallback warning.
+            </p>
             <div className="text-sm text-gray-400">
               <p>{t('game_esc_pause')}</p>
               <p>{t('game_space_continue')}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {gameState === 'idle' && !result && showFallbackPrompt && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/75">
+          <div className="mx-4 max-w-lg rounded-lg border border-red-500/40 bg-gray-900 p-6 text-white shadow-2xl">
+            <p className="text-xs font-semibold uppercase tracking-wide text-red-300">
+              Pointer lock failed
+            </p>
+            <h2 className="mt-2 text-2xl font-bold">CS2-style mouse input is not active</h2>
+            <p className="mt-3 text-sm text-gray-300">
+              The trainer could not capture raw mouse movement. Browser fallback mode uses standard cursor movement, so it will not feel like CS2.
+            </p>
+            {pointerLockError && (
+              <p className="mt-3 rounded-lg bg-gray-800 px-3 py-2 text-xs text-gray-400">
+                Browser message: {pointerLockError}
+              </p>
+            )}
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <button
+                type="button"
+                onClick={() => {
+                  setShowFallbackPrompt(false);
+                  setInputMode('unknown');
+                  handleStart(true);
+                }}
+                className="rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+              >
+                Try again
+              </button>
+              <button
+                type="button"
+                onClick={handleFallbackStart}
+                className="rounded-lg bg-gray-700 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-600"
+              >
+                Start fallback mode
+              </button>
             </div>
           </div>
         </div>
@@ -316,6 +455,16 @@ export default function GameCanvas({ trainingType, onComplete }: GameCanvasProps
           result={result}
           onRestart={handleRestart}
           onBack={handleBack}
+          routineAction={
+            routineContext
+              ? {
+                  label: routineContext.isLastStep ? 'Finish warm-up' : 'Continue warm-up',
+                  description: routineContext.label,
+                  onClick: routineContext.onContinue,
+                }
+              : undefined
+          }
+          hideRoutineRecommendation={Boolean(routineContext)}
         />
       )}
     </div>

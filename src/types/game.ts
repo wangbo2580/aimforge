@@ -20,6 +20,9 @@ export interface Target {
   radius: number;
   createdAt: number;
   isHit: boolean;
+  yaw?: number;
+  pitch?: number;
+  angularRadius?: number;
   // Tracking专用
   velocityX?: number;
   velocityY?: number;
@@ -55,6 +58,12 @@ export interface TrainingResult {
   duration: number;
   timestamp: number;
   config: TrainingConfig;
+  inputMode?: 'raw' | 'pointer-lock' | 'browser-fallback';
+  calibrationMultiplier?: number;
+  aimEngine?: 'cursor' | 'angular';
+  routineId?: string;
+  routineStepId?: string;
+  routineStepName?: string;
 }
 
 // 敏感度配置
@@ -64,6 +73,7 @@ export interface SensitivityConfig {
   dpi: number;
   mYaw?: number; // CS2专用
   cm360?: number; // 计算值
+  calibrationMultiplier?: number;
 }
 
 // 游戏设置
@@ -108,6 +118,7 @@ export const DEFAULT_SETTINGS: GameSettings = {
     sensitivity: 2.0,
     dpi: 800,
     mYaw: 0.022,
+    calibrationMultiplier: 1,
   },
   crosshairColor: '#ffffff',
   crosshairSize: 10,

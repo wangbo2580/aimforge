@@ -6,7 +6,7 @@ export const translations = {
   en: {
     // Common
     app_name: 'CS2 Practice',
-    app_description: 'Free online aim trainer for CS2, Valorant and other FPS games. Practice gridshot, tracking and flicking with your exact in-game sensitivity.',
+    app_description: 'Free online aim trainer for CS2, Valorant and other FPS games. Practice gridshot, tracking and flicking with CS2-style cm/360 calibration.',
 
     // Navigation
     nav_home: 'Home',
@@ -18,7 +18,7 @@ export const translations = {
 
     // Home
     home_title: 'CS2 Practice',
-    home_subtitle: 'Free online FPS aim trainer. Supports CS2, Valorant sensitivity sync with Gridshot, Tracking, and Flicking training modes.',
+    home_subtitle: 'Free online FPS aim trainer. Run a 5-minute CS2 warm-up or train Gridshot, Tracking, and Flicking with CS2-style cm/360 calibration.',
     home_start: 'Start Training',
     home_training_modes: 'Training Modes',
     home_why_choose: 'Why Choose CS2 Practice',
@@ -35,7 +35,7 @@ export const translations = {
     feature_free: 'Free to Use',
     feature_free_desc: 'Start training with no payment required. Core features are free forever',
     feature_sensitivity: 'Sensitivity Sync',
-    feature_sensitivity_desc: 'Supports CS2, Valorant sensitivity settings, training transfers directly',
+    feature_sensitivity_desc: 'Use CS2 or Valorant sensitivity settings with transparent browser calibration',
     feature_no_download: 'No Download',
     feature_no_download_desc: 'Runs in browser, works instantly on all modern browsers',
     feature_local: 'Local Storage',
@@ -155,8 +155,8 @@ export const translations = {
     stats_recent: 'Recent Training Records',
 
     // Play page
-    play_title: 'Select Training Mode',
-    play_subtitle: 'Choose a training mode to start improving your aim. Each mode targets different skills.',
+    play_title: 'Drill Library',
+    play_subtitle: 'Use the warm-up flow before ranked, or choose a single drill when you already know what to fix.',
     play_start: 'Start Training',
     play_tips: 'Training Tips',
     tip_1: 'Make sure mouse sensitivity matches your in-game settings',
@@ -315,7 +315,7 @@ export const translations = {
   zh: {
     // Common
     app_name: 'CS2 Practice',
-    app_description: '免费的在线瞄准训练器，支持 CS2、Valorant 等 FPS 游戏。使用与游戏内完全一致的灵敏度练习 Gridshot、Tracking 和 Flicking。',
+    app_description: '免费的在线瞄准训练器，支持 CS2、Valorant 等 FPS 游戏。使用 CS2 风格 cm/360 校准练习 Gridshot、Tracking 和 Flicking。',
 
     // Navigation
     nav_home: '首页',
@@ -327,7 +327,7 @@ export const translations = {
 
     // Home
     home_title: 'CS2 Practice',
-    home_subtitle: '免费的在线 FPS 瞄准训练器。支持 CS2、Valorant 灵敏度同步，提供 Gridshot、Tracking、Flicking 三种训练模式。',
+    home_subtitle: '免费的在线 FPS 瞄准训练器。可直接运行 5 分钟 CS2 热身，也可练习 Gridshot、Tracking、Flicking 三种模式。',
     home_start: '开始训练',
     home_training_modes: '训练模式',
     home_why_choose: '为什么选择 CS2 Practice',
@@ -344,7 +344,7 @@ export const translations = {
     feature_free: '免费使用',
     feature_free_desc: '无需付费即可开始训练，核心功能永久免费',
     feature_sensitivity: '灵敏度同步',
-    feature_sensitivity_desc: '支持 CS2、Valorant 灵敏度设置，训练效果直接迁移',
+    feature_sensitivity_desc: '支持 CS2、Valorant 灵敏度设置，并显示浏览器输入可信度',
     feature_no_download: '无需下载',
     feature_no_download_desc: '浏览器内运行，打开即用，支持所有现代浏览器',
     feature_local: '本地存储',
@@ -464,8 +464,8 @@ export const translations = {
     stats_recent: '最近训练记录',
 
     // Play page
-    play_title: '选择训练模式',
-    play_subtitle: '选择一个训练模式开始提升你的瞄准能力。每种模式针对不同的技能进行训练。',
+    play_title: '单项训练库',
+    play_subtitle: '排位前优先使用热身流程；如果你已经知道弱项，再选择单项训练。',
     play_start: '开始训练',
     play_tips: '训练小贴士',
     tip_1: '训练前确保鼠标灵敏度设置与游戏内一致',
