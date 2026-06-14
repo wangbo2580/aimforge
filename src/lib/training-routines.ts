@@ -13,6 +13,9 @@ export interface TrainingRoutineStep {
 
 export const CS2_WARMUP_ROUTINE_ID = 'cs2-5-minute-warmup';
 export const CS2_QUICK_WARMUP_ROUTINE_ID = 'cs2-90-second-quick-warmup';
+export const RIFLE_ENTRY_ROUTINE_ID = 'rifle-entry-routine';
+export const AWP_FLICK_ROUTINE_ID = 'awp-flick-routine';
+export const SPRAY_TRANSFER_ROUTINE_ID = 'spray-transfer-routine';
 
 export const CS2_WARMUP_STEPS: TrainingRoutineStep[] = [
   {
@@ -106,7 +109,130 @@ export const CS2_QUICK_WARMUP_STEPS: TrainingRoutineStep[] = [
   },
 ];
 
+export const RIFLE_ENTRY_STEPS: TrainingRoutineStep[] = [
+  {
+    id: 'entry-gridshot-heads',
+    name: 'Entry head check',
+    shortName: 'Head check',
+    type: 'gridshot',
+    duration: 60,
+    focus: 'first bullet confidence',
+    reason: 'Start with clean stationary head clicks before adding movement pressure.',
+    config: { duration: 60, targetSize: 'small', targetCount: 3 },
+  },
+  {
+    id: 'entry-tracking-strafe',
+    name: 'Strafe correction',
+    shortName: 'Strafe',
+    type: 'tracking',
+    duration: 90,
+    focus: 'jiggle-peek control',
+    reason: 'Practice keeping the crosshair connected while the target moves like a peeking rifler.',
+    config: { duration: 90, targetSize: 'medium', movePattern: 'strafe', speed: 'fast' },
+  },
+  {
+    id: 'entry-flick-reset',
+    name: 'Second target reset',
+    shortName: 'Reset',
+    type: 'flicking',
+    duration: 60,
+    focus: 'transfer after first duel',
+    reason: 'Finish with medium flicks so the hand is ready for multi-kill entry attempts.',
+    config: { duration: 60, targetSize: 'medium', targetDistance: 'medium' },
+  },
+];
+
+export const AWP_FLICK_STEPS: TrainingRoutineStep[] = [
+  {
+    id: 'awp-far-flick',
+    name: 'Far angle flick',
+    shortName: 'Far flick',
+    type: 'flicking',
+    duration: 90,
+    focus: 'single-shot accuracy',
+    reason: 'Warm up deliberate long snaps without spamming shots.',
+    config: { duration: 90, targetSize: 'medium', targetDistance: 'far' },
+  },
+  {
+    id: 'awp-gridshot-hold',
+    name: 'Hold and click',
+    shortName: 'Hold',
+    type: 'gridshot',
+    duration: 60,
+    focus: 'click discipline',
+    reason: 'Reset click timing so the flick routine does not become panic shooting.',
+    config: { duration: 60, targetSize: 'small', targetCount: 2 },
+  },
+  {
+    id: 'awp-close-reaction',
+    name: 'Close reaction',
+    shortName: 'Close',
+    type: 'flicking',
+    duration: 60,
+    focus: 'emergency snap',
+    reason: 'Finish with close-range snaps for late info and retake moments.',
+    config: { duration: 60, targetSize: 'medium', targetDistance: 'close' },
+  },
+];
+
+export const SPRAY_TRANSFER_STEPS: TrainingRoutineStep[] = [
+  {
+    id: 'spray-tracking-strafe',
+    name: 'Strafe tracking',
+    shortName: 'Strafe',
+    type: 'tracking',
+    duration: 120,
+    focus: 'spray transfer base',
+    reason: 'Build the smooth correction needed before switching targets.',
+    config: { duration: 120, targetSize: 'medium', movePattern: 'strafe', speed: 'medium' },
+  },
+  {
+    id: 'spray-gridshot-reset',
+    name: 'Transfer reset',
+    shortName: 'Reset',
+    type: 'gridshot',
+    duration: 60,
+    focus: 'target switching',
+    reason: 'Use short click switches to reinforce target-to-target timing.',
+    config: { duration: 60, targetSize: 'medium', targetCount: 5 },
+  },
+  {
+    id: 'spray-random-control',
+    name: 'Random control',
+    shortName: 'Control',
+    type: 'tracking',
+    duration: 60,
+    focus: 'unstable correction',
+    reason: 'Finish with less predictable motion so control does not depend on one pattern.',
+    config: { duration: 60, targetSize: 'medium', movePattern: 'random', speed: 'medium' },
+  },
+];
+
 export function getRoutineById(routineId: string) {
+  if (routineId === RIFLE_ENTRY_ROUTINE_ID) {
+    return {
+      id: RIFLE_ENTRY_ROUTINE_ID,
+      label: 'Rifle entry routine',
+      steps: RIFLE_ENTRY_STEPS,
+    };
+  }
+
+  if (routineId === AWP_FLICK_ROUTINE_ID) {
+    return {
+      id: AWP_FLICK_ROUTINE_ID,
+      label: 'AWP flick routine',
+      steps: AWP_FLICK_STEPS,
+    };
+  }
+
+  if (routineId === SPRAY_TRANSFER_ROUTINE_ID) {
+    return {
+      id: SPRAY_TRANSFER_ROUTINE_ID,
+      label: 'Spray transfer routine',
+      steps: SPRAY_TRANSFER_STEPS,
+    };
+  }
+
   if (routineId === CS2_QUICK_WARMUP_ROUTINE_ID) {
     return {
       id: CS2_QUICK_WARMUP_ROUTINE_ID,

@@ -7,10 +7,61 @@ import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import { useGameStore, useStats } from '@/store/game-store';
 import { useTranslation } from '@/lib/i18n';
-import { TrainingType } from '@/types/game';
+import { TrainingResult, TrainingType } from '@/types/game';
 import { trackEvent } from '@/lib/analytics';
 import { buildFeedbackContext, submitFeedback } from '@/lib/feedback';
 import { getWarmupSummary } from '@/lib/training-routines';
+
+function average(values: number[]) {
+  if (values.length === 0) return 0;
+  return values.reduce((sum, value) => sum + value, 0) / values.length;
+}
+
+function getRecentTrend(history: TrainingResult[]) {
+  const recent = history.slice(0, 7);
+  const chronological = [...recent].reverse();
+  const older = history.slice(7, 14);
+  const recentAccuracy = average(recent.map((item) => item.accuracy));
+  const olderAccuracy = average(older.map((item) => item.accuracy));
+  const recentScore = average(recent.map((item) => item.score));
+  const olderScore = average(older.map((item) => item.score));
+  const recentMisses = average(recent.map((item) => item.misses));
+  const olderMisses = average(older.map((item) => item.misses));
+
+  return {
+    recent,
+    chronological,
+    accuracyDelta: older.length > 0 ? recentAccuracy - olderAccuracy : null,
+    scoreDelta: older.length > 0 ? recentScore - olderScore : null,
+    missDelta: older.length > 0 ? recentMisses - olderMisses : null,
+  };
+}
+
+function formatDelta(value: number | null, unit = '') {
+  if (value === null) return 'Need more runs';
+  const sign = value >= 0 ? '+' : '';
+  return `${sign}${value.toFixed(1)}${unit}`;
+}
+
+function getProgressInsight(trend: ReturnType<typeof getRecentTrend>) {
+  if (trend.recent.length < 3) {
+    return 'Run at least 3 drills to unlock a useful progress read.';
+  }
+
+  if (trend.accuracyDelta !== null && trend.accuracyDelta >= 3) {
+    return 'Accuracy is moving up. Keep the same sens and repeat the weakest drill once per session.';
+  }
+
+  if (trend.missDelta !== null && trend.missDelta > 2) {
+    return 'Misses are rising. Slow down for one accuracy-first run before chasing score.';
+  }
+
+  if (trend.scoreDelta !== null && trend.scoreDelta >= 5) {
+    return 'Score is improving. Check that accuracy is staying stable before increasing difficulty.';
+  }
+
+  return 'Progress is flat. Try a structured routine instead of repeating one drill randomly.';
+}
 
 export default function StatsPage() {
   const { trainingHistory } = useGameStore();
@@ -22,6 +73,7 @@ export default function StatsPage() {
   const totalStats = getTotalStats();
   const recentDiagnosis =
     trainingHistory.length >= 3 ? getWarmupSummary(trainingHistory.slice(0, 12)) : null;
+  const recentTrend = getRecentTrend(trainingHistory);
 
   useEffect(() => {
     trackEvent('stats_view', {
@@ -137,6 +189,63 @@ export default function StatsPage() {
                   </Link>
                 </section>
               )}
+              <section className="mb-8 rounded-lg border border-gray-800 bg-gray-900 p-6">
+                <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                      Progress tracking
+                    </p>
+                    <h2 className="mt-2 text-2xl font-bold text-white">Last 7 runs</h2>
+                    <p className="mt-2 max-w-2xl text-sm text-gray-400">
+                      {getProgressInsight(recentTrend)}
+                    </p>
+                  </div>
+                  <Link
+                    href="/play/warmup"
+                    className="rounded-lg bg-blue-600 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+                  >
+                    Run guided warm-up
+                  </Link>
+                </div>
+
+                <div className="mt-5 grid gap-3 md:grid-cols-3">
+                  <div className="rounded-lg bg-gray-800 p-4">
+                    <div className="text-xs text-gray-400">Accuracy trend</div>
+                    <div className="mt-2 text-2xl font-bold text-white">
+                      {formatDelta(recentTrend.accuracyDelta, '%')}
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-gray-800 p-4">
+                    <div className="text-xs text-gray-400">Score trend</div>
+                    <div className="mt-2 text-2xl font-bold text-white">
+                      {formatDelta(recentTrend.scoreDelta)}
+                    </div>
+                  </div>
+                  <div className="rounded-lg bg-gray-800 p-4">
+                    <div className="text-xs text-gray-400">Miss trend</div>
+                    <div className="mt-2 text-2xl font-bold text-white">
+                      {formatDelta(recentTrend.missDelta)}
+                    </div>
+                  </div>
+                </div>
+
+                {recentTrend.chronological.length > 0 && (
+                  <div className="mt-5 grid gap-2">
+                    {recentTrend.chronological.map((record, index) => (
+                      <div key={`${record.timestamp}-${index}`} className="grid grid-cols-[72px_1fr_64px] items-center gap-3 text-xs">
+                        <span className="capitalize text-gray-400">{record.trainingType}</span>
+                        <div className="h-2 overflow-hidden rounded-full bg-gray-800">
+                          <div
+                            className="h-full rounded-full bg-blue-400"
+                            style={{ width: `${Math.max(4, Math.min(100, record.accuracy))}%` }}
+                          />
+                        </div>
+                        <span className="text-right text-gray-300">{record.accuracy.toFixed(1)}%</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
             </>
           ) : (
             <div className="bg-gray-800 rounded-xl p-8 text-center mb-8">

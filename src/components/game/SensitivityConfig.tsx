@@ -112,6 +112,26 @@ export default function SensitivityConfig() {
     });
   };
 
+  const applyFeelNudge = (direction: 'too-fast' | 'too-slow') => {
+    const currentMultiplier = sensitivity.calibrationMultiplier ?? 1;
+    const nextMultiplier =
+      direction === 'too-fast'
+        ? Math.max(0.7, currentMultiplier - 0.03)
+        : Math.min(1.3, currentMultiplier + 0.03);
+    const roundedMultiplier = Number(nextMultiplier.toFixed(2));
+
+    handleCalibrationChange(roundedMultiplier);
+    trackEvent('calibration_feel_adjust', {
+      direction,
+      previous_multiplier: Number(currentMultiplier.toFixed(2)),
+      calibration_multiplier: roundedMultiplier,
+      target_cm360: Number(cm360.toFixed(1)),
+      game: sensitivity.game,
+      sensitivity: sensitivity.sensitivity,
+      dpi: sensitivity.dpi,
+    });
+  };
+
   const applyCalibrationWizard = () => {
     if (measuredCm <= 0 || measuredDegrees <= 0) return;
 
@@ -259,6 +279,15 @@ export default function SensitivityConfig() {
         </div>
       </div>
 
+      <div className="mt-4 rounded-lg border border-green-500/30 bg-green-500/10 p-4">
+        <p className="text-sm font-semibold text-white">CS2 feel check</p>
+        <ol className="mt-2 list-decimal space-y-1 pl-4 text-xs leading-5 text-gray-300">
+          <li>Confirm your CS2 sensitivity and DPI above.</li>
+          <li>Run a short Gridshot or warm-up step with raw input active.</li>
+          <li>If the trainer feels off, use one nudge below, then test again.</li>
+        </ol>
+      </div>
+
       <div className="mt-4 rounded-lg border border-blue-500/30 bg-blue-500/10 p-4">
         <div className="mb-3 flex items-start justify-between gap-4">
           <div>
@@ -285,6 +314,25 @@ export default function SensitivityConfig() {
           <span>CS2-style baseline</span>
           <span>Faster</span>
         </div>
+        <div className="mt-4 grid gap-2 sm:grid-cols-2">
+          <button
+            type="button"
+            onClick={() => applyFeelNudge('too-fast')}
+            className="rounded-lg border border-gray-600 bg-gray-950/60 px-3 py-2 text-sm font-semibold text-white transition-colors hover:border-blue-400 hover:bg-gray-900"
+          >
+            Feels too fast
+          </button>
+          <button
+            type="button"
+            onClick={() => applyFeelNudge('too-slow')}
+            className="rounded-lg border border-gray-600 bg-gray-950/60 px-3 py-2 text-sm font-semibold text-white transition-colors hover:border-blue-400 hover:bg-gray-900"
+          >
+            Feels too slow
+          </button>
+        </div>
+        <p className="mt-3 text-xs leading-5 text-gray-400">
+          Each nudge changes browser calibration by 3%. Stop once the first 30 seconds feels stable.
+        </p>
       </div>
 
       <div className="mt-4 rounded-lg border border-gray-700 bg-gray-900/70 p-4">

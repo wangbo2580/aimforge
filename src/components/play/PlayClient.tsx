@@ -58,6 +58,27 @@ export default function PlayClient() {
     'Keep the same sensitivity for several days before judging whether it fits.',
   ];
 
+  const proRoutines = [
+    {
+      href: '/play/routines/rifle-entry',
+      title: 'Rifle entry routine',
+      description: 'First-bullet timing, strafe correction, and second-target reset.',
+      tag: 'Rifler',
+    },
+    {
+      href: '/play/routines/awp-flick',
+      title: 'AWP flick routine',
+      description: 'Long angle flicks, click discipline, and close reaction snaps.',
+      tag: 'AWPer',
+    },
+    {
+      href: '/play/routines/spray-transfer',
+      title: 'Spray transfer routine',
+      description: 'Tracking control, target switching, and unstable correction.',
+      tag: 'Control',
+    },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Header />
@@ -198,6 +219,42 @@ export default function PlayClient() {
               </Link>
             ))}
           </div>
+
+          <section className="mt-14 max-w-5xl mx-auto">
+            <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-blue-300">
+                  Pro-style routines
+                </p>
+                <h2 className="mt-1 text-2xl font-bold text-white">Train for a role, not just a score</h2>
+              </div>
+              <p className="max-w-xl text-sm text-gray-400">
+                These routines answer the early feedback asking for more drills and pro routines.
+              </p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {proRoutines.map((routine) => (
+                <Link
+                  key={routine.href}
+                  href={routine.href}
+                  onClick={() =>
+                    trackEvent('pro_routine_click', {
+                      source: 'play_hub',
+                      routine: routine.href,
+                    })
+                  }
+                  className="rounded-lg border border-gray-700 bg-gray-800 p-5 transition-colors hover:border-blue-500 hover:bg-gray-700"
+                >
+                  <span className="rounded bg-gray-950/70 px-2 py-1 text-xs font-semibold text-blue-200">
+                    {routine.tag}
+                  </span>
+                  <h3 className="mt-4 text-lg font-bold text-white">{routine.title}</h3>
+                  <p className="mt-2 text-sm text-gray-400">{routine.description}</p>
+                  <div className="mt-4 text-sm font-semibold text-blue-300">Start routine</div>
+                </Link>
+              ))}
+            </div>
+          </section>
 
           <div className="mt-14 max-w-3xl mx-auto">
             <h3 className="text-xl font-semibold text-center mb-5">{t('play_tips')}</h3>

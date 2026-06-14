@@ -8,6 +8,7 @@ import { TrainingResult } from '@/types/game';
 import { useTranslation } from '@/lib/i18n';
 import { trackEvent } from '@/lib/analytics';
 import { useGameStore } from '@/store/game-store';
+import { calculateCm360 } from '@/lib/sensitivity';
 import {
   buildFeedbackContext,
   FeedbackCategory,
@@ -57,6 +58,7 @@ export default function ResultScreen({
 }: ResultScreenProps) {
   const { t } = useTranslation();
   const trainingHistory = useGameStore((state) => state.trainingHistory);
+  const settings = useGameStore((state) => state.settings);
   const [quickFeedback, setQuickFeedback] = useState<string | null>(null);
   const [quickNote, setQuickNote] = useState('');
   const [quickStatus, setQuickStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
@@ -109,6 +111,7 @@ export default function ResultScreen({
       : precisionScore * 0.5 + speedScore * 0.35 + controlScore * 0.15
   );
   const { grade, color, band } = gradeFromScore(drillScore);
+  const cm360 = calculateCm360(settings.sensitivity);
 
   const weakestMetric =
     [
@@ -184,12 +187,21 @@ export default function ResultScreen({
       score: result.score,
       accuracy: Number(result.accuracy.toFixed(1)),
       duration: result.duration,
+      targetSize: result.config.targetSize,
+      targetCount: result.config.targetCount,
+      movePattern: result.config.movePattern,
+      speed: result.config.speed,
+      targetDistance: result.config.targetDistance,
       sessionsSaved: trainingHistory.length,
       localRuns: trainingHistory.length,
       selectedOption,
       inputMode: result.inputMode,
       aimEngine: result.aimEngine,
       calibrationMultiplier: result.calibrationMultiplier,
+      sensitivityGame: settings.sensitivity.game,
+      sensitivity: settings.sensitivity.sensitivity,
+      dpi: settings.sensitivity.dpi,
+      cm360: Number(cm360.toFixed(1)),
       routineId: result.routineId,
       routineStepId: result.routineStepId,
       routineStepName: result.routineStepName,
@@ -386,8 +398,15 @@ export default function ResultScreen({
             </span>
           </div>
           <div className="mt-3 text-xs text-gray-500">
-            Aim model: {result.aimEngine === 'angular' ? 'CS2-like angular' : 'cursor'} · Browser calibration: {(result.calibrationMultiplier ?? 1).toFixed(2)}x
+            Aim model: {result.aimEngine === 'angular' ? 'CS2-like angular' : 'cursor'} - Browser calibration: {(result.calibrationMultiplier ?? 1).toFixed(2)}x
+            {' '}- Sens: {settings.sensitivity.game.toUpperCase()} {settings.sensitivity.sensitivity} @ {settings.sensitivity.dpi} DPI ({cm360.toFixed(1)} cm/360)
           </div>
+          <Link
+            href="/settings"
+            className="mt-4 inline-flex rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-gray-700"
+          >
+            Open calibration helper
+          </Link>
         </div>
 
         {/* 主要数据 */}
@@ -542,6 +561,20 @@ export default function ResultScreen({
           {quickStatus === 'error' && (
             <p className="mt-2 text-xs text-red-400">{t('quick_feedback_error')}</p>
           )}
+          {quickFeedback === 'aim_wrong' && (
+            <div className="mt-4 rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4">
+              <p className="text-sm font-semibold text-yellow-100">Mouse feel needs calibration?</p>
+              <p className="mt-1 text-xs text-gray-300">
+                Your feedback was recorded. Next, check your CS2 sens, DPI, cm/360, and browser calibration multiplier.
+              </p>
+              <Link
+                href="/settings"
+                className="mt-3 inline-flex rounded-lg bg-yellow-500 px-4 py-2 text-sm font-bold text-gray-950 transition-colors hover:bg-yellow-400"
+              >
+                Calibrate sensitivity
+              </Link>
+            </div>
+          )}
         </div>
 
         {trainingHistory.length >= 2 && (
@@ -566,6 +599,34 @@ export default function ResultScreen({
             </div>
             {retentionStatus === 'success' && (
               <p className="mt-2 text-xs text-green-400">{t('quick_feedback_thanks')}</p>
+            )}
+            {(retentionAnswer === 'more_drills' || retentionAnswer === 'pro_routines') && (
+              <div className="mt-4 rounded-lg bg-gray-950/60 p-4">
+                <p className="text-sm font-semibold text-white">Try a role-based routine next</p>
+                <p className="mt-1 text-xs text-gray-400">
+                  We added guided routines for riflers, AWPers, and spray transfer practice.
+                </p>
+                <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                  <Link
+                    href="/play/routines/rifle-entry"
+                    className="rounded-lg bg-gray-800 px-3 py-2 text-center text-xs font-semibold text-white hover:bg-gray-700"
+                  >
+                    Rifle entry
+                  </Link>
+                  <Link
+                    href="/play/routines/awp-flick"
+                    className="rounded-lg bg-gray-800 px-3 py-2 text-center text-xs font-semibold text-white hover:bg-gray-700"
+                  >
+                    AWP flick
+                  </Link>
+                  <Link
+                    href="/play/routines/spray-transfer"
+                    className="rounded-lg bg-gray-800 px-3 py-2 text-center text-xs font-semibold text-white hover:bg-gray-700"
+                  >
+                    Spray transfer
+                  </Link>
+                </div>
+              </div>
             )}
           </div>
         )}
