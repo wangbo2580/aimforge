@@ -28,6 +28,36 @@ function formatDuration(seconds: number) {
   return remainder === 0 ? `${minutes} min` : `${minutes}:${String(remainder).padStart(2, '0')}`;
 }
 
+function getInputBadge(result: TrainingResult) {
+  if (result.inputMode === 'raw') {
+    return {
+      label: 'Raw input',
+      detail: 'Best browser confidence for CS2-style mouse movement',
+      className: 'border-green-500/30 bg-green-500/10 text-green-200',
+    };
+  }
+
+  if (result.inputMode === 'pointer-lock') {
+    return {
+      label: 'Pointer lock',
+      detail: 'Mouse was captured, but raw input was not confirmed',
+      className: 'border-yellow-500/30 bg-yellow-500/10 text-yellow-100',
+    };
+  }
+
+  return {
+    label: 'Fallback',
+    detail: 'Browser cursor mode was used, so this run may feel less like CS2',
+    className: 'border-red-500/30 bg-red-500/10 text-red-100',
+  };
+}
+
+function getStepPerformanceLabel(result: TrainingResult) {
+  if (result.accuracy >= 90 && result.misses <= Math.max(3, result.hits * 0.15)) return 'Clean run';
+  if (result.accuracy >= 75) return 'Usable warm-up';
+  return 'Needs another pass';
+}
+
 interface WarmupClientProps {
   routineId?: string;
 }
@@ -48,6 +78,7 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
   const [aiStatus, setAiStatus] = useState<'idle' | 'loading' | 'ready' | 'fallback'>('idle');
   const [interestStatus, setInterestStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [shareStatus, setShareStatus] = useState<'idle' | 'copied' | 'error'>('idle');
+  const [stepReviewResult, setStepReviewResult] = useState<TrainingResult | null>(null);
   const resultsRef = useRef<TrainingResult[]>([]);
   const finishRecordedRef = useRef(false);
 
@@ -102,6 +133,7 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
       ];
       resultsRef.current = nextResults;
       setResults(nextResults);
+      setStepReviewResult(resultWithRoutine);
       trackEvent('warmup_step_complete', {
         routine_id: routine.id,
         step_id: activeStep.id,
@@ -136,6 +168,8 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
   }, [routine.id]);
 
   const continueRoutine = useCallback(() => {
+    setStepReviewResult(null);
+
     if (activeIndex >= routineSteps.length - 1) {
       finishWarmup();
       return;
@@ -143,6 +177,16 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
 
     setActiveIndex((index) => index + 1);
   }, [activeIndex, finishWarmup, routineSteps.length]);
+
+  const repeatStep = useCallback(() => {
+    setStepReviewResult(null);
+    trackEvent('warmup_step_repeat', {
+      routine_id: routine.id,
+      step_id: activeStep.id,
+      step_index: activeIndex + 1,
+      mode: activeStep.type,
+    });
+  }, [activeIndex, activeStep, routine.id]);
 
   const restartWarmup = () => {
     resultsRef.current = [];
@@ -154,6 +198,7 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
     setAiStatus('idle');
     setInterestStatus('idle');
     setShareStatus('idle');
+    setStepReviewResult(null);
     trackEvent('warmup_restart', {
       routine_id: routine.id,
     });
@@ -539,36 +584,126 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
                   <div className="text-sm font-semibold text-white">{step.name}</div>
                   <div className="text-xs text-gray-400">{formatDuration(step.duration)}</div>
                 </div>
-                <div className="mt-1 text-xs text-gray-500">{step.focus}</div>
+                <div className="mt-1 text-xs text-gray-500">
+                  {index === activeIndex ? step.reason : step.focus}
+                </div>
               </div>
             ))}
           </div>
         </header>
 
         <div className="flex min-h-0 flex-1">
-          <main className="relative flex-1">
-            <div className="pointer-events-none absolute left-4 right-4 top-24 z-10 mx-auto max-w-xl rounded-lg border border-gray-700 bg-gray-950/80 px-4 py-3 text-center shadow-lg backdrop-blur">
-              <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
-                {activeStep.shortName} focus
-              </p>
-              <p className="mt-1 text-sm text-white">{activeStep.reason}</p>
-            </div>
-            <GameCanvas
-              key={activeStep.id}
-              trainingType={activeStep.type}
-              onComplete={handleComplete}
-              routineContext={{
-                routineId: routine.id,
-                stepId: activeStep.id,
-                stepName: activeStep.name,
-                label:
-                  activeIndex >= routineSteps.length - 1
-                    ? 'Show complete warm-up diagnosis'
-                    : `Next: ${routineSteps[activeIndex + 1].name}`,
-                isLastStep: activeIndex >= routineSteps.length - 1,
-                onContinue: continueRoutine,
-              }}
-            />
+          <main className="relative flex-1 overflow-hidden">
+            {stepReviewResult ? (
+              <div className="flex h-full items-center justify-center overflow-y-auto bg-gray-950 px-4 py-8">
+                <section className="w-full max-w-4xl rounded-lg border border-gray-800 bg-gray-900 p-5 shadow-2xl md:p-7">
+                  <div className="flex flex-col gap-4 border-b border-gray-800 pb-5 md:flex-row md:items-start md:justify-between">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-wide text-blue-300">
+                        Step {activeIndex + 1}/{routineSteps.length} complete
+                      </p>
+                      <h2 className="mt-2 text-3xl font-black text-white">{activeStep.name}</h2>
+                      <p className="mt-2 max-w-2xl text-sm text-gray-400">{activeStep.reason}</p>
+                    </div>
+                    <div className="rounded-lg bg-gray-950 px-4 py-3 text-left md:text-right">
+                      <div className="text-xs text-gray-500">Result</div>
+                      <div className="mt-1 text-xl font-bold text-white">
+                        {getStepPerformanceLabel(stepReviewResult)}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 grid gap-3 md:grid-cols-4">
+                    <div className="rounded-lg bg-gray-800 p-4">
+                      <div className="text-xs text-gray-500">Score</div>
+                      <div className="mt-2 text-3xl font-black text-white">{stepReviewResult.score}</div>
+                    </div>
+                    <div className="rounded-lg bg-gray-800 p-4">
+                      <div className="text-xs text-gray-500">Accuracy</div>
+                      <div className="mt-2 text-3xl font-black text-white">
+                        {stepReviewResult.accuracy.toFixed(1)}%
+                      </div>
+                    </div>
+                    <div className="rounded-lg bg-gray-800 p-4">
+                      <div className="text-xs text-gray-500">Misses</div>
+                      <div className="mt-2 text-3xl font-black text-white">{stepReviewResult.misses}</div>
+                    </div>
+                    <div className="rounded-lg bg-gray-800 p-4">
+                      <div className="text-xs text-gray-500">
+                        {stepReviewResult.avgReactionTime > 0 ? 'Avg reaction' : 'Hits'}
+                      </div>
+                      <div className="mt-2 text-3xl font-black text-white">
+                        {stepReviewResult.avgReactionTime > 0
+                          ? `${stepReviewResult.avgReactionTime}ms`
+                          : stepReviewResult.hits}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-5 grid gap-4 lg:grid-cols-[1fr_1.2fr]">
+                    {(() => {
+                      const inputBadge = getInputBadge(stepReviewResult);
+                      return (
+                        <div className={`rounded-lg border p-4 ${inputBadge.className}`}>
+                          <p className="text-sm font-bold">{inputBadge.label}</p>
+                          <p className="mt-1 text-sm opacity-85">{inputBadge.detail}</p>
+                        </div>
+                      );
+                    })()}
+
+                    <div className="rounded-lg border border-blue-500/25 bg-blue-500/10 p-4">
+                      <p className="text-sm font-bold text-blue-200">
+                        {activeIndex >= routineSteps.length - 1
+                          ? 'Ready for your complete diagnosis'
+                          : `Next: ${routineSteps[activeIndex + 1].name}`}
+                      </p>
+                      <p className="mt-1 text-sm text-gray-300">
+                        {activeIndex >= routineSteps.length - 1
+                          ? 'Finish the routine to get the AI Coach summary, weakest signal, and next drill.'
+                          : routineSteps[activeIndex + 1].reason}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+                    <button
+                      type="button"
+                      onClick={repeatStep}
+                      className="rounded-lg bg-gray-800 px-5 py-3 text-sm font-semibold text-gray-200 transition-colors hover:bg-gray-700"
+                    >
+                      Repeat this step
+                    </button>
+                    <button
+                      type="button"
+                      onClick={continueRoutine}
+                      className="rounded-lg bg-blue-600 px-5 py-3 text-sm font-bold text-white transition-colors hover:bg-blue-500"
+                    >
+                      {activeIndex >= routineSteps.length - 1
+                        ? 'Show complete diagnosis'
+                        : `Continue to ${routineSteps[activeIndex + 1].shortName}`}
+                    </button>
+                  </div>
+                </section>
+              </div>
+            ) : (
+              <GameCanvas
+                key={activeStep.id}
+                trainingType={activeStep.type}
+                onComplete={handleComplete}
+                renderResultScreen={false}
+                routineContext={{
+                  routineId: routine.id,
+                  stepId: activeStep.id,
+                  stepName: activeStep.name,
+                  label:
+                    activeIndex >= routineSteps.length - 1
+                      ? 'Show complete warm-up diagnosis'
+                      : `Next: ${routineSteps[activeIndex + 1].name}`,
+                  isLastStep: activeIndex >= routineSteps.length - 1,
+                  onContinue: continueRoutine,
+                }}
+              />
+            )}
           </main>
 
           {showSettings && (

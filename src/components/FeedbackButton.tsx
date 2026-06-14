@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import { useTranslation } from '@/lib/i18n';
 import { trackEvent } from '@/lib/analytics';
 import {
@@ -11,6 +12,7 @@ import {
 
 export default function FeedbackButton() {
   const { t } = useTranslation();
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [category, setCategory] = useState<FeedbackCategory>('missing_feature');
   const [message, setMessage] = useState('');
@@ -26,6 +28,15 @@ export default function FeedbackButton() {
     { value: 'data_issue', label: t('feedback_category_data') },
     { value: 'other', label: t('feedback_category_other') },
   ];
+
+  const hideOnTrainingSurface =
+    pathname === '/play/gridshot' ||
+    pathname === '/play/tracking' ||
+    pathname === '/play/flicking' ||
+    pathname === '/play/warmup' ||
+    pathname === '/play/quick-warmup';
+
+  if (hideOnTrainingSurface) return null;
 
   const openFeedback = () => {
     setIsOpen(true);

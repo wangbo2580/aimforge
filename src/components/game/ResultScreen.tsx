@@ -287,24 +287,33 @@ export default function ResultScreen({
   };
 
   return (
-    <div className="absolute inset-0 flex items-center justify-center bg-black/90">
-      <div className="bg-gray-800 rounded-lg p-6 max-w-lg w-full mx-4 shadow-2xl max-h-[92vh] overflow-y-auto">
+    <div className="absolute inset-0 overflow-y-auto bg-gray-950/95 px-4 py-6">
+      <div className="mx-auto w-full max-w-4xl rounded-lg border border-gray-800 bg-gray-900 p-5 shadow-2xl md:p-7">
         {/* 标题 */}
-        <div className="text-center mb-6">
-          <h2 className="text-2xl font-bold text-white mb-2">{t('result_complete')}</h2>
-          <p className="text-gray-400">{getTrainingTypeLabel(result.trainingType)}</p>
+        <div className="mb-6 flex flex-col gap-4 border-b border-gray-800 pb-5 md:flex-row md:items-start md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-blue-300">
+              {getTrainingTypeLabel(result.trainingType)}
+            </p>
+            <h2 className="mt-2 text-3xl font-black text-white">{t('result_complete')}</h2>
+            <p className="mt-2 max-w-xl text-sm text-gray-400">
+              This is a drill score for this browser session, not a CS2 rank.
+            </p>
+          </div>
+          <div className="rounded-lg bg-gray-950 px-4 py-3 text-left md:text-right">
+            <div className="text-xs text-gray-500">Drill score</div>
+            <div className="mt-1 text-2xl font-black text-white">{drillScore}/100</div>
+          </div>
         </div>
 
         {/* 评级 */}
-        <div className="text-center mb-8">
-          <div className={`text-8xl font-black ${color}`}>{grade}</div>
+        <div className="mb-6 rounded-lg border border-gray-800 bg-gray-950/60 p-5 text-center">
+          <div className={`text-7xl font-black ${color}`}>{grade}</div>
           <div className="mt-1 text-sm font-semibold text-white">Drill Grade: {band}</div>
-          <p className="mx-auto mt-2 max-w-sm text-xs text-gray-400">
-            {gradeReason} This is a drill score, not a CS2 rank.
-          </p>
+          <p className="mx-auto mt-2 max-w-xl text-xs text-gray-400">{gradeReason}</p>
         </div>
 
-        <div className="mb-6 rounded-lg border border-gray-700 bg-gray-900/70 p-4">
+        <div className="mb-6 rounded-lg border border-gray-800 bg-gray-950/60 p-4">
           <div className="mb-3 flex items-center justify-between gap-3">
             <div>
               <p className="text-sm font-semibold text-white">Why this grade?</p>
@@ -331,7 +340,7 @@ export default function ResultScreen({
               },
               { label: 'Miss control', value: controlScore, hint: `${result.misses} misses` },
             ].map((metric) => (
-              <div key={metric.label} className="rounded-lg bg-gray-800 p-3">
+              <div key={metric.label} className="rounded-lg bg-gray-800/80 p-3">
                 <div className="flex items-center justify-between text-xs">
                   <span className="font-medium text-gray-300">{metric.label}</span>
                   <span className="font-semibold text-white">{metric.value}</span>

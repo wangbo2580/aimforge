@@ -19,6 +19,7 @@ import ResultScreen from './ResultScreen';
 interface GameCanvasProps {
   trainingType: TrainingType;
   onComplete?: (result: TrainingResult) => void;
+  renderResultScreen?: boolean;
   routineContext?: {
     routineId: string;
     stepId: string;
@@ -32,10 +33,16 @@ interface GameCanvasProps {
 type AnyEngine = GameEngine | TrackingEngine | FlickingEngine;
 type InputMode = 'unknown' | 'raw' | 'pointer-lock' | 'browser-fallback';
 
-export default function GameCanvas({ trainingType, onComplete, routineContext }: GameCanvasProps) {
+export default function GameCanvas({
+  trainingType,
+  onComplete,
+  renderResultScreen = true,
+  routineContext,
+}: GameCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const engineRef = useRef<AnyEngine | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const resumePendingRef = useRef(false);
 
   const [gameState, setGameState] = useState<GameState>('idle');
   const [countdown, setCountdown] = useState(3);
@@ -222,11 +229,65 @@ export default function GameCanvas({ trainingType, onComplete, routineContext }:
     if (isLocked && gameState === 'idle') {
       setInputMode(lockMode === 'raw' ? 'raw' : 'pointer-lock');
       startGame();
+    } else if (isLocked && gameState === 'paused' && resumePendingRef.current) {
+      resumePendingRef.current = false;
+      engineRef.current?.resume();
+      setGameState('playing');
     } else if (!isLocked && gameState === 'playing' && inputMode !== 'browser-fallback') {
       engineRef.current?.pause();
       setGameState('paused');
     }
   }, [isLocked, lockMode, gameState, startGame, inputMode]);
+
+  const resumeTraining = useCallback(async () => {
+    if (gameState !== 'paused') return;
+
+    if (inputMode === 'browser-fallback') {
+      engineRef.current?.resume();
+      setGameState('playing');
+      return;
+    }
+
+    resumePendingRef.current = true;
+    const mode = await requestLock();
+
+    if (mode === 'raw') {
+      setInputMode('raw');
+    } else if (mode === 'standard') {
+      setInputMode('pointer-lock');
+    } else {
+      resumePendingRef.current = false;
+      setInputMode('browser-fallback');
+      setShowFallbackPrompt(false);
+      trackEvent('pointer_lock_failed', {
+        training_mode: trainingType,
+        source: 'resume',
+      });
+      engineRef.current?.resume();
+      setGameState('playing');
+      return;
+    }
+
+    if (document.pointerLockElement === canvasRef.current) {
+      resumePendingRef.current = false;
+      engineRef.current?.resume();
+      setGameState('playing');
+    }
+  }, [gameState, inputMode, requestLock, trainingType]);
+
+  useEffect(() => {
+    if (gameState !== 'paused') return;
+
+    const handlePausedKeyDown = (event: KeyboardEvent) => {
+      if (event.code === 'Space') {
+        event.preventDefault();
+        resumeTraining();
+      }
+    };
+
+    document.addEventListener('keydown', handlePausedKeyDown);
+    return () => document.removeEventListener('keydown', handlePausedKeyDown);
+  }, [gameState, resumeTraining]);
 
   // 输入处理 - 始终启用（不仅仅是锁定时）
   useGameInput(
@@ -257,17 +318,14 @@ export default function GameCanvas({ trainingType, onComplete, routineContext }:
       },
       onKeyDown: (key) => {
         if (key === 'Escape') {
+          resumePendingRef.current = false;
           if (gameState === 'playing') {
             engineRef.current?.pause();
             setGameState('paused');
           }
           exitLock();
         } else if (key === ' ' && gameState === 'paused') {
-          if (inputMode !== 'browser-fallback') {
-            requestLock();
-          }
-          engineRef.current?.resume();
-          setGameState('playing');
+          resumeTraining();
         }
       },
     },
@@ -296,14 +354,6 @@ export default function GameCanvas({ trainingType, onComplete, routineContext }:
   };
 
   // 恢复游戏
-  const handleResume = () => {
-    if (inputMode !== 'browser-fallback') {
-      requestLock();
-    }
-    engineRef.current?.resume();
-    setGameState('playing');
-  };
-
   const getModeTitle = () => {
     switch (trainingType) {
       case 'gridshot': return t('mode_gridshot');
@@ -349,12 +399,23 @@ export default function GameCanvas({ trainingType, onComplete, routineContext }:
   };
 
   const inputStatus = getInputStatus();
+  const showCompactInputStatus =
+    gameState === 'playing' || gameState === 'paused' || gameState === 'countdown';
 
   return (
     <div ref={containerRef} className="relative w-full h-full bg-gray-900">
-      <div className={`absolute left-4 top-4 z-10 max-w-xs rounded-lg border px-3 py-2 text-xs shadow-lg ${inputStatus.color}`}>
-        <div className="font-semibold">{inputStatus.label}</div>
-        <div className="mt-0.5 opacity-90">{inputStatus.detail}</div>
+      <div
+        className={`pointer-events-none absolute z-10 border text-xs shadow-lg backdrop-blur ${
+          showCompactInputStatus
+            ? `bottom-4 left-4 rounded-full px-3 py-1.5 ${inputStatus.color}`
+            : `left-4 top-4 max-w-xs rounded-lg px-3 py-2 ${inputStatus.color}`
+        }`}
+      >
+        <div className="flex items-center gap-2">
+          <span className="h-1.5 w-1.5 rounded-full bg-current opacity-80" />
+          <span className="font-semibold">{inputStatus.label}</span>
+        </div>
+        {!showCompactInputStatus && <div className="mt-0.5 opacity-90">{inputStatus.detail}</div>}
       </div>
 
       {/* 游戏画布 */}
@@ -440,7 +501,7 @@ export default function GameCanvas({ trainingType, onComplete, routineContext }:
       {gameState === 'paused' && (
         <div
           className="absolute inset-0 flex items-center justify-center bg-black/70 cursor-pointer"
-          onClick={handleResume}
+          onClick={resumeTraining}
         >
           <div className="text-center text-white pointer-events-none">
             <h2 className="text-4xl font-bold mb-4">{t('game_paused')}</h2>
@@ -450,7 +511,7 @@ export default function GameCanvas({ trainingType, onComplete, routineContext }:
       )}
 
       {/* 结果屏幕 */}
-      {result && (
+      {result && renderResultScreen && (
         <ResultScreen
           result={result}
           onRestart={handleRestart}
