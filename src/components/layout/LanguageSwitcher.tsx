@@ -1,7 +1,5 @@
 'use client';
 
-// 语言切换组件
-
 import { useLocale } from '@/lib/i18n';
 import { Locale } from '@/lib/i18n/translations';
 
@@ -16,9 +14,9 @@ export default function LanguageSwitcher() {
     <button
       onClick={toggleLocale}
       className="px-3 py-1.5 rounded-lg text-sm font-medium bg-gray-800 text-gray-300 hover:bg-gray-700 hover:text-white transition-colors"
-      title={locale === 'en' ? '切换到中文' : 'Switch to English'}
+      title={locale === 'en' ? 'Switch to ZH' : 'Switch to EN'}
     >
-      {locale === 'en' ? '中文' : 'EN'}
+      {locale === 'en' ? 'EN' : 'ZH'}
     </button>
   );
 }
@@ -38,7 +36,7 @@ export function LanguageSelector() {
               : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
           }`}
         >
-          {lang === 'en' ? 'English' : '中文'}
+          {lang === 'en' ? 'EN' : 'ZH'}
         </button>
       ))}
     </div>
