@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import AdsterraAdSlot from '@/components/ads/AdsterraAdSlot';
+import ContentTrainingCTA from '@/components/growth/ContentTrainingCTA';
 import { crosshairs } from '@/data/crosshairs';
 import DotCrosshairList from './DotCrosshairList';
 
@@ -249,6 +250,14 @@ export default function DotCrosshairsPage() {
                 dot instead — it&apos;s the compromise most CS pros land on.
               </p>
             </section>
+
+            <ContentTrainingCTA
+              sourcePage="dot_crosshairs"
+              title="Try the dot before committing to it"
+              description="Copy a code, then use a short Gridshot session to check visibility and click accuracy before taking it into a match."
+              primaryHref="/play/gridshot"
+              primaryLabel="Test it in Gridshot"
+            />
 
             {/* Internal links */}
             <section className="mb-12">

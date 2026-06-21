@@ -108,6 +108,8 @@ export default function GameCanvas({
             game: settings.sensitivity.game,
             sensitivity: settings.sensitivity.sensitivity,
             dpi: settings.sensitivity.dpi,
+            routine_id: routineContext?.routineId,
+            routine_step_id: routineContext?.stepId,
           });
         }
         if (state === 'finished') {

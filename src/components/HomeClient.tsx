@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import { useTranslation } from '@/lib/i18n';
+import { trackEvent } from '@/lib/analytics';
 
 export default function HomeClient() {
   const { t } = useTranslation();
@@ -56,10 +57,16 @@ export default function HomeClient() {
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
               <Link
-                href="/play/warmup"
+                href="/play/quick-warmup"
+                onClick={() =>
+                  trackEvent('warmup_cta_click', {
+                    source: 'homepage_primary',
+                    routine_id: 'cs2-90-second-quick-warmup',
+                  })
+                }
                 className="inline-flex items-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-500 rounded-xl text-lg font-semibold transition-colors"
               >
-                Start 5-Min Warm-Up
+                Start 90-Second Warm-Up
                 <svg
                   className="w-5 h-5"
                   fill="none"
@@ -76,6 +83,7 @@ export default function HomeClient() {
               </Link>
               <Link
                 href="/play"
+                onClick={() => trackEvent('training_hub_click', { source: 'homepage_secondary' })}
                 className="inline-flex items-center gap-2 px-8 py-4 border border-gray-700 hover:border-blue-500 hover:bg-gray-900 rounded-xl text-lg font-semibold transition-colors"
               >
                 Choose a Drill

@@ -23,7 +23,7 @@ export default function GridshotClient() {
             ← {t('play_back')}
           </Link>
           <h1 className="text-xl font-bold">
-            <span className="text-red-500">🎯</span> Gridshot
+            <span className="text-red-500">🎯</span> CS2 Gridshot Online
           </h1>
         </div>
         <button

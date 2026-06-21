@@ -15,6 +15,7 @@ import {
   crosshairColorHex,
 } from '@/lib/crosshair-sharecode';
 import { proPlayers, featuredPlayers } from '@/data/pro-players';
+import ContentTrainingCTA from '@/components/growth/ContentTrainingCTA';
 
 const PRESET_COLORS: { label: string; value: number; hex: string }[] = [
   { label: 'Green', value: 1, hex: '#00FF00' },
@@ -305,6 +306,14 @@ export default function CrosshairGeneratorClient() {
               </div>
             </section>
           </div>
+
+          <ContentTrainingCTA
+            sourcePage="crosshair_generator"
+            title="Test the crosshair you just built"
+            description="A preview is not enough. Run a short Gridshot session to check visibility, target coverage, and click accuracy."
+            primaryHref="/play/gridshot"
+            primaryLabel="Test this crosshair in Gridshot"
+          />
         </div>
       </main>
     </div>

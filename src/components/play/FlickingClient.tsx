@@ -23,7 +23,7 @@ export default function FlickingClient() {
             ← {t('play_back')}
           </Link>
           <h1 className="text-xl font-bold">
-            <span className="text-purple-500">⚡</span> Flicking
+            <span className="text-purple-500">⚡</span> CS2 Flick Trainer Online
           </h1>
         </div>
         <button

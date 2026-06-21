@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import FlickingClient from '@/components/play/FlickingClient';
+import TrackedLink from '@/components/ui/TrackedLink';
 
 export const metadata: Metadata = {
-  title: 'Flicking Trainer Online — Free CS2 Flick / AWP Practice',
+  title: 'CS2 Flick Trainer Online — Free AWP Aim Practice',
   description:
-    'Free online flick trainer for CS2 — practice AWP-style snap aim in your browser, no download. Random-angle targets with CS2-style cm/360 calibration.',
+    'Practice CS2 flick aim and AWP snap shots in a free browser trainer. No download, with random-angle targets, raw input, and cm/360 calibration.',
   keywords: [
     'flick trainer',
     'flicking trainer online',
@@ -27,17 +28,41 @@ export const metadata: Metadata = {
 };
 
 export default function FlickingPage() {
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'How long should I practice flicking for CS2?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Use short focused blocks of about 3 to 5 minutes, prioritizing accurate stops on the target before increasing speed.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Does this CS2 flick trainer require a download?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'No. The trainer runs in a desktop browser and supports sensitivity and cm/360 calibration.',
+        },
+      },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <FlickingClient />
 
       {/* SEO content below the fold */}
       <article className="bg-gray-950 px-4 py-16 border-t border-gray-800">
         <div className="container mx-auto max-w-3xl text-gray-300 space-y-8">
           <header>
-            <h2 className="text-3xl font-bold text-white mb-3">About Flicking</h2>
+            <h2 className="text-3xl font-bold text-white mb-3">CS2 Flick Training Online</h2>
             <p className="text-gray-400">
-              The most satisfying thing in FPS, also the easiest to do badly.
+              Practice fast target acquisition for AWP shots, off-angle clears, and sudden target switches.
             </p>
           </header>
 
@@ -109,6 +134,14 @@ export default function FlickingPage() {
               </Link>{' '}
               has every Major-winning setup.
             </p>
+            <TrackedLink
+              href="/play/quick-warmup"
+              eventName="content_to_training_click"
+              eventParams={{ source_page: 'flicking', destination: 'quick_warmup' }}
+              className="mt-5 inline-flex rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-blue-500"
+            >
+              Add flicking to a 90-second warm-up
+            </TrackedLink>
           </section>
         </div>
       </article>

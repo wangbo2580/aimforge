@@ -2,11 +2,12 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import CopyButton from '@/components/ui/CopyButton';
+import TrackedLink from '@/components/ui/TrackedLink';
 
 export const metadata: Metadata = {
-  title: 'CS2 Plant Bomb Bind + Buy Binds Setup (Full Guide)',
+  title: 'CS2 Plant Bomb Bind: Copy-Paste Command (2026)',
   description:
-    'Bind the bomb plant to a key so you never miss it in clutches. Plus the full buy bind generator for AK, M4, AWP, kevlar, and utility kits — copy-paste ready.',
+    'Copy the CS2 plant bomb bind for MOUSE5, V, C, or another key. Includes the simple command, safer alias version, autoexec setup, and fixes.',
   keywords: [
     'plant bomb bind on cs2',
     'cs2 plant bomb bind',
@@ -18,9 +19,9 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: '/commands/plant-bomb-bind' },
   openGraph: {
-    title: 'CS2 Plant Bomb Bind & Buy Binds — Full Setup',
+    title: 'CS2 Plant Bomb Bind — Copy-Paste Command',
     description:
-      'Plant bomb on a mouse button so you never miss it in clutches. Plus complete numpad buy binds for AK, M4, AWP, kevlar and utility kits.',
+      'Copy a CS2 plant bomb bind for a mouse button or keyboard key, then make it permanent in autoexec.cfg.',
     url: '/commands/plant-bomb-bind',
     type: 'article',
   },
@@ -64,7 +65,7 @@ const articleSchema = {
   description:
     'Step-by-step guide for binding the bomb plant to a key in CS2, plus a complete copy-paste buy bind generator for typical T-side and CT-side economy rounds.',
   datePublished: '2026-05-15',
-  dateModified: '2026-05-15',
+  dateModified: '2026-06-21',
   author: {
     '@type': 'Organization',
     name: 'CS2 Practice',
@@ -83,6 +84,37 @@ const articleSchema = {
     '@type': 'WebPage',
     '@id': 'https://www.cs2practice.com/commands/plant-bomb-bind',
   },
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What is the CS2 plant bomb bind command?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Use bind "MOUSE5" "+use" for a simple plant bind. Replace MOUSE5 with another key such as V, C, or MOUSE3.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'How do I make a CS2 plant bind permanent?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Add the bind to autoexec.cfg and make sure CS2 executes that file when the game starts.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Can a plant bomb bind cause a VAC ban?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'A normal one-key bind using built-in CS2 console commands is not a cheat and does not modify the game client.',
+      },
+    },
+  ],
 };
 
 const breadcrumbSchema = {
@@ -123,6 +155,7 @@ export default function PlantBombBindPage() {
     <div className="min-h-screen flex flex-col">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <Header />
 
       <main className="flex-1 py-12 px-4">
@@ -137,16 +170,25 @@ export default function PlantBombBindPage() {
 
           <header className="mb-8">
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
-              CS2 Plant Bomb Bind and Buy Binds Setup
+              CS2 Plant Bomb Bind: Copy-Paste Command
             </h1>
             <p className="text-gray-400 text-lg">
-              Plant the bomb on a mouse button (or any key that isn&apos;t E) so you never fumble
-              the click in a 1v1 retake. Plus the full numpad buy bind setup that turns every round
-              into one keystroke.
+              Bind planting to MOUSE5, V, C, or another key. Start with the one-line command below,
+              then use the safer alias version if you want planting to release attack automatically.
             </p>
           </header>
 
           <div className="prose-invert text-gray-300 space-y-8">
+            <section className="rounded-xl border border-blue-500/30 bg-blue-500/10 p-5">
+              <p className="text-sm font-semibold uppercase tracking-wide text-blue-300">
+                Short answer
+              </p>
+              <p className="mt-2 text-white">
+                Open the CS2 console and paste <code className="rounded bg-gray-950 px-2 py-1 text-green-400">bind &quot;MOUSE5&quot; &quot;+use&quot;</code>.
+                Replace MOUSE5 with your preferred key.
+              </p>
+            </section>
+
             <section>
               <h2 className="text-2xl font-bold text-white mb-3">Plant bomb bind (copy this)</h2>
               <CodeBlock code={PLANT_BIND} label="Recommended — won't accidentally shoot" />
@@ -285,6 +327,22 @@ export default function PlantBombBindPage() {
                 </Link>{' '}
                 has 30 setups including their binds, mouse, monitor and exact in-game settings.
               </p>
+            </section>
+
+            <section className="rounded-xl border border-purple-500/30 bg-purple-500/10 p-6">
+              <h2 className="text-2xl font-bold text-white">Warm up before your next match</h2>
+              <p className="mt-2 text-gray-300">
+                Run the 90-second quick warm-up after changing binds so the new key does not distract
+                you during the first live round.
+              </p>
+              <TrackedLink
+                href="/play/quick-warmup"
+                eventName="content_to_training_click"
+                eventParams={{ source_page: 'plant_bomb_bind', destination: 'quick_warmup' }}
+                className="mt-4 inline-flex rounded-lg bg-purple-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-purple-500"
+              >
+                Start the 90-second warm-up
+              </TrackedLink>
             </section>
           </div>
 

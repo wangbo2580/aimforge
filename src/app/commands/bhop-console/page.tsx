@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import CopyButton from '@/components/ui/CopyButton';
+import ContentTrainingCTA from '@/components/growth/ContentTrainingCTA';
 
 export const metadata: Metadata = {
   title: 'CS2 Bhop Console Commands: Full Bunny Hop Setup (2026)',
@@ -334,6 +335,12 @@ export default function BhopConsolePage() {
               </p>
             </section>
           </div>
+
+          <ContentTrainingCTA
+            sourcePage="bhop_console"
+            title="Warm up your mouse control before movement practice"
+            description="Bhop timing depends on controlled mouse turns. Use the quick warm-up first, then move into your private movement server."
+          />
 
           <aside className="mt-16 pt-8 border-t border-gray-800">
             <h2 className="text-lg font-bold text-white mb-4">Related commands</h2>

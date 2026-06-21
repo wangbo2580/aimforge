@@ -90,6 +90,7 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
     [activeStep, results]
   );
   const totalDuration = getRoutineDuration(routineSteps);
+  const isQuickRoutine = routine.id === 'cs2-90-second-quick-warmup';
   const summary = useMemo(() => getWarmupSummary(results), [results]);
   const dailyChallenge = useMemo(() => getDailyChallenge(), []);
 
@@ -333,6 +334,12 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
 
   const handleProInterest = async () => {
     setInterestStatus('sending');
+    trackEvent('ai_coach_pro_interest', {
+      routine_id: routine.id,
+      source: 'warmup_complete_card',
+      local_runs: trainingHistory.length,
+    });
+
     try {
       const success = await submitFeedback({
         category: 'missing_feature',
@@ -345,12 +352,16 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
         }),
       });
       setInterestStatus(success ? 'success' : 'error');
-      trackEvent('ai_coach_pro_interest', {
+      trackEvent('ai_coach_pro_interest_submit', {
         routine_id: routine.id,
         success,
       });
     } catch {
       setInterestStatus('error');
+      trackEvent('ai_coach_pro_interest_submit', {
+        routine_id: routine.id,
+        success: false,
+      });
     }
   };
 
@@ -513,6 +524,18 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
                   ? 'Recording...'
                   : 'I want this'}
               </button>
+              <Link
+                href="/pro-beta"
+                onClick={() =>
+                  trackEvent('pro_beta_details_click', {
+                    source: 'warmup_complete_card',
+                    routine_id: routine.id,
+                  })
+                }
+                className="mt-3 block text-center text-sm font-semibold text-yellow-200 underline decoration-yellow-500/50 underline-offset-4 hover:text-yellow-100"
+              >
+                See Founder Beta details
+              </Link>
               {interestStatus === 'error' && (
                 <p className="mt-2 text-xs text-red-300">Could not record this. Try again later.</p>
               )}
@@ -555,6 +578,11 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
                 </span>
                 <span className="text-sm text-gray-400">{formatDuration(totalDuration)}</span>
               </div>
+              <p className="mt-1 text-xs text-gray-400">
+                {isQuickRoutine
+                  ? 'Three 30-second checks. Complete all three to unlock your AI weak-point diagnosis.'
+                  : 'One guided routine. Complete all three steps for today’s diagnosis and streak.'}
+              </p>
             </div>
             <button
               type="button"

@@ -14,6 +14,7 @@ export default function SensitivityConfig() {
   const [activePreset, setActivePreset] = useState<string | null>(null);
   const [measuredCm, setMeasuredCm] = useState(10);
   const [measuredDegrees, setMeasuredDegrees] = useState(90);
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saved'>('idle');
   const { t } = useTranslation();
 
   const sensitivity = settings.sensitivity;
@@ -27,10 +28,7 @@ export default function SensitivityConfig() {
         mYaw: game === 'cs2' ? 0.022 : undefined,
       },
     });
-    trackEvent('sensitivity_saved', {
-      field: 'game',
-      game,
-    });
+    setSaveStatus('idle');
     setActivePreset(null);
   };
 
@@ -41,11 +39,7 @@ export default function SensitivityConfig() {
         sensitivity: value,
       },
     });
-    trackEvent('sensitivity_saved', {
-      field: 'sensitivity',
-      game: sensitivity.game,
-      value,
-    });
+    setSaveStatus('idle');
     setActivePreset(null);
   };
 
@@ -56,11 +50,7 @@ export default function SensitivityConfig() {
         dpi: value,
       },
     });
-    trackEvent('sensitivity_saved', {
-      field: 'dpi',
-      game: sensitivity.game,
-      value,
-    });
+    setSaveStatus('idle');
     setActivePreset(null);
   };
 
@@ -73,11 +63,11 @@ export default function SensitivityConfig() {
           calibrationMultiplier: 1,
         },
       });
-      trackEvent('sensitivity_saved', {
-        field: 'preset',
+      trackEvent('sensitivity_preset_apply', {
         game: preset.game,
         preset: presetName,
       });
+      setSaveStatus('idle');
       setActivePreset(presetName);
     }
   };
@@ -90,11 +80,7 @@ export default function SensitivityConfig() {
         cm360: value,
       },
     });
-    trackEvent('sensitivity_saved', {
-      field: 'cm360',
-      game: 'custom',
-      value,
-    });
+    setSaveStatus('idle');
     setActivePreset(null);
   };
 
@@ -105,11 +91,19 @@ export default function SensitivityConfig() {
         calibrationMultiplier: value,
       },
     });
+    setSaveStatus('idle');
+  };
+
+  const handleSaveSettings = () => {
     trackEvent('sensitivity_saved', {
-      field: 'calibration_multiplier',
       game: sensitivity.game,
-      value,
+      sensitivity: sensitivity.sensitivity,
+      dpi: sensitivity.dpi,
+      cm360: Number(cm360.toFixed(1)),
+      calibration_multiplier: Number((sensitivity.calibrationMultiplier ?? 1).toFixed(2)),
+      source: 'settings_confirm_button',
     });
+    setSaveStatus('saved');
   };
 
   const applyFeelNudge = (direction: 'too-fast' | 'too-slow') => {
@@ -278,6 +272,17 @@ export default function SensitivityConfig() {
             : t('cm360_low')}
         </div>
       </div>
+
+      <button
+        type="button"
+        onClick={handleSaveSettings}
+        className="mt-3 w-full rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-500"
+      >
+        {saveStatus === 'saved' ? 'Settings saved' : 'Save these settings'}
+      </button>
+      <p className="mt-2 text-center text-xs text-gray-500">
+        Changes apply immediately. Save confirms this setup for progress tracking.
+      </p>
 
       <div className="mt-4 rounded-lg border border-green-500/30 bg-green-500/10 p-4">
         <p className="text-sm font-semibold text-white">CS2 feel check</p>

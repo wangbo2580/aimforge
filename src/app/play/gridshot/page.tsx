@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import GridshotClient from '@/components/play/GridshotClient';
+import TrackedLink from '@/components/ui/TrackedLink';
 
 export const metadata: Metadata = {
-  title: 'Gridshot Online — Free CS2 Aim Trainer (No Download)',
+  title: 'CS2 Gridshot Online — Free Aim Trainer, No Download',
   description:
-    'Free online Gridshot trainer for CS2 and Valorant. Runs in your browser, no download. Click static targets with CS2-style cm/360 calibration.',
+    'Play Gridshot online in a free CS2 aim trainer. No download—practice click timing and accuracy with raw input and cm/360 calibration.',
   keywords: [
     'gridshot online',
     'online gridshot',
@@ -28,15 +29,39 @@ export const metadata: Metadata = {
 };
 
 export default function GridshotPage() {
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Can I play Gridshot online without Aim Lab?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. This Gridshot-style drill runs directly in a desktop browser with no game or trainer download.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What should I focus on in Gridshot?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Prioritize clean, accurate clicks and controlled movement. Increase speed only after your accuracy is stable.',
+        },
+      },
+    ],
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <GridshotClient />
 
       {/* SEO content below the fold */}
       <article className="bg-gray-950 px-4 py-16 border-t border-gray-800">
         <div className="container mx-auto max-w-3xl text-gray-300 space-y-8">
           <header>
-            <h2 className="text-3xl font-bold text-white mb-3">About Gridshot</h2>
+            <h2 className="text-3xl font-bold text-white mb-3">CS2 Gridshot Online</h2>
             <p className="text-gray-400">
               The simplest aim drill, and probably the most useful one if you&apos;re stuck.
             </p>
@@ -112,6 +137,14 @@ export default function GridshotPage() {
               </Link>
               . There&apos;s no point inventing one from scratch.
             </p>
+            <TrackedLink
+              href="/play/quick-warmup"
+              eventName="content_to_training_click"
+              eventParams={{ source_page: 'gridshot', destination: 'quick_warmup' }}
+              className="mt-5 inline-flex rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-blue-500"
+            >
+              Continue with the 90-second warm-up
+            </TrackedLink>
           </section>
         </div>
       </article>

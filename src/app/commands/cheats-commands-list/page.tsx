@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import CopyButton from '@/components/ui/CopyButton';
+import ContentTrainingCTA from '@/components/growth/ContentTrainingCTA';
 
 export const metadata: Metadata = {
   title: 'CS2 sv_cheats Commands: Full Practice-Only Reference (2026)',
@@ -347,6 +348,12 @@ export default function CheatsCommandsListPage() {
               </p>
             </section>
           </div>
+
+          <ContentTrainingCTA
+            sourcePage="cheats_commands_list"
+            title="Use the commands, then train the mechanic"
+            description="Console setup helps you repeat situations. Follow it with a short browser warm-up to practice the actual mouse movement before queueing."
+          />
 
           <aside className="mt-16 pt-8 border-t border-gray-800">
             <h2 className="text-lg font-bold text-white mb-4">Related commands</h2>

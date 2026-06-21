@@ -15,6 +15,11 @@ export default function PlayClient() {
     lastCompletedDate: null,
   });
   const dailyChallenge = getDailyChallenge();
+  const isFirstWarmup = warmupProgress.completions === 0;
+  const primaryWarmupHref = isFirstWarmup ? '/play/quick-warmup' : '/play/warmup';
+  const primaryRoutineId = isFirstWarmup
+    ? 'cs2-90-second-quick-warmup'
+    : 'cs2-5-minute-warmup';
 
   useEffect(() => {
     const timerId = window.setTimeout(() => {
@@ -88,10 +93,12 @@ export default function PlayClient() {
           <section className="mx-auto mb-10 max-w-5xl">
             <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
               <Link
-                href="/play/warmup"
+                href={primaryWarmupHref}
                 onClick={() =>
                   trackEvent('warmup_cta_click', {
                     source: 'play_hub_primary',
+                    routine_id: primaryRoutineId,
+                    first_warmup: isFirstWarmup,
                     streak: warmupProgress.streak,
                     completions: warmupProgress.completions,
                   })
@@ -99,20 +106,29 @@ export default function PlayClient() {
                 className="group rounded-lg border border-blue-500/30 bg-blue-500/10 p-6 transition-colors hover:border-blue-400 hover:bg-blue-500/15"
               >
                 <p className="text-xs font-semibold uppercase tracking-wide text-blue-300">
-                  Recommended
+                  {isFirstWarmup ? 'Best first run' : 'Recommended today'}
                 </p>
-                <h1 className="mt-2 text-4xl font-black text-white">5-minute CS2 warm-up</h1>
+                <h1 className="mt-2 text-4xl font-black text-white">
+                  {isFirstWarmup ? '90-second CS2 warm-up' : '5-minute CS2 warm-up'}
+                </h1>
                 <p className="mt-3 max-w-2xl text-gray-300">
-                  Gridshot, Tracking, and Flicking in one guided flow. Finish with a diagnosis,
-                  input confidence, and a local streak so users have a reason to come back tomorrow.
+                  {isFirstWarmup
+                    ? 'Three 30-second checks. No account, no setup wall—finish with an AI weak-point diagnosis.'
+                    : 'Gridshot, Tracking, and Flicking in one guided flow. Finish with a diagnosis, input confidence, and your local streak.'}
                 </p>
                 <div className="mt-5 flex flex-wrap gap-3 text-sm">
-                  <span className="rounded bg-gray-950/70 px-3 py-1 text-gray-200">2m Gridshot</span>
-                  <span className="rounded bg-gray-950/70 px-3 py-1 text-gray-200">2m Tracking</span>
-                  <span className="rounded bg-gray-950/70 px-3 py-1 text-gray-200">1m Flicking</span>
+                  <span className="rounded bg-gray-950/70 px-3 py-1 text-gray-200">
+                    {isFirstWarmup ? '30s Gridshot' : '2m Gridshot'}
+                  </span>
+                  <span className="rounded bg-gray-950/70 px-3 py-1 text-gray-200">
+                    {isFirstWarmup ? '30s Tracking' : '2m Tracking'}
+                  </span>
+                  <span className="rounded bg-gray-950/70 px-3 py-1 text-gray-200">
+                    {isFirstWarmup ? '30s Flicking' : '1m Flicking'}
+                  </span>
                 </div>
                 <div className="mt-6 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition-colors group-hover:bg-blue-500">
-                  Start warm-up
+                  {isFirstWarmup ? 'Start the 90-second check' : 'Start today’s warm-up'}
                   <span aria-hidden>→</span>
                 </div>
               </Link>
@@ -146,16 +162,18 @@ export default function PlayClient() {
             </div>
             <div className="mt-4 grid gap-3 sm:grid-cols-2">
               <Link
-                href="/play/quick-warmup"
+                href={isFirstWarmup ? '/play/warmup' : '/play/quick-warmup'}
                 onClick={() =>
                   trackEvent('warmup_cta_click', {
-                    source: 'play_hub_quick',
-                    routine_id: 'cs2-90-second-quick-warmup',
+                    source: 'play_hub_alternative',
+                    routine_id: isFirstWarmup
+                      ? 'cs2-5-minute-warmup'
+                      : 'cs2-90-second-quick-warmup',
                   })
                 }
                 className="rounded-lg border border-gray-700 bg-gray-800 px-5 py-4 text-sm font-semibold text-white transition-colors hover:border-blue-500 hover:bg-gray-700"
               >
-                Try 90-second quick warm-up
+                {isFirstWarmup ? 'Prefer the full 5-minute routine?' : 'Need a 90-second quick check?'}
               </Link>
               <Link
                 href="/stats"

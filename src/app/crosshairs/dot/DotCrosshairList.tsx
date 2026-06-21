@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import type { Crosshair } from '@/data/crosshairs';
 import { CrosshairCodePreview } from '@/components/ui/CrosshairPreview';
+import { trackEvent } from '@/lib/analytics';
 
 interface Props {
   items: Crosshair[];
@@ -15,6 +16,10 @@ export default function DotCrosshairList({ items }: Props) {
   const handleCopy = async (c: Crosshair) => {
     try {
       await navigator.clipboard.writeText(c.code);
+      trackEvent('copy_crosshair', {
+        crosshair_id: c.id,
+        source_page: 'dot_crosshairs',
+      });
       setCopiedId(c.id);
       setTimeout(() => setCopiedId(null), 2000);
     } catch (err) {

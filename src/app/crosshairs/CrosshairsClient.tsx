@@ -7,6 +7,7 @@ import { crosshairs, categories, Crosshair } from '@/data/crosshairs';
 import { CrosshairCodePreview } from '@/components/ui/CrosshairPreview';
 import { useTranslation } from '@/lib/i18n';
 import { trackEvent } from '@/lib/analytics';
+import ContentTrainingCTA from '@/components/growth/ContentTrainingCTA';
 
 export default function CrosshairsClient() {
   const { t } = useTranslation();
@@ -369,19 +370,13 @@ export default function CrosshairsClient() {
             </section>
           </article>
 
-          {/* CTA */}
-          <div className="mt-12 text-center">
-            <p className="text-gray-400 mb-4">{t('crosshair_practice_cta')}</p>
-            <Link
-              href="/play"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition-colors"
-            >
-              {t('start_training')}
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
-          </div>
+          <ContentTrainingCTA
+            sourcePage="crosshairs"
+            title={t('crosshair_practice_cta')}
+            description="Copy a crosshair, then test whether you can see it clearly while clicking targets at speed."
+            primaryHref="/play/gridshot"
+            primaryLabel={t('start_training')}
+          />
         </div>
       </main>
     </div>

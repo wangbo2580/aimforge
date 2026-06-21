@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import CopyButton from '@/components/ui/CopyButton';
+import ContentTrainingCTA from '@/components/growth/ContentTrainingCTA';
 
 export const metadata: Metadata = {
   title: 'CS2 Jumpthrow Bind: One-Key Setup for Consistent Throws',
@@ -287,6 +288,12 @@ export default function JumpthrowBindPage() {
               </p>
             </section>
           </div>
+
+          <ContentTrainingCTA
+            sourcePage="jumpthrow_bind"
+            title="Test your setup, then sharpen your first duel"
+            description="Once the bind works, run a 90-second aim warm-up so utility practice does not replace your mechanical preparation."
+          />
 
           <aside className="mt-16 pt-8 border-t border-gray-800">
             <h2 className="text-lg font-bold text-white mb-4">Related commands</h2>

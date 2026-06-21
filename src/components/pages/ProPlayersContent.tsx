@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useTranslation } from '@/lib/i18n';
 import { ProPlayer, countryToFlag } from '@/data/pro-players';
+import ContentTrainingCTA from '@/components/growth/ContentTrainingCTA';
 
 interface ProPlayersContentProps {
   featured: ProPlayer[];
@@ -108,24 +109,13 @@ export default function ProPlayersContent({ featured, others }: ProPlayersConten
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="mt-12 text-center">
-        <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-2xl p-8 border border-blue-500/30">
-          <h3 className="text-2xl font-bold mb-3">{t('pro_practice_cta')}</h3>
-          <p className="text-gray-400 mb-6">
-            {t('pro_practice_desc')}
-          </p>
-          <Link
-            href="/play"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition-colors"
-          >
-            {t('start_training')}
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </Link>
-        </div>
-      </section>
+      <ContentTrainingCTA
+        sourcePage="pro_players"
+        title={t('pro_practice_cta')}
+        description={t('pro_practice_desc')}
+        primaryHref="/play/quick-warmup"
+        primaryLabel={t('start_training')}
+      />
     </div>
   );
 }
