@@ -5,8 +5,8 @@ import CrosshairsClient from './CrosshairsClient';
 import { crosshairs } from '@/data/crosshairs';
 
 export const metadata: Metadata = {
-  title: 'CS2 Crosshair Codes — One-Click Copy & Paste (30+ Crosshairs)',
-  description: 'Copy any CS2 crosshair code in one click and paste it straight into your game. 30+ crosshairs, CSGO-compatible, with an import guide. Dedicated pages for dot crosshairs and pro player setups.',
+  title: 'CS2 Crosshair Codes: Pro, Dot & Custom Copy-Paste Codes',
+  description: 'Search and copy CS2 crosshair codes by pro player, team, style, or color. Includes pro crosshairs, dot codes, CSGO compatibility, and a custom generator.',
   keywords: [
     'cs2 crosshair codes',
     'cs2 crosshair code',

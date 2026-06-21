@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import { crosshairs, categories, Crosshair } from '@/data/crosshairs';
@@ -13,10 +13,32 @@ export default function CrosshairsClient() {
   const { t } = useTranslation();
   const [selectedCategory, setSelectedCategory] = useState<Crosshair['category'] | 'all'>('all');
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [query, setQuery] = useState('');
 
-  const filteredCrosshairs = selectedCategory === 'all'
-    ? crosshairs
-    : crosshairs.filter(c => c.category === selectedCategory);
+  const filteredCrosshairs = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    return crosshairs.filter((crosshair) => {
+      const matchesCategory =
+        selectedCategory === 'all' || crosshair.category === selectedCategory;
+      const matchesQuery =
+        normalizedQuery.length === 0 ||
+        [crosshair.name, crosshair.player, crosshair.team, crosshair.description, crosshair.color]
+          .filter(Boolean)
+          .join(' ')
+          .toLowerCase()
+          .includes(normalizedQuery);
+      return matchesCategory && matchesQuery;
+    });
+  }, [query, selectedCategory]);
+
+  const selectCategory = (category: Crosshair['category'] | 'all') => {
+    setSelectedCategory(category);
+    trackEvent('hub_filter', {
+      hub: 'crosshairs',
+      filter_type: 'category',
+      filter_value: category,
+    });
+  };
 
   const handleCopy = async (crosshair: Crosshair) => {
     try {
@@ -70,10 +92,53 @@ export default function CrosshairsClient() {
             </nav>
           </div>
 
+          <section className="mb-8 grid gap-4 md:grid-cols-3">
+            <Link
+              href="/crosshairs/pro"
+              onClick={() => trackEvent('hub_path_click', { hub: 'crosshairs', path: 'pro' })}
+              className="rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-5 hover:border-yellow-400"
+            >
+              <span className="text-xs font-semibold uppercase tracking-wide text-yellow-300">Copy a player</span>
+              <h2 className="mt-2 text-xl font-bold text-white">Pro crosshair codes</h2>
+              <p className="mt-2 text-sm text-gray-400">s1mple, donk, ZywOo, NiKo, m0NESY, and the full player list.</p>
+            </Link>
+            <Link
+              href="/crosshairs/dot"
+              onClick={() => trackEvent('hub_path_click', { hub: 'crosshairs', path: 'dot' })}
+              className="rounded-xl border border-green-500/30 bg-green-500/10 p-5 hover:border-green-400"
+            >
+              <span className="text-xs font-semibold uppercase tracking-wide text-green-300">Minimal</span>
+              <h2 className="mt-2 text-xl font-bold text-white">Dot crosshair codes</h2>
+              <p className="mt-2 text-sm text-gray-400">Pure dots and center-dot variants with copy-paste codes.</p>
+            </Link>
+            <Link
+              href="/tools/crosshair-generator"
+              onClick={() => trackEvent('hub_path_click', { hub: 'crosshairs', path: 'generator' })}
+              className="rounded-xl border border-blue-500/30 bg-blue-500/10 p-5 hover:border-blue-400"
+            >
+              <span className="text-xs font-semibold uppercase tracking-wide text-blue-300">Customize</span>
+              <h2 className="mt-2 text-xl font-bold text-white">Crosshair generator</h2>
+              <p className="mt-2 text-sm text-gray-400">Start from a pro preset, change size, gap, color, and export a code.</p>
+            </Link>
+          </section>
+
+          <div className="mx-auto mb-6 max-w-xl">
+            <label className="text-sm font-medium text-gray-300" htmlFor="crosshair-search">
+              Search by player, team, style, or color
+            </label>
+            <input
+              id="crosshair-search"
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Try donk, Vitality, dot, cyan..."
+              className="mt-2 w-full rounded-xl border border-gray-700 bg-gray-900 px-4 py-3 text-white outline-none focus:border-blue-500"
+            />
+          </div>
+
           {/* Category Filter */}
           <div className="flex flex-wrap justify-center gap-2 mb-8">
             <button
-              onClick={() => setSelectedCategory('all')}
+              onClick={() => selectCategory('all')}
               className={`px-4 py-2 rounded-lg font-medium transition-colors ${
                 selectedCategory === 'all'
                   ? 'bg-blue-600 text-white'
@@ -87,7 +152,7 @@ export default function CrosshairsClient() {
               return (
                 <button
                   key={cat.id}
-                  onClick={() => setSelectedCategory(cat.id)}
+                  onClick={() => selectCategory(cat.id)}
                   className={`px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-2 ${
                     selectedCategory === cat.id
                       ? 'bg-blue-600 text-white'
@@ -102,6 +167,9 @@ export default function CrosshairsClient() {
           </div>
 
           {/* Crosshair Grid */}
+          <p className="mb-4 text-sm text-gray-500">
+            Showing {filteredCrosshairs.length} of {crosshairs.length} crosshairs.
+          </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredCrosshairs.map((crosshair) => (
               <div
@@ -159,6 +227,11 @@ export default function CrosshairsClient() {
               </div>
             ))}
           </div>
+          {filteredCrosshairs.length === 0 && (
+            <div className="rounded-xl border border-gray-800 bg-gray-900 p-8 text-center text-gray-400">
+              No crosshair matches this search. Try a player name, team, color, or clear the filter.
+            </div>
+          )}
 
           {/* How to Use */}
           <div className="mt-12 bg-gray-800 rounded-2xl p-6 md:p-8">

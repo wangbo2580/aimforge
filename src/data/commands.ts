@@ -37,13 +37,14 @@ export const commands: CommandMeta[] = [
   },
   {
     slug: 'plant-bomb-bind',
-    title: 'CS2 Plant Bomb Bind and Buy Binds Setup',
-    description: 'Bind the bomb plant to a key so you never miss it in clutches. Also: full buy bind generator code for AK, M4, AWP, kevlar, and utility kits.',
+    title: 'CS2 Plant Bomb Bind: Copy-Paste Command',
+    description: 'Bind bomb planting to MOUSE5, V, C, or another key. Includes the simple command, safer alias, autoexec setup, and common fixes.',
     category: 'bind',
     difficulty: 'beginner',
     primaryKeyword: 'plant bomb bind on cs2',
     searchVolume: 2400,
     publishedAt: '2026-05-15',
+    updatedAt: '2026-06-21',
   },
   {
     slug: 'scroll-wheel-jump-bind',

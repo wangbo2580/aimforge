@@ -43,6 +43,29 @@ const itemListSchema = {
   })),
 };
 
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'What eDPI do most CS2 pros use?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Most professional CS2 players use roughly 600 to 1200 eDPI. AWPers often sit toward the lower or middle end, while aggressive riflers and entry players may use faster settings.',
+      },
+    },
+    {
+      '@type': 'Question',
+      name: 'Should I copy a CS2 pro player sensitivity exactly?',
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: 'Use a pro setup as a starting point, then compare cm/360 and test it for several sessions. Desk space, role, grip, and existing muscle memory affect whether the same setting works for you.',
+      },
+    },
+  ],
+};
+
 export default function ProPlayersPage() {
   const featured = proPlayers.filter(p => featuredPlayers.includes(p.slug));
   const others = proPlayers.filter(p => !featuredPlayers.includes(p.slug));
@@ -50,6 +73,7 @@ export default function ProPlayersPage() {
   return (
     <div className="min-h-screen flex flex-col">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <Header />
       <main className="flex-1 py-12 px-4">
         <ProPlayersContent featured={featured} others={others} />

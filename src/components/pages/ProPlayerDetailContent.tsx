@@ -52,11 +52,16 @@ function GearRow({
         className="flex justify-between items-center py-3 px-4"
       >
         <span className="text-gray-400">{label}</span>
-        <span className="text-white font-medium group-hover:text-blue-400 flex items-center gap-1 text-right">
-          {value}
-          <svg className="w-3 h-3 opacity-40 group-hover:opacity-100 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-          </svg>
+        <span className="text-white font-medium group-hover:text-blue-400 flex flex-col items-end text-right">
+          <span className="flex items-center gap-1">
+            {value}
+            <svg className="w-3 h-3 opacity-40 group-hover:opacity-100 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+            </svg>
+          </span>
+          <span className="text-xs font-normal text-gray-500 group-hover:text-blue-300">
+            Compare current listings
+          </span>
         </span>
       </a>
       {note && (
@@ -71,6 +76,24 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
   const config = getPlayerConfig(player);
   const faqs = getPlayerFaqs(player);
   const crosshairDesc = getPlayerCrosshairDescription(player);
+  const roleText = player.role.toLowerCase();
+  const recommendedRoutine = roleText.includes('awp')
+    ? {
+        href: '/play/routines/awp-flick',
+        label: 'Run the AWPer flick routine',
+        reason: 'Test the setup through scoped target acquisition and controlled flicks.',
+      }
+    : roleText.includes('entry') || roleText.includes('rifl')
+    ? {
+        href: '/play/routines/rifle-entry',
+        label: 'Run the rifle entry routine',
+        reason: 'Test the setup through entry-style target switches and first-bullet control.',
+      }
+    : {
+        href: '/play/quick-warmup',
+        label: 'Run the 90-second setup test',
+        reason: 'Test the setup across precision, tracking, and flicking before committing to it.',
+      };
 
   return (
     <div className="container mx-auto max-w-4xl">
@@ -250,6 +273,12 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
         </div>
         <Link
           href={`/tools/crosshair-generator?code=${encodeURIComponent(player.crosshairCode)}`}
+          onClick={() =>
+            trackEvent('pro_crosshair_edit_click', {
+              player: player.slug,
+              source: 'pro_player_page',
+            })
+          }
           className="text-blue-400 hover:underline text-sm"
         >
           Edit this crosshair in the generator →
@@ -354,20 +383,45 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
 
       {/* Practice CTA */}
       <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 rounded-xl p-6 mb-8 border border-blue-500/30">
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-          <div>
-            <h3 className="text-lg font-bold mb-1">{t('pro_practice_with')} {player.name}{t('pro_settings_suffix')}</h3>
-            <p className="text-gray-400 text-sm">
-              {player.sensitivity} sens @ {player.dpi} DPI
-            </p>
-          </div>
+        <p className="text-xs font-semibold uppercase tracking-wide text-blue-300">
+          Try the setup, then measure it
+        </p>
+        <h3 className="mt-2 text-xl font-bold">
+          {t('pro_practice_with')} {player.name}{t('pro_settings_suffix')}
+        </h3>
+        <p className="mt-2 text-sm text-gray-300">
+          Import {player.sensitivity} sensitivity at {player.dpi} DPI into this browser,
+          then test it in a routine matched to {player.name}&apos;s {player.role.toLowerCase()} role.
+        </p>
+        <div className="mt-5 grid gap-3 md:grid-cols-2">
           <Link
-            href={`/settings?sens=${player.sensitivity}&dpi=${player.dpi}`}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-lg font-medium transition-colors text-center"
+            href={`/settings?sens=${player.sensitivity}&dpi=${player.dpi}&source=pro_${player.slug}`}
+            onClick={() =>
+              trackEvent('pro_setup_apply', {
+                player: player.slug,
+                sensitivity: player.sensitivity,
+                dpi: player.dpi,
+              })
+            }
+            className="rounded-lg bg-blue-600 px-5 py-3 text-center font-semibold transition-colors hover:bg-blue-500"
           >
-            {t('pro_apply_settings')}
+            1. Import {player.name}&apos;s sensitivity
+          </Link>
+          <Link
+            href={recommendedRoutine.href}
+            onClick={() =>
+              trackEvent('pro_training_click', {
+                player: player.slug,
+                player_role: player.role,
+                routine: recommendedRoutine.href,
+              })
+            }
+            className="rounded-lg bg-purple-600 px-5 py-3 text-center font-semibold transition-colors hover:bg-purple-500"
+          >
+            2. {recommendedRoutine.label}
           </Link>
         </div>
+        <p className="mt-3 text-xs text-gray-400">{recommendedRoutine.reason}</p>
       </div>
 
       {/* FAQ — visible Q&A; matching FAQPage JSON-LD is emitted in the page route */}
@@ -396,6 +450,12 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
               <Link
                 key={p.slug}
                 href={`/pro/${p.slug}`}
+                onClick={() =>
+                  trackEvent('pro_similar_player_click', {
+                    from_player: player.slug,
+                    to_player: p.slug,
+                  })
+                }
                 className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors"
               >
                 <div className="flex items-center gap-2 mb-2">

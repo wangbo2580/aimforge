@@ -2,6 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Header from '@/components/layout/Header';
 import { commands } from '@/data/commands';
+import TrackedLink from '@/components/ui/TrackedLink';
 
 export const metadata: Metadata = {
   title: 'CS2 Commands & Binds — Copy-Paste Setups for Console and Autoexec',
@@ -61,6 +62,35 @@ const difficultyLabels: Record<string, { label: string; color: string }> = {
 };
 
 export default function CommandsHubPage() {
+  const legalCommands = commands.filter((command) =>
+    ['jumpthrow-bind', 'plant-bomb-bind', 'scroll-wheel-jump-bind', 'fps-max-bind', 'bind-say-message'].includes(command.slug)
+  );
+  const practiceCommands = commands.filter((command) =>
+    ['cheats-commands-list', 'noclip-bind', 'bhop-console', 'esp-command-practice'].includes(command.slug)
+  );
+
+  const renderCommandCard = (cmd: (typeof commands)[number]) => {
+    const cat = categoryLabels[cmd.category] ?? categoryLabels.bind;
+    const diff = difficultyLabels[cmd.difficulty] ?? difficultyLabels.beginner;
+    return (
+      <TrackedLink
+        key={cmd.slug}
+        href={`/commands/${cmd.slug}`}
+        eventName="hub_item_click"
+        eventParams={{ hub: 'commands', item: cmd.slug, category: cmd.category }}
+        className="group block rounded-2xl bg-gray-800 p-6 transition-all hover:bg-gray-750 hover:ring-2 hover:ring-blue-500"
+      >
+        <div className="mb-3 flex items-center gap-2">
+          <span className={`rounded px-2 py-1 text-xs font-medium ${cat.color}`}>{cat.label}</span>
+          <span className={`text-xs font-medium ${diff.color}`}>{diff.label}</span>
+        </div>
+        <h3 className="text-xl font-bold transition-colors group-hover:text-blue-400">{cmd.title}</h3>
+        <p className="mt-2 text-sm text-gray-400">{cmd.description}</p>
+        <p className="mt-4 text-xs text-gray-500">Target query: {cmd.primaryKeyword}</p>
+      </TrackedLink>
+    );
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }} />
@@ -70,7 +100,7 @@ export default function CommandsHubPage() {
       <main className="flex-1 py-12 px-4">
         <div className="container mx-auto max-w-5xl">
           <header className="mb-10">
-            <h1 className="text-4xl font-bold text-white mb-3">CS2 Commands &amp; Binds</h1>
+            <h1 className="text-4xl font-bold text-white mb-3">CS2 Commands, Binds &amp; Practice Configs</h1>
             <p className="text-gray-400 text-lg max-w-2xl">
               Copy-paste configs for the binds and console commands every CS2 player ends up
               setting. Jumpthrow, plant bomb, scroll wheel jump, fps_max, bhop, noclip, ESP, and the
@@ -79,33 +109,56 @@ export default function CommandsHubPage() {
             </p>
           </header>
 
-          {/* Commands Grid */}
-          <div className="grid md:grid-cols-2 gap-6 mb-16">
-            {commands.map((cmd) => {
-              const cat = categoryLabels[cmd.category] ?? categoryLabels.bind;
-              const diff = difficultyLabels[cmd.difficulty] ?? difficultyLabels.beginner;
-              return (
-                <Link
-                  key={cmd.slug}
-                  href={`/commands/${cmd.slug}`}
-                  className="group bg-gray-800 rounded-2xl p-6 hover:ring-2 hover:ring-blue-500 transition-all hover:bg-gray-750 block"
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${cat.color}`}>
-                      {cat.label}
-                    </span>
-                    <span className={`text-xs font-medium ${diff.color}`}>
-                      {diff.label}
-                    </span>
-                  </div>
-                  <h2 className="text-xl font-bold mb-2 group-hover:text-blue-400 transition-colors">
-                    {cmd.title}
-                  </h2>
-                  <p className="text-gray-400 text-sm">{cmd.description}</p>
-                </Link>
-              );
-            })}
-          </div>
+          <section className="mb-12 grid gap-4 md:grid-cols-3">
+            <TrackedLink
+              href="/commands/jumpthrow-bind"
+              eventName="hub_path_click"
+              eventParams={{ hub: 'commands', path: 'essential_binds' }}
+              className="rounded-xl border border-blue-500/30 bg-blue-500/10 p-5 hover:border-blue-400"
+            >
+              <span className="text-xs font-semibold uppercase tracking-wide text-blue-300">Play online</span>
+              <h2 className="mt-2 text-xl font-bold text-white">Matchmaking-legal binds</h2>
+              <p className="mt-2 text-sm text-gray-400">Jumpthrow, plant, scroll jump, FPS cap, and chat binds.</p>
+            </TrackedLink>
+            <TrackedLink
+              href="/commands/cheats-commands-list"
+              eventName="hub_path_click"
+              eventParams={{ hub: 'commands', path: 'practice_server' }}
+              className="rounded-xl border border-green-500/30 bg-green-500/10 p-5 hover:border-green-400"
+            >
+              <span className="text-xs font-semibold uppercase tracking-wide text-green-300">Private server</span>
+              <h2 className="mt-2 text-xl font-bold text-white">Practice commands</h2>
+              <p className="mt-2 text-sm text-gray-400">Noclip, grenade trajectory, bhop, infinite ammo, and visibility.</p>
+            </TrackedLink>
+            <TrackedLink
+              href="/play/quick-warmup"
+              eventName="content_to_training_click"
+              eventParams={{ source_page: 'commands_hub', destination: 'quick_warmup' }}
+              className="rounded-xl border border-purple-500/30 bg-purple-500/10 p-5 hover:border-purple-400"
+            >
+              <span className="text-xs font-semibold uppercase tracking-wide text-purple-300">Mechanics</span>
+              <h2 className="mt-2 text-xl font-bold text-white">Warm up after setup</h2>
+              <p className="mt-2 text-sm text-gray-400">Commands improve repetition; the 90-second routine prepares your aim.</p>
+            </TrackedLink>
+          </section>
+
+          <section className="mb-12">
+            <div className="mb-5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-blue-300">Official servers</p>
+              <h2 className="mt-1 text-2xl font-bold text-white">Essential CS2 binds</h2>
+              <p className="mt-2 text-sm text-gray-400">Safe for Premier, Competitive, FaceIt, and normal matchmaking.</p>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">{legalCommands.map(renderCommandCard)}</div>
+          </section>
+
+          <section className="mb-16">
+            <div className="mb-5">
+              <p className="text-xs font-semibold uppercase tracking-wide text-green-300">Private servers only</p>
+              <h2 className="mt-1 text-2xl font-bold text-white">Practice-server commands</h2>
+              <p className="mt-2 text-sm text-gray-400">These require server control or `sv_cheats 1`; they do not work in matchmaking.</p>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">{practiceCommands.map(renderCommandCard)}</div>
+          </section>
 
           {/* SEO Content */}
           <article className="border-t border-gray-800 pt-12 text-gray-300 space-y-8 max-w-3xl">

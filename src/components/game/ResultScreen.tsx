@@ -515,11 +515,18 @@ export default function ResultScreen({
                 </Link>
               )}
               <Link
-                href="/stats"
-                onClick={trackStatsView}
+                href="/stats#seven-day-plan"
+                onClick={() => {
+                  trackStatsView();
+                  trackEvent('training_plan_cta_click', {
+                    source: 'result_screen',
+                    mode: result.trainingType,
+                    sessions_saved: trainingHistory.length,
+                  });
+                }}
                 className="rounded-lg bg-gray-700 px-4 py-2.5 text-center text-sm font-semibold text-white transition-colors hover:bg-gray-600"
               >
-                {t('routine_view_progress')}
+                View progress &amp; 7-session plan
               </Link>
             </div>
           </div>

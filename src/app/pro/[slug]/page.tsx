@@ -26,10 +26,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   // Title puts the numbers up front — that's what people search for and what makes them click.
   // Length budget ~60 chars; longest player name + team still fits.
-  const title = `${player.name} CS2 Settings: ${sens} sens, ${dpi} DPI, Crosshair (${player.team})`;
+  const title = `${player.name} CS2 Settings (2026): Sens, DPI & Crosshair`;
 
   // Description leads with the actual numbers, no marketing fluff.
-  const description = `${sens} sens, ${dpi} DPI, ${cm360} cm/360° — ${player.name}'s real CS2 setup at ${player.team}. Crosshair code is copy-paste ready below, plus his mouse, keyboard, monitor and viewmodel.`;
+  const description = `${player.name} uses ${sens} sens at ${dpi} DPI (${cm360} cm/360°) for ${player.team}. Copy the current crosshair and config, compare gear, then test the setup in a CS2 aim routine.`;
 
   return {
     title,

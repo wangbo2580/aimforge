@@ -22,8 +22,38 @@ export default function SettingsPage() {
   const soundPreset = settings.soundPreset ?? 'pistol';
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const importedSens = Number(params.get('sens'));
+    const importedDpi = Number(params.get('dpi'));
+    const source = params.get('source');
+
+    if (
+      Number.isFinite(importedSens) &&
+      importedSens >= 0.1 &&
+      importedSens <= 5 &&
+      Number.isFinite(importedDpi) &&
+      importedDpi >= 100 &&
+      importedDpi <= 3200
+    ) {
+      const currentSettings = useGameStore.getState().settings;
+      useGameStore.getState().updateSettings({
+        sensitivity: {
+          ...currentSettings.sensitivity,
+          game: 'cs2',
+          sensitivity: importedSens,
+          dpi: importedDpi,
+          mYaw: 0.022,
+        },
+      });
+      trackEvent('pro_settings_imported', {
+        sensitivity: importedSens,
+        dpi: importedDpi,
+        source: source ?? 'query_params',
+      });
+    }
+
     trackEvent('settings_open', {
-      source: 'settings_page',
+      source: source ?? 'settings_page',
     });
   }, []);
 

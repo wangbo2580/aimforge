@@ -11,6 +11,7 @@ import { TrainingResult, TrainingType } from '@/types/game';
 import { trackEvent } from '@/lib/analytics';
 import { buildFeedbackContext, submitFeedback } from '@/lib/feedback';
 import { getWarmupSummary } from '@/lib/training-routines';
+import SevenDayPlan from '@/components/growth/SevenDayPlan';
 
 function average(values: number[]) {
   if (values.length === 0) return 0;
@@ -63,6 +64,48 @@ function getProgressInsight(trend: ReturnType<typeof getRecentTrend>) {
   return 'Progress is flat. Try a structured routine instead of repeating one drill randomly.';
 }
 
+function getDateKey(date: Date) {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function getDailyActivity(history: TrainingResult[]) {
+  return Array.from({ length: 7 }, (_, index) => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() - (6 - index));
+    const dateKey = getDateKey(date);
+    const runs = history.filter((result) => getDateKey(new Date(result.timestamp)) === dateKey);
+
+    return {
+      dateKey,
+      label: date.toLocaleDateString(undefined, { weekday: 'short' }),
+      runs: runs.length,
+      accuracy: average(runs.map((result) => result.accuracy)),
+      score: average(runs.map((result) => result.score)),
+    };
+  });
+}
+
+function getModeTrend(history: TrainingResult[], type: TrainingType) {
+  const modeHistory = history.filter((result) => result.trainingType === type);
+  const recent = modeHistory.slice(0, 5);
+  const previous = modeHistory.slice(5, 10);
+  const accuracyDelta =
+    previous.length > 0
+      ? average(recent.map((result) => result.accuracy)) -
+        average(previous.map((result) => result.accuracy))
+      : null;
+
+  return {
+    runs: recent.length,
+    accuracy: average(recent.map((result) => result.accuracy)),
+    accuracyDelta,
+  };
+}
+
 export default function StatsPage() {
   const { trainingHistory } = useGameStore();
   const { getStatsByType, getTotalStats } = useStats();
@@ -74,6 +117,9 @@ export default function StatsPage() {
   const recentDiagnosis =
     trainingHistory.length >= 3 ? getWarmupSummary(trainingHistory.slice(0, 12)) : null;
   const recentTrend = getRecentTrend(trainingHistory);
+  const dailyActivity = getDailyActivity(trainingHistory);
+  const maxDailyRuns = Math.max(1, ...dailyActivity.map((day) => day.runs));
+  const weakMode = recentDiagnosis?.weakMode ?? 'gridshot';
 
   useEffect(() => {
     trackEvent('stats_view', {
@@ -246,6 +292,45 @@ export default function StatsPage() {
                   </div>
                 )}
               </section>
+              <section className="mb-8 rounded-xl border border-gray-800 bg-gray-900 p-6">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-400">
+                    Training consistency
+                  </p>
+                  <h2 className="mt-2 text-2xl font-bold text-white">Last 7 calendar days</h2>
+                  <p className="mt-2 text-sm text-gray-400">
+                    Runs show consistency; the blue line inside each bar shows average accuracy
+                    for that day.
+                  </p>
+                </div>
+                <div className="mt-6 grid grid-cols-7 gap-2">
+                  {dailyActivity.map((day) => (
+                    <div key={day.dateKey} className="text-center">
+                      <div className="flex h-36 items-end justify-center rounded-lg bg-gray-950/60 px-2 pb-2">
+                        <div
+                          className="relative w-full min-w-3 overflow-hidden rounded-t bg-gray-700"
+                          style={{
+                            height: day.runs
+                              ? `${Math.max(16, (day.runs / maxDailyRuns) * 100)}%`
+                              : '4px',
+                          }}
+                          title={`${day.runs} runs, ${day.accuracy.toFixed(1)}% accuracy`}
+                        >
+                          {day.runs > 0 && (
+                            <div
+                              className="absolute inset-x-0 bottom-0 bg-blue-500"
+                              style={{ height: `${Math.min(100, day.accuracy)}%` }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                      <div className="mt-2 text-xs font-semibold text-gray-300">{day.label}</div>
+                      <div className="text-xs text-gray-500">{day.runs} runs</div>
+                    </div>
+                  ))}
+                </div>
+              </section>
+              <SevenDayPlan history={trainingHistory} weakMode={weakMode} />
             </>
           ) : (
             <div className="bg-gray-800 rounded-xl p-8 text-center mb-8">
@@ -284,6 +369,7 @@ export default function StatsPage() {
           <div className="grid md:grid-cols-3 gap-4 mb-8">
             {trainingTypes.map(({ type, nameKey, color }) => {
               const stats = getStatsByType(type);
+              const modeTrend = getModeTrend(trainingHistory, type);
               return (
                 <div key={type} className="bg-gray-800 rounded-xl p-4">
                   <h3 className={`text-lg font-semibold ${color} mb-3`}>{t(nameKey)}</h3>
@@ -304,6 +390,26 @@ export default function StatsPage() {
                       <div className="flex justify-between">
                         <span className="text-gray-400">{t('stats_avg_reaction')}</span>
                         <span className="text-white">{stats.avgReactionTime.toFixed(0)}ms</span>
+                      </div>
+                      <div className="mt-3 border-t border-gray-700 pt-3">
+                        <div className="flex justify-between">
+                          <span className="text-gray-400">Last 5 accuracy</span>
+                          <span className="text-white">{modeTrend.accuracy.toFixed(1)}%</span>
+                        </div>
+                        <div className="mt-2 flex justify-between">
+                          <span className="text-gray-400">vs previous 5</span>
+                          <span
+                            className={
+                              modeTrend.accuracyDelta === null
+                                ? 'text-gray-500'
+                                : modeTrend.accuracyDelta >= 0
+                                ? 'text-green-400'
+                                : 'text-orange-300'
+                            }
+                          >
+                            {formatDelta(modeTrend.accuracyDelta, '%')}
+                          </span>
+                        </div>
                       </div>
                     </div>
                   ) : (
