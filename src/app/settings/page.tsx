@@ -25,7 +25,11 @@ export default function SettingsPage() {
     const params = new URLSearchParams(window.location.search);
     const importedSens = Number(params.get('sens'));
     const importedDpi = Number(params.get('dpi'));
-    const source = params.get('source');
+    const requestedSource = params.get('source');
+    const source =
+      requestedSource && /^pro_[a-z0-9-]+$/i.test(requestedSource)
+        ? requestedSource
+        : 'settings_page';
 
     if (
       Number.isFinite(importedSens) &&
@@ -48,12 +52,13 @@ export default function SettingsPage() {
       trackEvent('pro_settings_imported', {
         sensitivity: importedSens,
         dpi: importedDpi,
-        source: source ?? 'query_params',
+        source,
       });
+      window.history.replaceState({}, '', window.location.pathname);
     }
 
     trackEvent('settings_open', {
-      source: source ?? 'settings_page',
+      source,
     });
   }, []);
 

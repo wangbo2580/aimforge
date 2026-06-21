@@ -104,7 +104,7 @@ export default function ProPlayersContent({ featured, others }: ProPlayersConten
             <Link
               key={player.slug}
               href={`/pro/${player.slug}`}
-              className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 hover:from-gray-750 hover:to-gray-850 transition-all hover:scale-[1.02] border border-gray-700 hover:border-blue-500"
+              className="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl p-6 hover:from-gray-700 hover:to-gray-800 transition-all hover:scale-[1.02] border border-gray-700 hover:border-blue-500"
             >
               <div className="flex items-start justify-between mb-4">
                 <div>
@@ -197,7 +197,7 @@ export default function ProPlayersContent({ featured, others }: ProPlayersConten
               </thead>
               <tbody className="divide-y divide-gray-700">
                 {filteredPlayers.map((player) => (
-                  <tr key={player.slug} className="hover:bg-gray-750 transition-colors">
+                  <tr key={player.slug} className="hover:bg-gray-700 transition-colors">
                     <td className="px-4 py-3">
                       <Link
                         href={`/pro/${player.slug}`}

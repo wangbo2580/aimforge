@@ -174,7 +174,7 @@ export default function CrosshairsClient() {
             {filteredCrosshairs.map((crosshair) => (
               <div
                 key={crosshair.id}
-                className="bg-gray-800 rounded-xl p-5 hover:bg-gray-750 transition-colors"
+                className="bg-gray-800 rounded-xl p-5 hover:bg-gray-700 transition-colors"
               >
                 {/* Preview & Name */}
                 <div className="flex items-center gap-4 mb-4">

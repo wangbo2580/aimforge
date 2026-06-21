@@ -456,7 +456,7 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
                     to_player: p.slug,
                   })
                 }
-                className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors"
+                className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <span>{countryToFlag(p.country)}</span>

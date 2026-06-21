@@ -78,7 +78,7 @@ export default function CommandsHubPage() {
         href={`/commands/${cmd.slug}`}
         eventName="hub_item_click"
         eventParams={{ hub: 'commands', item: cmd.slug, category: cmd.category }}
-        className="group block rounded-2xl bg-gray-800 p-6 transition-all hover:bg-gray-750 hover:ring-2 hover:ring-blue-500"
+        className="group block rounded-2xl bg-gray-800 p-6 transition-all hover:bg-gray-700 hover:ring-2 hover:ring-blue-500"
       >
         <div className="mb-3 flex items-center gap-2">
           <span className={`rounded px-2 py-1 text-xs font-medium ${cat.color}`}>{cat.label}</span>

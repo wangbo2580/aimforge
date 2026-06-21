@@ -358,15 +358,15 @@ export default function CheatsCommandsListPage() {
           <aside className="mt-16 pt-8 border-t border-gray-800">
             <h2 className="text-lg font-bold text-white mb-4">Related commands</h2>
             <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/commands/noclip-bind" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block">
+              <Link href="/commands/noclip-bind" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block">
                 <h3 className="font-bold text-white mb-1">noclip bind</h3>
                 <p className="text-sm text-gray-400">Free-fly setup for lineup practice.</p>
               </Link>
-              <Link href="/commands/bhop-console" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block">
+              <Link href="/commands/bhop-console" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block">
                 <h3 className="font-bold text-white mb-1">bhop console commands</h3>
                 <p className="text-sm text-gray-400">Full bunny hop server setup.</p>
               </Link>
-              <Link href="/commands/esp-command-practice" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block">
+              <Link href="/commands/esp-command-practice" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block">
                 <h3 className="font-bold text-white mb-1">ESP practice commands</h3>
                 <p className="text-sm text-gray-400">CS2 replacements for r_drawothermodels.</p>
               </Link>

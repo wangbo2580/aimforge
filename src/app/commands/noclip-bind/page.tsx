@@ -317,15 +317,15 @@ export default function NoclipBindPage() {
           <aside className="mt-16 pt-8 border-t border-gray-800">
             <h2 className="text-lg font-bold text-white mb-4">Related commands</h2>
             <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/commands/cheats-commands-list" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block">
+              <Link href="/commands/cheats-commands-list" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block">
                 <h3 className="font-bold text-white mb-1">Full sv_cheats commands list</h3>
                 <p className="text-sm text-gray-400">Every useful practice-server command.</p>
               </Link>
-              <Link href="/commands/jumpthrow-bind" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block">
+              <Link href="/commands/jumpthrow-bind" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block">
                 <h3 className="font-bold text-white mb-1">Jumpthrow bind</h3>
                 <p className="text-sm text-gray-400">Pixel-consistent smoke lineups.</p>
               </Link>
-              <Link href="/commands/scroll-wheel-jump-bind" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block">
+              <Link href="/commands/scroll-wheel-jump-bind" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block">
                 <h3 className="font-bold text-white mb-1">Scroll wheel jump bind</h3>
                 <p className="text-sm text-gray-400">Bunny hop and consistent jumps.</p>
               </Link>

@@ -24,6 +24,16 @@ export interface TrainingPlanDay {
   completed: boolean;
 }
 
+export function getTrainingPlanSnapshot(): string | null {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    return window.localStorage.getItem(TRAINING_PLAN_STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
 const ROLE_ROUTINE_IDS = new Set([
   RIFLE_ENTRY_ROUTINE_ID,
   AWP_FLICK_ROUTINE_ID,
@@ -31,10 +41,8 @@ const ROLE_ROUTINE_IDS = new Set([
 ]);
 
 export function readTrainingPlanState(): TrainingPlanState | null {
-  if (typeof window === 'undefined') return null;
-
   try {
-    const raw = window.localStorage.getItem(TRAINING_PLAN_STORAGE_KEY);
+    const raw = getTrainingPlanSnapshot();
     if (!raw) return null;
     const parsed = JSON.parse(raw) as TrainingPlanState;
     return Number.isFinite(parsed.startedAt) ? parsed : null;
@@ -43,13 +51,18 @@ export function readTrainingPlanState(): TrainingPlanState | null {
   }
 }
 
-export function startTrainingPlan(): TrainingPlanState {
+export function startTrainingPlan(): TrainingPlanState | null {
   const state = { startedAt: Date.now() };
-  if (typeof window !== 'undefined') {
+
+  if (typeof window === 'undefined') return null;
+
+  try {
     window.localStorage.setItem(TRAINING_PLAN_STORAGE_KEY, JSON.stringify(state));
     window.dispatchEvent(new Event(TRAINING_PLAN_CHANGE_EVENT));
+    return state;
+  } catch {
+    return null;
   }
-  return state;
 }
 
 function standaloneRuns(history: TrainingResult[], type: TrainingType) {

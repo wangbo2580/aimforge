@@ -303,21 +303,21 @@ export default function BindSayMessagePage() {
             <div className="grid md:grid-cols-3 gap-4">
               <Link
                 href="/commands/jumpthrow-bind"
-                className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block"
+                className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block"
               >
                 <h3 className="font-bold text-white mb-1">Jumpthrow bind</h3>
                 <p className="text-sm text-gray-400">Consistent smoke and grenade lineups.</p>
               </Link>
               <Link
                 href="/commands/plant-bomb-bind"
-                className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block"
+                className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block"
               >
                 <h3 className="font-bold text-white mb-1">Plant bomb bind</h3>
                 <p className="text-sm text-gray-400">Never miss the plant click in a clutch.</p>
               </Link>
               <Link
                 href="/commands/scroll-wheel-jump-bind"
-                className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block"
+                className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block"
               >
                 <h3 className="font-bold text-white mb-1">Scroll wheel jump bind</h3>
                 <p className="text-sm text-gray-400">Bunny hop and consistent strafe jumps.</p>

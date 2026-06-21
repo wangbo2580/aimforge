@@ -32,7 +32,7 @@ export default function DotCrosshairList({ items }: Props) {
       {items.map((c) => (
         <div
           key={c.id}
-          className="bg-gray-800 rounded-xl p-5 hover:bg-gray-750 transition-colors"
+          className="bg-gray-800 rounded-xl p-5 hover:bg-gray-700 transition-colors"
         >
           <div className="flex items-center gap-3 mb-3">
             <div className="w-12 h-12 bg-gray-900 rounded-lg flex items-center justify-center overflow-hidden">

@@ -199,7 +199,9 @@ export default function StatsPage() {
                 </div>
                 <div className="bg-gray-800 rounded-xl p-4 text-center">
                   <div className="text-3xl font-bold text-white">
-                    {totalStats.avgReactionTime.toFixed(0)}ms
+                    {totalStats.avgReactionTime === null
+                      ? '—'
+                      : `${totalStats.avgReactionTime.toFixed(0)}ms`}
                   </div>
                   <div className="text-sm text-gray-400">{t('stats_avg_reaction')}</div>
                 </div>
@@ -389,7 +391,11 @@ export default function StatsPage() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-gray-400">{t('stats_avg_reaction')}</span>
-                        <span className="text-white">{stats.avgReactionTime.toFixed(0)}ms</span>
+                        <span className="text-white">
+                          {stats.avgReactionTime === null
+                            ? '—'
+                            : `${stats.avgReactionTime.toFixed(0)}ms`}
+                        </span>
                       </div>
                       <div className="mt-3 border-t border-gray-700 pt-3">
                         <div className="flex justify-between">

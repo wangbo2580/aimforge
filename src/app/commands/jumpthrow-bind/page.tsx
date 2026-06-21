@@ -298,15 +298,15 @@ export default function JumpthrowBindPage() {
           <aside className="mt-16 pt-8 border-t border-gray-800">
             <h2 className="text-lg font-bold text-white mb-4">Related commands</h2>
             <div className="grid md:grid-cols-3 gap-4">
-              <Link href="/commands/plant-bomb-bind" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block">
+              <Link href="/commands/plant-bomb-bind" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block">
                 <h3 className="font-bold text-white mb-1">Plant bomb bind</h3>
                 <p className="text-sm text-gray-400">Never miss the plant click in a clutch.</p>
               </Link>
-              <Link href="/commands/scroll-wheel-jump-bind" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block">
+              <Link href="/commands/scroll-wheel-jump-bind" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block">
                 <h3 className="font-bold text-white mb-1">Scroll wheel jump bind</h3>
                 <p className="text-sm text-gray-400">Bunny hop and consistent strafe jumps.</p>
               </Link>
-              <Link href="/commands/bind-say-message" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors block">
+              <Link href="/commands/bind-say-message" className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors block">
                 <h3 className="font-bold text-white mb-1">Bind a chat message</h3>
                 <p className="text-sm text-gray-400">Tactical callouts on a single key.</p>
               </Link>

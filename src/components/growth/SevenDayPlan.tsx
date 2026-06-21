@@ -1,14 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useMemo, useSyncExternalStore } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { TrainingResult, TrainingType } from '@/types/game';
 import { trackEvent } from '@/lib/analytics';
 import {
   buildTrainingPlan,
+  getTrainingPlanSnapshot,
   startTrainingPlan,
   TRAINING_PLAN_CHANGE_EVENT,
-  TRAINING_PLAN_STORAGE_KEY,
   TrainingPlanState,
 } from '@/lib/training-plan';
 
@@ -21,6 +21,7 @@ export default function SevenDayPlan({
   history,
   weakMode = 'gridshot',
 }: SevenDayPlanProps) {
+  const [storageError, setStorageError] = useState(false);
   const stateSnapshot = useSyncExternalStore(
     (onStoreChange) => {
       window.addEventListener('storage', onStoreChange);
@@ -30,7 +31,7 @@ export default function SevenDayPlan({
         window.removeEventListener(TRAINING_PLAN_CHANGE_EVENT, onStoreChange);
       };
     },
-    () => window.localStorage.getItem(TRAINING_PLAN_STORAGE_KEY),
+    getTrainingPlanSnapshot,
     () => null
   );
   const state = useMemo(() => {
@@ -57,10 +58,12 @@ export default function SevenDayPlan({
   const completedCount = days.filter((day) => day.completed).length;
 
   const handleStart = () => {
-    startTrainingPlan();
-    trackEvent('training_plan_start', {
+    const nextState = startTrainingPlan();
+    setStorageError(!nextState);
+    trackEvent(nextState ? 'training_plan_start' : 'training_plan_start_failed', {
       weak_mode: weakMode,
       sessions_saved: history.length,
+      storage_available: Boolean(nextState),
     });
   };
 
@@ -97,6 +100,12 @@ export default function SevenDayPlan({
           </button>
         )}
       </div>
+      {storageError && (
+        <p className="mt-3 text-sm text-red-300">
+          This browser blocked local storage, so the plan cannot save progress. Allow site
+          storage or leave private browsing, then try again.
+        </p>
+      )}
 
       <div className="mt-6 grid gap-3">
         {days.map((day) => (

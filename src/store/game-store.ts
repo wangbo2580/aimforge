@@ -95,8 +95,12 @@ export const useStats = () => {
 
     const avgAccuracy =
       typeHistory.reduce((sum, r) => sum + r.accuracy, 0) / typeHistory.length;
+    const reactionHistory = typeHistory.filter((r) => r.avgReactionTime > 0);
     const avgReactionTime =
-      typeHistory.reduce((sum, r) => sum + r.avgReactionTime, 0) / typeHistory.length;
+      reactionHistory.length > 0
+        ? reactionHistory.reduce((sum, r) => sum + r.avgReactionTime, 0) /
+          reactionHistory.length
+        : null;
     const bestScore = Math.max(...typeHistory.map((r) => r.score));
     const totalSessions = typeHistory.length;
 
@@ -114,8 +118,12 @@ export const useStats = () => {
     const totalSessions = history.length;
     const avgAccuracy =
       history.reduce((sum, r) => sum + r.accuracy, 0) / history.length;
+    const reactionHistory = history.filter((r) => r.avgReactionTime > 0);
     const avgReactionTime =
-      history.reduce((sum, r) => sum + r.avgReactionTime, 0) / history.length;
+      reactionHistory.length > 0
+        ? reactionHistory.reduce((sum, r) => sum + r.avgReactionTime, 0) /
+          reactionHistory.length
+        : null;
     const totalScore = history.reduce((sum, r) => sum + r.score, 0);
 
     return {

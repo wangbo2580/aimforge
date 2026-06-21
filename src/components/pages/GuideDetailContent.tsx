@@ -87,7 +87,7 @@ export default function GuideDetailContent({ guide, relatedGuides }: GuideDetail
               <Link
                 key={g.slug}
                 href={`/guides/${g.slug}`}
-                className="bg-gray-800 rounded-xl p-4 hover:bg-gray-750 transition-colors"
+                className="bg-gray-800 rounded-xl p-4 hover:bg-gray-700 transition-colors"
               >
                 <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium text-white mb-2 ${categoryLabels[g.category].color}`}>
                   {categoryLabels[g.category].label}

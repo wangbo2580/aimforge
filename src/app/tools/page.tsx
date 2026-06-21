@@ -53,7 +53,7 @@ export default function ToolsPage() {
               <Link
                 key={tool.href}
                 href={tool.href}
-                className="group bg-gray-800 rounded-2xl p-6 hover:bg-gray-750 transition-all hover:scale-[1.02] hover:shadow-xl"
+                className="group bg-gray-800 rounded-2xl p-6 hover:bg-gray-700 transition-all hover:scale-[1.02] hover:shadow-xl"
               >
                 <div
                   className={`w-14 h-14 rounded-xl bg-gradient-to-br ${tool.color} flex items-center justify-center text-2xl mb-4`}

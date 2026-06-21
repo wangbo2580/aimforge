@@ -38,7 +38,7 @@ export default function GuidesContent({ guides }: GuidesContentProps) {
           <Link
             key={guide.slug}
             href={`/guides/${guide.slug}`}
-            className="block bg-gray-800 rounded-xl p-6 hover:bg-gray-750 transition-colors group"
+            className="block bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors group"
           >
             <div className="flex flex-col md:flex-row md:items-start gap-4">
               <div className="flex-1">
