@@ -20,7 +20,7 @@ import {
   WarmupProgress,
 } from '@/lib/training-routines';
 import { useGameStore } from '@/store/game-store';
-import { TrainingResult } from '@/types/game';
+import { TrainingResult, TrainingType } from '@/types/game';
 
 function formatDuration(seconds: number) {
   const minutes = Math.floor(seconds / 60);
@@ -58,6 +58,76 @@ function getStepPerformanceLabel(result: TrainingResult) {
   return 'Needs another pass';
 }
 
+type CoachRole = 'rifler' | 'awper' | 'entry' | 'support';
+
+const ROLE_OPTIONS: Array<{ id: CoachRole; label: string; description: string }> = [
+  {
+    id: 'rifler',
+    label: 'Rifler',
+    description: 'Balanced crosshair placement, tracking, and fast correction reps.',
+  },
+  {
+    id: 'awper',
+    label: 'AWPer',
+    description: 'First-shot precision, flick reset, and calm hold-angle timing.',
+  },
+  {
+    id: 'entry',
+    label: 'Entry',
+    description: 'Explosive target switching and wide-swing reaction routines.',
+  },
+  {
+    id: 'support',
+    label: 'Support',
+    description: 'Stable spray control, trade spacing, and repeatable utility follow-ups.',
+  },
+];
+
+function getModePlanLabel(mode: TrainingType) {
+  switch (mode) {
+    case 'tracking':
+      return 'Smooth tracking control';
+    case 'flicking':
+      return 'Flick reset and first-shot precision';
+    case 'gridshot':
+    default:
+      return 'Target acquisition and clean click rhythm';
+  }
+}
+
+function buildProPlanPreview(weakMode: TrainingType, role: CoachRole) {
+  const roleFocus: Record<CoachRole, string> = {
+    rifler: 'rifle duels',
+    awper: 'AWP opening picks',
+    entry: 'entry pathing',
+    support: 'trade support',
+  };
+  const weakFocus = getModePlanLabel(weakMode);
+
+  return [
+    {
+      day: 'Day 1',
+      title: `Fix today’s weakest signal: ${weakFocus}`,
+      detail: `Repeat a 90-second check, then add one focused ${weakMode} block before queueing.`,
+    },
+    {
+      day: 'Day 3',
+      title: `Role routine for ${ROLE_OPTIONS.find((item) => item.id === role)?.label}`,
+      detail: `Turn your warm-up into ${roleFocus[role]} reps instead of generic aim practice.`,
+    },
+    {
+      day: 'Day 5',
+      title: 'Compare against your saved baseline',
+      detail: 'Use accuracy, score, and input confidence to decide whether to increase difficulty.',
+    },
+    {
+      day: 'Day 7',
+      title: 'Weekly report and next weak point',
+      detail: 'Summarize progress, identify the next bottleneck, and generate the next week plan.',
+    },
+  ];
+}
+
 interface WarmupClientProps {
   routineId?: string;
 }
@@ -79,8 +149,10 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
   const [interestStatus, setInterestStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [shareStatus, setShareStatus] = useState<'idle' | 'copied' | 'error'>('idle');
   const [stepReviewResult, setStepReviewResult] = useState<TrainingResult | null>(null);
+  const [selectedRole, setSelectedRole] = useState<CoachRole>('rifler');
   const resultsRef = useRef<TrainingResult[]>([]);
   const finishRecordedRef = useRef(false);
+  const planPreviewTrackedRef = useRef(false);
 
   const routine = useMemo(() => getRoutineById(routineId), [routineId]);
   const routineSteps = routine.steps;
@@ -93,6 +165,10 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
   const isQuickRoutine = routine.id === 'cs2-90-second-quick-warmup';
   const summary = useMemo(() => getWarmupSummary(results), [results]);
   const dailyChallenge = useMemo(() => getDailyChallenge(), []);
+  const proPlanPreview = useMemo(
+    () => buildProPlanPreview(summary.weakMode, selectedRole),
+    [selectedRole, summary.weakMode]
+  );
 
   useEffect(() => {
     const timerId = window.setTimeout(() => {
@@ -192,6 +268,7 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
   const restartWarmup = () => {
     resultsRef.current = [];
     finishRecordedRef.current = false;
+    planPreviewTrackedRef.current = false;
     setResults([]);
     setIsFinished(false);
     setActiveIndex(0);
@@ -204,6 +281,20 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
       routine_id: routine.id,
     });
   };
+
+  useEffect(() => {
+    if (!isFinished || results.length === 0) return;
+
+    if (!planPreviewTrackedRef.current) {
+      planPreviewTrackedRef.current = true;
+      trackEvent('training_plan_preview_view', {
+        routine_id: routine.id,
+        weak_mode: summary.weakMode,
+        selected_role: selectedRole,
+        local_runs: trainingHistory.length,
+      });
+    }
+  }, [isFinished, results.length, routine.id, selectedRole, summary.weakMode, trainingHistory.length]);
 
   useEffect(() => {
     if (!isFinished || results.length === 0) return;
@@ -255,6 +346,16 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
       controller.abort();
     };
   }, [isFinished, progress.streak, results, routine.id, routine.label, summary, trainingHistory.length]);
+
+  const handleRoleSelect = (role: CoachRole) => {
+    setSelectedRole(role);
+    trackEvent('training_plan_role_select', {
+      routine_id: routine.id,
+      weak_mode: summary.weakMode,
+      selected_role: role,
+      local_runs: trainingHistory.length,
+    });
+  };
 
   const handleShareSummary = async () => {
     setShareStatus('idle');
@@ -541,6 +642,84 @@ export default function WarmupClient({ routineId = CS2_WARMUP_ROUTINE_ID }: Warm
               )}
             </section>
           </div>
+
+          <section className="mt-6 rounded-2xl border border-yellow-500/30 bg-gray-900 p-6">
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-yellow-300">
+                  Pro preview
+                </p>
+                <h2 className="mt-2 text-2xl font-black text-white">
+                  Your first 7-day plan would start with {summary.weakModeLabel.toLowerCase()}
+                </h2>
+                <p className="mt-2 max-w-2xl text-sm text-gray-300">
+                  This is the exact product gap users keep asking for: a plan after the score
+                  screen, a weekly report, and routines that match how they play CS2.
+                </p>
+              </div>
+              <Link
+                href={`/pro-beta?source=warmup_result&weak_mode=${encodeURIComponent(
+                  summary.weakMode
+                )}&role=${encodeURIComponent(selectedRole)}`}
+                onClick={() => {
+                  trackEvent('training_plan_unlock_click', {
+                    routine_id: routine.id,
+                    weak_mode: summary.weakMode,
+                    selected_role: selectedRole,
+                    source: 'warmup_result_plan_preview',
+                  });
+                  trackEvent('weekly_report_interest_click', {
+                    routine_id: routine.id,
+                    weak_mode: summary.weakMode,
+                    selected_role: selectedRole,
+                    source: 'warmup_result_plan_preview',
+                  });
+                }}
+                className="shrink-0 rounded-lg bg-yellow-500 px-5 py-3 text-center text-sm font-black text-gray-950 transition-colors hover:bg-yellow-400"
+              >
+                Join $4.99 Founder Beta
+              </Link>
+            </div>
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {ROLE_OPTIONS.map((role) => (
+                <button
+                  key={role.id}
+                  type="button"
+                  onClick={() => handleRoleSelect(role.id)}
+                  className={`rounded-xl border p-4 text-left transition-colors ${
+                    selectedRole === role.id
+                      ? 'border-yellow-400 bg-yellow-500/10'
+                      : 'border-gray-700 bg-gray-950/50 hover:border-gray-500'
+                  }`}
+                >
+                  <div className="font-bold text-white">{role.label}</div>
+                  <p className="mt-1 text-xs leading-5 text-gray-400">{role.description}</p>
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-5 grid gap-3">
+              {proPlanPreview.map((item) => (
+                <div key={item.day} className="rounded-xl border border-gray-800 bg-gray-950/60 p-4">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-4">
+                    <div className="shrink-0 rounded-full bg-yellow-500/15 px-3 py-1 text-xs font-black text-yellow-200">
+                      {item.day}
+                    </div>
+                    <div>
+                      <h3 className="font-bold text-white">{item.title}</h3>
+                      <p className="mt-1 text-sm text-gray-400">{item.detail}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-5 rounded-xl border border-blue-500/30 bg-blue-500/10 p-4 text-sm text-gray-300">
+              Founder Beta will test three prices before payment is added: $4.99/mo early access,
+              $7.99/mo standard Pro, and a $19 one-time 4-week plan.
+            </div>
+          </section>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <button

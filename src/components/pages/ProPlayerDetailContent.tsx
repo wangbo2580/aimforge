@@ -77,6 +77,7 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
   const faqs = getPlayerFaqs(player);
   const crosshairDesc = getPlayerCrosshairDescription(player);
   const roleText = player.role.toLowerCase();
+  const roleParam = roleText.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'pro';
   const recommendedRoutine = roleText.includes('awp')
     ? {
         href: '/play/routines/awp-flick',
@@ -283,6 +284,32 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
         >
           Edit this crosshair in the generator →
         </Link>
+        <div className="mt-3 flex flex-wrap gap-3 text-sm">
+          <Link
+            href="/crosshairs/pro"
+            onClick={() =>
+              trackEvent('pro_crosshair_library_click', {
+                player: player.slug,
+                destination: '/crosshairs/pro',
+              })
+            }
+            className="text-green-400 hover:underline"
+          >
+            Compare all pro crosshair codes →
+          </Link>
+          <Link
+            href="/crosshairs"
+            onClick={() =>
+              trackEvent('pro_crosshair_library_click', {
+                player: player.slug,
+                destination: '/crosshairs',
+              })
+            }
+            className="text-blue-400 hover:underline"
+          >
+            Browse the full crosshair gallery →
+          </Link>
+        </div>
         <p className="text-gray-500 text-xs mt-3">
           {t('pro_crosshair_tip')}
         </p>
@@ -422,6 +449,28 @@ export default function ProPlayerDetailContent({ player, similarPlayers }: ProPl
           </Link>
         </div>
         <p className="mt-3 text-xs text-gray-400">{recommendedRoutine.reason}</p>
+        <div className="mt-5 rounded-lg border border-yellow-500/30 bg-yellow-500/10 p-4">
+          <p className="text-sm font-semibold text-yellow-100">
+            Want the plan after testing this setup?
+          </p>
+          <p className="mt-1 text-xs text-gray-300">
+            AI Coach Pro Beta turns a pro setup test into a role-based 7-day routine and weekly
+            progress report.
+          </p>
+          <Link
+            href={`/pro-beta?source=pro_detail&role=${encodeURIComponent(roleParam)}`}
+            onClick={() =>
+              trackEvent('pro_beta_details_click', {
+                source: 'pro_detail',
+                player: player.slug,
+                player_role: player.role,
+              })
+            }
+            className="mt-3 inline-flex rounded-lg bg-yellow-500 px-4 py-2 text-sm font-bold text-gray-950 transition-colors hover:bg-yellow-400"
+          >
+            Join $4.99 Founder Beta
+          </Link>
+        </div>
       </div>
 
       {/* FAQ — visible Q&A; matching FAQPage JSON-LD is emitted in the page route */}

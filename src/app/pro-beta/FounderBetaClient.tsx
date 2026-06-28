@@ -1,12 +1,38 @@
 'use client';
 
 import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
 import { FormEvent, useEffect, useState } from 'react';
 import Header from '@/components/layout/Header';
 import { trackEvent } from '@/lib/analytics';
 import { buildFeedbackContext, submitFeedback } from '@/lib/feedback';
 
-const PRICE_OPTIONS = ['$4.99/month', '$7.99/month', '$9.99/month', 'Not ready to pay yet'];
+const PRICE_OPTIONS = [
+  {
+    value: '$4.99/mo Founder Beta',
+    label: '$4.99/mo',
+    name: 'Founder Beta',
+    detail: 'Early access price if the first paid cohort opens.',
+  },
+  {
+    value: '$7.99/mo Standard Pro',
+    label: '$7.99/mo',
+    name: 'Standard Pro',
+    detail: 'Likely public subscription price after validation.',
+  },
+  {
+    value: '$19 one-time 4-week plan',
+    label: '$19',
+    name: 'One-time plan',
+    detail: 'A 4-week plan for players who dislike subscriptions.',
+  },
+  {
+    value: 'Interested but not ready to pay',
+    label: '$0',
+    name: 'Not ready yet',
+    detail: 'Useful signal if you want the feature but not a paid plan.',
+  },
+] as const;
 
 const GOAL_OPTIONS = [
   'Personal 7-day warm-up plan',
@@ -15,15 +41,45 @@ const GOAL_OPTIONS = [
   'Cloud training history across devices',
 ];
 
+const SAMPLE_REPORT = [
+  { label: 'Weakest signal', value: 'Tracking control', tone: 'text-yellow-200' },
+  { label: 'Next drill', value: '2 min smooth tracking + 30 sec flick reset', tone: 'text-blue-200' },
+  { label: 'Weekly goal', value: '+8% control score before FACEIT queue', tone: 'text-green-200' },
+];
+
+function cleanTrackingParam(value: string | null, fallback: string) {
+  if (!value) return fallback;
+  const cleaned = value.slice(0, 80);
+  return /^[a-z0-9_-]+$/i.test(cleaned) ? cleaned : fallback;
+}
+
 export default function FounderBetaClient() {
+  const searchParams = useSearchParams();
+  const source = cleanTrackingParam(searchParams.get('source'), 'direct');
+  const weakMode = cleanTrackingParam(searchParams.get('weak_mode'), 'unknown');
+  const role = cleanTrackingParam(searchParams.get('role'), 'not_selected');
   const [email, setEmail] = useState('');
-  const [price, setPrice] = useState(PRICE_OPTIONS[1]);
+  const [price, setPrice] = useState<string>(PRICE_OPTIONS[0].value);
   const [goal, setGoal] = useState(GOAL_OPTIONS[0]);
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
 
   useEffect(() => {
-    trackEvent('pro_beta_view', { source: 'pro_beta_page' });
-  }, []);
+    trackEvent('pro_beta_view', {
+      source,
+      weak_mode: weakMode,
+      selected_role: role,
+    });
+  }, [role, source, weakMode]);
+
+  const handlePriceSelect = (nextPrice: string) => {
+    setPrice(nextPrice);
+    trackEvent('pro_beta_price_select', {
+      price_option: nextPrice,
+      source,
+      weak_mode: weakMode,
+      selected_role: role,
+    });
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -33,23 +89,43 @@ export default function FounderBetaClient() {
     trackEvent('pro_beta_join_attempt', {
       price_option: price,
       primary_goal: goal,
+      source,
+      weak_mode: weakMode,
+      selected_role: role,
     });
 
     try {
       const success = await submitFeedback({
         category: 'missing_feature',
         email: email.trim(),
-        message: `AI Coach Pro Founder Beta waitlist. Price: ${price}. Primary goal: ${goal}.`,
+        message: `AI Coach Pro Founder Beta waitlist. Price: ${price}. Primary goal: ${goal}. Source: ${source}. Weak mode: ${weakMode}. Role: ${role}.`,
         context: buildFeedbackContext('pro_beta_waitlist', {
           selectedOption: `${price} | ${goal}`,
+          routineId: 'ai-coach-pro-beta',
+          source,
+          weakMode,
+          role,
+          priceOption: price,
         }),
       });
 
       setStatus(success ? 'success' : 'error');
+      if (success) {
+        trackEvent('pro_beta_email_submit', {
+          price_option: price,
+          primary_goal: goal,
+          source,
+          weak_mode: weakMode,
+          selected_role: role,
+        });
+      }
       trackEvent('pro_beta_join', {
         success,
         price_option: price,
         primary_goal: goal,
+        source,
+        weak_mode: weakMode,
+        selected_role: role,
       });
     } catch {
       setStatus('error');
@@ -57,6 +133,9 @@ export default function FounderBetaClient() {
         success: false,
         price_option: price,
         primary_goal: goal,
+        source,
+        weak_mode: weakMode,
+        selected_role: role,
       });
     }
   };
@@ -75,15 +154,42 @@ export default function FounderBetaClient() {
               Founder Beta
             </p>
             <h1 className="mt-3 text-4xl font-black text-white md:text-5xl">
-              Turn every warm-up into a personal improvement plan
+              Turn every CS2 warm-up into a weekly improvement plan
             </h1>
             <p className="mt-5 text-lg leading-8 text-gray-300">
-              AI Coach Pro is not available for purchase yet. We are inviting a small first group
-              to validate the plan, price, and features before building the full subscription.
+              AI Coach Pro is not available for purchase yet. This Founder Beta validates the
+              price, report format, and role-based routines before a full subscription is built.
             </p>
 
+            <div className="mt-8 rounded-2xl border border-yellow-500/30 bg-yellow-500/10 p-5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-yellow-300">
+                    Proposed launch price
+                  </p>
+                  <h2 className="mt-2 text-2xl font-black text-white">$4.99/mo Founder Beta</h2>
+                  <p className="mt-2 text-sm text-gray-300">
+                    If enough players join, the public price is expected to move toward $7.99/mo.
+                  </p>
+                </div>
+                <div className="rounded-xl bg-gray-950/60 px-4 py-3 text-sm text-gray-300">
+                  No payment today. No card. Just intent.
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-8 grid gap-4 sm:grid-cols-3">
+              {PRICE_OPTIONS.slice(0, 3).map((option) => (
+                <div key={option.value} className="rounded-xl border border-gray-800 bg-gray-900 p-5">
+                  <div className="text-sm font-semibold text-gray-400">{option.name}</div>
+                  <div className="mt-2 text-3xl font-black text-white">{option.label}</div>
+                  <p className="mt-2 text-sm text-gray-400">{option.detail}</p>
+                </div>
+              ))}
+            </div>
+
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {GOAL_OPTIONS.map((item) => (
+              {GOAL_OPTIONS.slice(0, 3).map((item) => (
                 <div key={item} className="rounded-xl border border-gray-800 bg-gray-900 p-5">
                   <div className="text-lg font-bold text-white">{item}</div>
                   <p className="mt-2 text-sm text-gray-400">
@@ -94,12 +200,21 @@ export default function FounderBetaClient() {
             </div>
 
             <div className="mt-8 rounded-xl border border-blue-500/30 bg-blue-500/10 p-5">
-              <h2 className="font-bold text-white">What Founder members would get first</h2>
-              <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-gray-300">
-                <li>Early access and direct influence over the roadmap.</li>
-                <li>Founder pricing before a public subscription launch.</li>
-                <li>A clear cancellation and refund policy before any payment is taken.</li>
-              </ul>
+              <h2 className="font-bold text-white">Sample weekly report preview</h2>
+              <div className="mt-4 grid gap-3">
+                {SAMPLE_REPORT.map((item) => (
+                  <div key={item.label} className="rounded-lg bg-gray-950/60 p-4">
+                    <div className="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                      {item.label}
+                    </div>
+                    <div className={`mt-1 font-bold ${item.tone}`}>{item.value}</div>
+                  </div>
+                ))}
+              </div>
+              <p className="mt-4 text-sm text-gray-300">
+                Founder members would help decide whether weekly reports should be more like a
+                coach note, a training checklist, or a progress dashboard.
+              </p>
             </div>
           </section>
 
@@ -142,11 +257,13 @@ export default function FounderBetaClient() {
                   </span>
                   <select
                     value={price}
-                    onChange={(event) => setPrice(event.target.value)}
+                    onChange={(event) => handlePriceSelect(event.target.value)}
                     className="mt-2 w-full rounded-lg border border-gray-700 bg-gray-950 px-4 py-3 text-white outline-none focus:border-blue-500"
                   >
                     {PRICE_OPTIONS.map((option) => (
-                      <option key={option}>{option}</option>
+                      <option key={option.value} value={option.value}>
+                        {option.value}
+                      </option>
                     ))}
                   </select>
                 </label>

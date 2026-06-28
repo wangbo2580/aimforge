@@ -182,6 +182,51 @@ export default function PlayClient() {
                 View progress & diagnosis
               </Link>
             </div>
+
+            <div className="mt-4 rounded-2xl border border-yellow-500/30 bg-yellow-500/10 p-5">
+              <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-yellow-300">
+                    AI Coach Pro Founder Beta
+                  </p>
+                  <h2 className="mt-2 text-2xl font-black text-white">
+                    Get a personal warm-up plan after your next run
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-sm text-gray-300">
+                    Testing $4.99/mo Founder pricing for weekly progress reports, weak-point
+                    planning, and role-based routines for riflers, AWPers, entries, and support.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Link
+                    href="/pro-beta?source=play_hub&role=not_selected"
+                    onClick={() =>
+                      trackEvent('pro_beta_details_click', {
+                        source: 'play_hub',
+                        streak: warmupProgress.streak,
+                        completions: warmupProgress.completions,
+                      })
+                    }
+                    className="rounded-lg bg-yellow-500 px-5 py-3 text-center text-sm font-black text-gray-950 transition-colors hover:bg-yellow-400"
+                  >
+                    Join Founder Beta
+                  </Link>
+                  <Link
+                    href={primaryWarmupHref}
+                    onClick={() =>
+                      trackEvent('warmup_cta_click', {
+                        source: 'play_hub_pro_beta_card',
+                        routine_id: primaryRoutineId,
+                        first_warmup: isFirstWarmup,
+                      })
+                    }
+                    className="rounded-lg bg-gray-900 px-5 py-3 text-center text-sm font-semibold text-white transition-colors hover:bg-gray-700"
+                  >
+                    Run warm-up first
+                  </Link>
+                </div>
+              </div>
+            </div>
           </section>
 
           <h2 className="text-2xl font-bold text-center mb-3">{t('play_title')}</h2>

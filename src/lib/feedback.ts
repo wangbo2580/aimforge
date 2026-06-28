@@ -43,6 +43,9 @@ export interface FeedbackContext {
   routineId?: string;
   routineStepId?: string;
   routineStepName?: string;
+  weakMode?: string;
+  role?: string;
+  priceOption?: string;
 }
 
 export interface FeedbackPayload {

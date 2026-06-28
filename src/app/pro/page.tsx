@@ -6,9 +6,9 @@ import ProPlayersContent from '@/components/pages/ProPlayersContent';
 import { proPlayers, featuredPlayers } from '@/data/pro-players';
 
 export const metadata: Metadata = {
-  title: 'CS2 Pro Settings — Sensitivity, DPI, Crosshair Codes (30+ Players)',
+  title: 'CS2 Pro Settings 2026: Sensitivity, DPI, Crosshair Codes & Gear',
   description:
-    'What CS2 pros actually play with: sens, DPI, cm/360°, crosshair share code, mouse, keyboard, monitor. s1mple, donk, ZywOo, NiKo, m0NESY and 25+ more, kept current.',
+    'Copy CS2 pro settings for s1mple, donk, ZywOo, NiKo, m0NESY and 25+ players. Compare sensitivity, DPI, eDPI, cm/360, crosshair codes, gear, and train with the setup.',
   keywords: [
     'cs2 pro settings',
     'pro settings cs2',
@@ -26,8 +26,8 @@ export const metadata: Metadata = {
   ],
   alternates: { canonical: '/pro' },
   openGraph: {
-    title: 'CS2 Pro Settings — Sens, DPI, Crosshair (30+ Players)',
-    description: 'Live setups for s1mple, donk, ZywOo, NiKo, m0NESY and more — sens, DPI, crosshair share code and full gear.',
+    title: 'CS2 Pro Settings 2026 — Sens, DPI, Crosshair & Gear',
+    description: 'Copy and test pro setups for s1mple, donk, ZywOo, NiKo, m0NESY and more — sensitivity, DPI, crosshair code, full gear, and training links.',
     type: 'website',
   },
 };

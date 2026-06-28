@@ -54,17 +54,46 @@ export default function ProPlayersContent({ featured, others }: ProPlayersConten
       {/* Hero */}
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-          {t('pro_title')}
+          CS2 Pro Settings 2026
         </h1>
         <p className="text-xl text-gray-400 max-w-2xl mx-auto">
-          {t('pro_subtitle')}
+          Copy sensitivity, DPI, eDPI, cm/360, crosshair codes, and gear for 30+ CS2 pros —
+          then test the setup in a browser warm-up before using it in matchmaking.
         </p>
         <p className="mt-3 text-sm text-gray-500">
           {allPlayers.length} verified player profiles · settings checked through June 2026
         </p>
+        <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
+          <Link
+            href="/crosshairs/pro"
+            onClick={() => trackEvent('hub_path_click', { hub: 'pro', path: 'hero_pro_crosshairs' })}
+            className="rounded-lg bg-green-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-green-500"
+          >
+            Copy pro crosshair codes
+          </Link>
+          <Link
+            href="/play/quick-warmup"
+            onClick={() =>
+              trackEvent('warmup_cta_click', {
+                source: 'pro_hero',
+                routine_id: 'cs2-90-second-quick-warmup',
+              })
+            }
+            className="rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-blue-500"
+          >
+            Test a setup in 90 seconds
+          </Link>
+          <Link
+            href="/pro-beta?source=pro_hero"
+            onClick={() => trackEvent('pro_beta_details_click', { source: 'pro_hero' })}
+            className="rounded-lg border border-yellow-500/40 bg-yellow-500/10 px-5 py-3 font-semibold text-yellow-100 transition-colors hover:border-yellow-300"
+          >
+            Get a role-based routine
+          </Link>
+        </div>
       </div>
 
-      <section className="mb-10 grid gap-4 md:grid-cols-3">
+      <section className="mb-10 grid gap-4 md:grid-cols-4">
         <button
           type="button"
           onClick={() => selectRole('AWPer')}
@@ -91,6 +120,15 @@ export default function ProPlayersContent({ featured, others }: ProPlayersConten
           <span className="text-xs font-semibold uppercase tracking-wide text-green-300">Crosshairs</span>
           <h2 className="mt-2 text-xl font-bold text-white">Copy pro crosshair codes</h2>
           <p className="mt-2 text-sm text-gray-400">Browse visual previews when you only want the code, not the full setup.</p>
+        </Link>
+        <Link
+          href="/tools/crosshair-generator"
+          onClick={() => trackEvent('hub_path_click', { hub: 'pro', path: 'crosshair_generator' })}
+          className="rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-5 transition-colors hover:border-yellow-400"
+        >
+          <span className="text-xs font-semibold uppercase tracking-wide text-yellow-300">Generator</span>
+          <h2 className="mt-2 text-xl font-bold text-white">Edit before you copy</h2>
+          <p className="mt-2 text-sm text-gray-400">Load a pro crosshair, tweak gap or color, then export a CS2 share code.</p>
         </Link>
       </section>
 

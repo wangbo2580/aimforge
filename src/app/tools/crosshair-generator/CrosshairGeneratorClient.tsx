@@ -127,6 +127,44 @@ export default function CrosshairGeneratorClient() {
               Build a custom Counter-Strike 2 crosshair with live preview, then copy a share code that imports
               straight into the game — or grab the raw console commands. Start from a pro player&apos;s setup or from scratch.
             </p>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link
+                href="/crosshairs"
+                onClick={() =>
+                  trackEvent('crosshair_related_click', {
+                    source: 'generator_hero',
+                    destination: '/crosshairs',
+                  })
+                }
+                className="rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-green-500"
+              >
+                Browse all crosshair codes
+              </Link>
+              <Link
+                href="/crosshairs/pro"
+                onClick={() =>
+                  trackEvent('crosshair_related_click', {
+                    source: 'generator_hero',
+                    destination: '/crosshairs/pro',
+                  })
+                }
+                className="rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-gray-700"
+              >
+                Pro crosshair codes
+              </Link>
+              <Link
+                href="/crosshairs/dot"
+                onClick={() =>
+                  trackEvent('crosshair_related_click', {
+                    source: 'generator_hero',
+                    destination: '/crosshairs/dot',
+                  })
+                }
+                className="rounded-lg bg-gray-800 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-gray-700"
+              >
+                Dot crosshair codes
+              </Link>
+            </div>
           </div>
 
           <div className="grid lg:grid-cols-[280px_1fr] gap-6 mb-10">

@@ -123,26 +123,83 @@ export default function HomeClient() {
           <div className="container mx-auto">
             <h2 className="text-3xl font-bold text-center mb-12">{t('resources_title')}</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              <Link href="/pro" className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors">
+              <Link
+                href="/pro"
+                onClick={() => trackEvent('homepage_resource_click', { destination: '/pro' })}
+                className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors"
+              >
                 <div className="text-3xl mb-3">⭐</div>
                 <h3 className="font-bold mb-1 group-hover:text-blue-400">{t('resources_pro')}</h3>
                 <p className="text-sm text-gray-400">{t('resources_pro_desc')}</p>
               </Link>
-              <Link href="/crosshairs" className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors">
+              <Link
+                href="/crosshairs"
+                onClick={() => trackEvent('homepage_resource_click', { destination: '/crosshairs' })}
+                className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors"
+              >
                 <div className="text-3xl mb-3">🎯</div>
                 <h3 className="font-bold mb-1 group-hover:text-blue-400">{t('resources_crosshair')}</h3>
                 <p className="text-sm text-gray-400">{t('resources_crosshair_desc')}</p>
               </Link>
-              <Link href="/tools/sensitivity-converter" className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors">
+              <Link
+                href="/tools/sensitivity-converter"
+                onClick={() => trackEvent('homepage_resource_click', { destination: '/tools/sensitivity-converter' })}
+                className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors"
+              >
                 <div className="text-3xl mb-3">🔄</div>
                 <h3 className="font-bold mb-1 group-hover:text-blue-400">{t('resources_sens')}</h3>
                 <p className="text-sm text-gray-400">{t('resources_sens_desc')}</p>
               </Link>
-              <Link href="/guides" className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors">
+              <Link
+                href="/guides"
+                onClick={() => trackEvent('homepage_resource_click', { destination: '/guides' })}
+                className="group bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors"
+              >
                 <div className="text-3xl mb-3">📚</div>
                 <h3 className="font-bold mb-1 group-hover:text-blue-400">{t('resources_guides')}</h3>
                 <p className="text-sm text-gray-400">{t('resources_guides_desc')}</p>
               </Link>
+            </div>
+
+            <div className="mt-8 rounded-2xl border border-green-500/30 bg-green-500/10 p-6">
+              <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-green-300">
+                    Popular setup path
+                  </p>
+                  <h3 className="mt-2 text-2xl font-black text-white">
+                    Copy a CS2 pro crosshair, then warm up with the same setup
+                  </h3>
+                  <p className="mt-2 text-sm text-gray-300">
+                    Browse pro and dot crosshair codes, edit the share code if needed, then test
+                    precision, tracking, and flicking before queueing.
+                  </p>
+                </div>
+                <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
+                  <Link
+                    href="/crosshairs"
+                    onClick={() =>
+                      trackEvent('homepage_crosshair_path_click', {
+                        destination: '/crosshairs',
+                      })
+                    }
+                    className="rounded-lg bg-green-600 px-5 py-3 text-center font-semibold text-white transition-colors hover:bg-green-500"
+                  >
+                    Browse crosshair codes
+                  </Link>
+                  <Link
+                    href="/crosshairs/pro"
+                    onClick={() =>
+                      trackEvent('homepage_crosshair_path_click', {
+                        destination: '/crosshairs/pro',
+                      })
+                    }
+                    className="rounded-lg bg-gray-900 px-5 py-3 text-center font-semibold text-white transition-colors hover:bg-gray-700"
+                  >
+                    Pro crosshairs
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </section>

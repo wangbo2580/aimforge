@@ -152,6 +152,43 @@ export default function SevenDayPlan({
           </div>
         ))}
       </div>
+
+      <div className="mt-6 rounded-xl border border-yellow-500/30 bg-yellow-500/10 p-5">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wide text-yellow-300">
+              AI Coach Pro Beta
+            </p>
+            <h3 className="mt-2 text-xl font-bold text-white">
+              Want this plan as a weekly progress report?
+            </h3>
+            <p className="mt-2 max-w-2xl text-sm text-gray-300">
+              Founder Beta tests $4.99/mo personal plans, weak-point reports, and role-based CS2
+              routines before a paid subscription is built.
+            </p>
+          </div>
+          <Link
+            href={`/pro-beta?source=stats_plan&weak_mode=${encodeURIComponent(weakMode)}`}
+            onClick={() => {
+              trackEvent('training_plan_unlock_click', {
+                source: 'stats_plan',
+                weak_mode: weakMode,
+                sessions_saved: history.length,
+                plan_started: Boolean(state),
+              });
+              trackEvent('weekly_report_interest_click', {
+                source: 'stats_plan',
+                weak_mode: weakMode,
+                sessions_saved: history.length,
+                plan_started: Boolean(state),
+              });
+            }}
+            className="shrink-0 rounded-lg bg-yellow-500 px-5 py-3 text-center text-sm font-black text-gray-950 transition-colors hover:bg-yellow-400"
+          >
+            Join $4.99 Founder Beta
+          </Link>
+        </div>
+      </div>
     </section>
   );
 }
